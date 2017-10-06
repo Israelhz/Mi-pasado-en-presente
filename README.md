@@ -1,5 +1,7 @@
 # Mi-pasado-en-presente
-Android application developed for the Android Application Development class
+Desarolladores:
+Design Thinking: Jorge Ivan Diaz Sanchez
+e-mail: j.d.ivan69@gmail.com
 
 Este proyecto es hecho para la clase de Applicaciones moviles para dispositivos Android.
 
