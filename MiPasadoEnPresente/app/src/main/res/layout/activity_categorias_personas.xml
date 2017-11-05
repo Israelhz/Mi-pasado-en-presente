@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="itesm.mx.mipasadoenpresente.CategoriasPersonasActivity"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.05"
+        android:text="Selecciona la categoria"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_todo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.05"
+        android:background="@android:color/holo_blue_light"
+        android:text="Todo"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/btn_hermanos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.05"
+        android:background="@android:color/holo_blue_light"
+        android:text="Hermanos"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/btn_tios"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.05"
+        android:background="@android:color/holo_blue_light"
+        android:text="Tios"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/btn_sobrinos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.05"
+        android:background="@android:color/holo_blue_light"
+        android:text="Sobrinos"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/btn_hijos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.05"
+        android:background="@android:color/holo_blue_light"
+        android:text="Hijos"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/btn_amigos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.05"
+        android:background="@android:color/holo_blue_light"
+        android:text="Amigos"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/btn_vecinos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05"
+        android:background="@android:color/holo_blue_light"
+        android:text="Vecinos"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp" />
+</LinearLayout>
