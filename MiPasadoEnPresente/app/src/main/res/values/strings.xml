@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MiPasadoEnPresente</string>
+    <string name="title_activity_informacion">InformacionActivity</string>
 </resources>
