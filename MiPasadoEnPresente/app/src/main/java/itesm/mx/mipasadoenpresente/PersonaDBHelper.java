@@ -23,19 +23,19 @@ public class PersonaDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String CREATE_PERSONAL_TABLE = "CREATE TABLE " +
+        String CREATE_PERSONA_TABLE = "CREATE TABLE " +
                 DataBaseSchema.PersonaTable.TABLE_NAME +
                 "(" +
                 DataBaseSchema.PersonaTable._ID + " INTEGER PRIMARY KEY," +
-                DataBaseSchema.PersonaTable.COLUMN_NAME_NOMBRE + " TEXT" +
-                DataBaseSchema.PersonaTable.COLUMN_NAME_CATEGORIA + " TEXT" +
-                DataBaseSchema.PersonaTable.COLUMN_NAME_FECHACUMPLEANOS + " TEXT" +
-                DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS + " TEXT" +
+                DataBaseSchema.PersonaTable.COLUMN_NAME_NOMBRE + " TEXT," +
+                DataBaseSchema.PersonaTable.COLUMN_NAME_CATEGORIA + " TEXT," +
+                DataBaseSchema.PersonaTable.COLUMN_NAME_FECHACUMPLEANOS + " TEXT," +
+                DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS + " TEXT," +
                 DataBaseSchema.PersonaTable.COLUMN_NAME_IMAGENES + " BLOB" +
                 ")";
 
-        Log.i(DEBUG_TAG, CREATE_PERSONAL_TABLE);
-        db.execSQL(CREATE_PERSONAL_TABLE);
+        Log.i(DEBUG_TAG, CREATE_PERSONA_TABLE);
+        db.execSQL(CREATE_PERSONA_TABLE);
     }
 
     @Override

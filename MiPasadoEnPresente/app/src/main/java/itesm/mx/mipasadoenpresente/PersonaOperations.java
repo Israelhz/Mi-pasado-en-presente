@@ -43,7 +43,7 @@ public class PersonaOperations {
             values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS, persona.getComentarios());
             values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_IMAGENES, "Missing imagenes array");//CANNOT RESOLVE ARRAYLIST
 
-            Log.w(DEBUG_TAG, "Missing to implement imagenes ArrayList.");//Needs Resolve IMAGENES.
+            Log.e(DEBUG_TAG, "Missing to implement imagenes ArrayList.");//Needs Resolve IMAGENES.
 
             newRowId = db.insert(DataBaseSchema.PersonaTable.TABLE_NAME, null, values);
         } catch (SQLException e) {
@@ -66,10 +66,11 @@ public class PersonaOperations {
             if (cursor.moveToFirst()) {
                 do {
                     Persona persona = new Persona(
-                            cursor.getString(0),
+                            Integer.parseInt(cursor.getString(0)),
                             cursor.getString(1),
                             cursor.getString(2),
                             cursor.getString(3),
+                            cursor.getString(4),
                             null
                     );
                     listaPersonas.add(persona);
@@ -92,10 +93,11 @@ public class PersonaOperations {
             if (cursor.moveToFirst()) {
                 do {
                     Persona persona = new Persona(
-                            cursor.getString(0),
+                            Integer.parseInt(cursor.getString(0)),
                             cursor.getString(1),
                             cursor.getString(2),
                             cursor.getString(3),
+                            cursor.getString(4),
                             null
                     );
                     listaPersonas.add(persona);
