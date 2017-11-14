@@ -24,6 +24,9 @@ public class CategoriasPersonasActivity extends AppCompatActivity implements Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categorias_personas);
 
+        // Despliega el botón de Back en action bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Log.e(DEBUG_TAG, "ERROR: Missing Images byte array");
 
         btnTodo = (Button) findViewById(R.id.btn_todo);
@@ -42,6 +45,12 @@ public class CategoriasPersonasActivity extends AppCompatActivity implements Vie
         btnAmigos.setOnClickListener(this);
         btnVecinos.setOnClickListener(this);
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     @Override
@@ -79,27 +88,27 @@ public class CategoriasPersonasActivity extends AppCompatActivity implements Vie
         Log.d(DEBUG_TAG, "getByTodo()");
     }
     private void getByHermanos() {
-        startAct("Hermanos");
+        startAct("Hermano");
         Log.d(DEBUG_TAG, "getByHermanos()");
     }
     private void getByTios() {
-        startAct("Tios");
+        startAct("Tio");
         Log.d(DEBUG_TAG, "getByTios()");
     }
     private void getBySobrinos() {
-        startAct("Sobrinos");
+        startAct("Sobrino");
         Log.d(DEBUG_TAG, "getBySobrinos()");
     }
     private void getByHijos() {
-        startAct("Hijos");
+        startAct("Hijo");
         Log.d(DEBUG_TAG, "getByHijos()");
     }
     private void getByAmigos() {
-        startAct("Amigos");
+        startAct("Amigo");
         Log.d(DEBUG_TAG, "getByAmigos()");
     }
     private void getByVecinos() {
-        startAct("Vecinos");
+        startAct("Vecino");
         Log.d(DEBUG_TAG, "getByVecinos()");
     }
 

@@ -41,9 +41,7 @@ public class PersonaOperations {
             values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_CATEGORIA, persona.getCategoria());
             values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_FECHACUMPLEANOS, persona.getFecha_cumpleanos());
             values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS, persona.getComentarios());
-            values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_IMAGENES, "Missing imagenes array");//CANNOT RESOLVE ARRAYLIST
-
-            Log.e(DEBUG_TAG, "Missing to implement imagenes ArrayList.");//Needs Resolve IMAGENES.
+            values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_IMAGENES, persona.getImagenes());//CANNOT RESOLVE ARRAYLIST
 
             newRowId = db.insert(DataBaseSchema.PersonaTable.TABLE_NAME, null, values);
         } catch (SQLException e) {
@@ -71,7 +69,7 @@ public class PersonaOperations {
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getString(4),
-                            null
+                            cursor.getString(5)
                     );
                     listaPersonas.add(persona);
                 } while (cursor.moveToNext());
@@ -98,7 +96,7 @@ public class PersonaOperations {
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getString(4),
-                            null
+                            cursor.getString(5)
                     );
                     listaPersonas.add(persona);
                 } while (cursor.moveToNext());
@@ -108,5 +106,40 @@ public class PersonaOperations {
             Log.e(DEBUG_TAG, "ErrorAllList: " + e.toString());
         }
         return listaPersonas;
+    }
+
+    public Persona getPersona(long id) {
+        Persona persona = null;
+        String query = "Select * FROM " + DataBaseSchema.PersonaTable.TABLE_NAME + " WHERE ROWID=" + id ;
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    persona = new Persona(
+                            Integer.parseInt(cursor.getString(0)),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            cursor.getString(5)
+                    );
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (SQLiteException e){
+            Log.e(DEBUG_TAG, "ErrorAllList: " + e.toString());
+        }
+        return persona;
+    }
+
+    public void updatePersona(long id, Persona persona){
+        ContentValues cv = new ContentValues();
+        cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_NOMBRE,persona.getNombre());
+        cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_CATEGORIA,persona.getCategoria());
+        cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_FECHACUMPLEANOS,persona.getFecha_cumpleanos());
+        cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS,persona.getComentarios());
+        cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_IMAGENES,persona.getImagenes());
+        db.update(DataBaseSchema.PersonaTable.TABLE_NAME, cv, "ROWID=" + id, null);
+        Log.d("UPDATE", "UPDATED!");
     }
 }

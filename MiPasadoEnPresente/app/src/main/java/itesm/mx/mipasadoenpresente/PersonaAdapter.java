@@ -1,6 +1,7 @@
 package itesm.mx.mipasadoenpresente;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Jibril on 11/12/17.
@@ -18,7 +23,7 @@ import java.util.ArrayList;
 public class PersonaAdapter extends ArrayAdapter<Persona> {
 
     private static final String DEBUG_TAG = "PERSONA_ADAPTER";
-
+    private ArrayList<byte[]> imagenes_persona;
     public PersonaAdapter (Context context, ArrayList<Persona> personas) {
         super(context, 0, personas);
     }
@@ -35,8 +40,12 @@ public class PersonaAdapter extends ArrayAdapter<Persona> {
 
         Persona persona = getItem(position);
         tvName.setText(persona.getNombre());
-//        ivImagePersona.setImageResource(persona.getImagenes());//Images are a byteArray
-        Log.e(DEBUG_TAG, "Images array missing");
+        imagenes_persona = (ArrayList<byte[]>) new Gson().fromJson(persona.getImagenes(),new TypeToken<List<byte[]>>(){}.getType());
+
+        if(imagenes_persona.size() >= 0){
+            byte[] imagen = imagenes_persona.get(0);
+            ivImagePersona.setImageBitmap(BitmapFactory.decodeByteArray(imagen, 0, imagen.length));
+        }
 
         return convertView;
     }
