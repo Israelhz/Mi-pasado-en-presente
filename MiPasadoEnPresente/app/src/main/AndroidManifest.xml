@@ -19,7 +19,9 @@
         <activity android:name=".InformacionActivity" />
         <activity android:name=".EditarInfoActivity" />
         <activity android:name=".CategoriasPersonasActivity" />
-        <activity android:name=".CategoriasEventosActivity"></activity>
+        <activity android:name=".CategoriasEventosActivity" />
+        <activity android:name=".PersonasListActivity" />
+        <activity android:name=".EditPersonaActivity"></activity>
     </application>
 
 </manifest>
