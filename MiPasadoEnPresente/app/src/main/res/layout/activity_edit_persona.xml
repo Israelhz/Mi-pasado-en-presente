@@ -30,6 +30,13 @@
             android:textColor="@android:color/background_light"
             android:textSize="24sp" />
 
+        <Button
+            android:id="@+id/btn_grabar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.38"
+            android:text="Grabar audio" />
+
         <TextView
             android:id="@+id/tv_nombre"
             android:layout_width="match_parent"

@@ -36,10 +36,13 @@ import java.util.List;
 
 public class EditPersonaActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final int SELECT_AUDIO = 0;
+    private static final int AGREGAR_IMAGEN = 1;
     private String[] array_relacion;
     private ImageView iv_imagenes;
     private Button btn_agregar;
     private Button btn_guardar;
+    private Button btn_grabar;
     private EditText et_nombre;
     private EditText et_fecha;
     private EditText et_comentarios;
@@ -47,13 +50,12 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
     byte[] byteArray;
     Bitmap bitmap;
 
-    ArrayList<byte[]> list_imagenes_persona;
+    ArrayList<byte[]> list_imagenes_persona = new ArrayList<byte[]>();
 
     int indice = 0;
     GestureDetectorCompat mDetector;
 
     PersonaOperations operations;
-
     Persona actual_persona = null;
     private long id_persona;
     private boolean existe = false;
@@ -95,7 +97,8 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
             if (data.get("ID") != null){
                 id_persona = data.getLong("ID");
                 actual_persona = operations.getPersona(id_persona);
-                list_imagenes_persona = (ArrayList<byte[]>) new Gson().fromJson(actual_persona.getImagenes(),new TypeToken<List<byte[]>>(){}.getType());
+                list_imagenes_persona = actual_persona.getImagenes();
+
                 setImagenPersona(list_imagenes_persona.size()-1);
                 et_nombre.setText(actual_persona.getNombre());
                 for(int i= 0; i < spinner.getAdapter().getCount(); i++)
@@ -124,6 +127,7 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
 
         btn_guardar.setOnClickListener(this);
         btn_agregar.setOnClickListener(this);
+        btn_grabar.setOnClickListener(this);
     }
 
     public void setViews(){
@@ -133,8 +137,8 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
         et_fecha = (EditText) findViewById(R.id.et_fecha);
         et_comentarios = (EditText) findViewById(R.id.et_comentarios);
         spinner = (Spinner) findViewById(R.id.spinner_relacion);
-        list_imagenes_persona = new ArrayList<byte[]>();
         btn_guardar = (Button) findViewById(R.id.btn_guardar);
+        btn_grabar = (Button) findViewById(R.id.btn_grabar);
     }
 
     @Override
@@ -150,24 +154,26 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Escoger imagen"), 1);
+                startActivityForResult(Intent.createChooser(intent, "Escoger imagen"), AGREGAR_IMAGEN);
                 break;
             case R.id.btn_guardar:
                 String nombre = et_nombre.getText().toString();
                 String fecha = et_fecha.getText().toString();
                 String comentarios = et_comentarios.getText().toString();
                 String relacion = spinner.getSelectedItem().toString();
-                String imagenes = new Gson().toJson(list_imagenes_persona);
-                Persona new_persona = new Persona(nombre, relacion, fecha, comentarios, imagenes);
+                Persona new_persona = new Persona(nombre, relacion, fecha, comentarios, list_imagenes_persona);
                 if(existe){
                     operations.updatePersona(id_persona, new_persona);
                 }else{
                     operations.addPersona(new_persona);
                 }
 
-                Log.d("IMAGENES", imagenes);
                 Toast.makeText(this, "Se han guardado los datos de la persona",
                         Toast.LENGTH_LONG).show();
+                break;
+            case R.id.btn_grabar:
+                Intent intent_audio = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+                startActivityForResult(intent_audio, SELECT_AUDIO);
                 break;
         }
     }
@@ -176,6 +182,7 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
         if(index >= 0){
             byte[] imagen = list_imagenes_persona.get(index);
             iv_imagenes.setImageBitmap(BitmapFactory.decodeByteArray(imagen, 0, imagen.length));
+
         }
 
     }
@@ -185,18 +192,25 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
     {
         if(resultCode==RESULT_OK)
         {
-            Uri selectedimg = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byteArray = stream.toByteArray();
-
-                list_imagenes_persona.add(byteArray);
-                setImagenPersona(list_imagenes_persona.size()-1);
-            } catch (IOException e) {
-                e.printStackTrace();
+            switch(requestCode){
+                case AGREGAR_IMAGEN:
+                    Uri selectedimg = data.getData();
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        byteArray = stream.toByteArray();
+                        list_imagenes_persona.add(byteArray);
+                        setImagenPersona(list_imagenes_persona.size()-1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case SELECT_AUDIO:
+                    Log.i("AUDIO","RECORDED");
+                    break;
             }
+
         }
     }
 

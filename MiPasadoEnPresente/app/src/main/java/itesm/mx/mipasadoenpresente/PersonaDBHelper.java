@@ -30,12 +30,22 @@ public class PersonaDBHelper extends SQLiteOpenHelper {
                 DataBaseSchema.PersonaTable.COLUMN_NAME_NOMBRE + " TEXT," +
                 DataBaseSchema.PersonaTable.COLUMN_NAME_CATEGORIA + " TEXT," +
                 DataBaseSchema.PersonaTable.COLUMN_NAME_FECHACUMPLEANOS + " TEXT," +
-                DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS + " TEXT," +
-                DataBaseSchema.PersonaTable.COLUMN_NAME_IMAGENES + " TEXT" +
+                DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS + " TEXT" +
                 ")";
 
         Log.i(DEBUG_TAG, CREATE_PERSONA_TABLE);
         db.execSQL(CREATE_PERSONA_TABLE);
+
+        String CREATE_PERSONAIMAGEN_TABLE = "CREATE TABLE " +
+                DataBaseSchema.PersonaImagenTable.TABLE_NAME +
+                "(" +
+                DataBaseSchema.PersonaImagenTable._ID + " INTEGER PRIMARY KEY," +
+                DataBaseSchema.PersonaImagenTable.COLUMN_NAME_IDPERSONA + " TEXT," +
+                DataBaseSchema.PersonaImagenTable.COLUMN_NAME_IMAGEN + " BLOB" +
+                ")";
+
+        Log.i(DEBUG_TAG, CREATE_PERSONAIMAGEN_TABLE);
+        db.execSQL(CREATE_PERSONAIMAGEN_TABLE);
     }
 
     @Override

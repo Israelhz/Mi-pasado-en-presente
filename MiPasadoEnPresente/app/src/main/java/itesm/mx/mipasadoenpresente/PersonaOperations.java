@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.media.Image;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -18,10 +20,11 @@ public class PersonaOperations {
 
     private SQLiteDatabase db;
     private PersonaDBHelper dbHelper;
-
     private static final String DEBUG_TAG = "PERSONA_OP";
 
-    public PersonaOperations(Context context) { dbHelper = new PersonaDBHelper(context); }
+    public PersonaOperations(Context context) {
+        dbHelper = new PersonaDBHelper(context);
+    }
 
     public void open() throws SQLException {
         try {
@@ -41,9 +44,13 @@ public class PersonaOperations {
             values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_CATEGORIA, persona.getCategoria());
             values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_FECHACUMPLEANOS, persona.getFecha_cumpleanos());
             values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS, persona.getComentarios());
-            values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_IMAGENES, persona.getImagenes());//CANNOT RESOLVE ARRAYLIST
 
             newRowId = db.insert(DataBaseSchema.PersonaTable.TABLE_NAME, null, values);
+
+            ArrayList<byte[]> list_imagenes = persona.getImagenes();
+            for(byte[] imagen : list_imagenes){
+                addPersonaImagen(imagen, newRowId);
+            }
         } catch (SQLException e) {
             Log.e(DEBUG_TAG, "ErrorAddPersona: " +  e.toString());
         }
@@ -63,13 +70,15 @@ public class PersonaOperations {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {
                 do {
+                    long idPersona = Integer.parseInt(cursor.getString(0));
+                    ArrayList<byte[]> imagenes = getImagenes(idPersona);
                     Persona persona = new Persona(
-                            Integer.parseInt(cursor.getString(0)),
+                            idPersona,
                             cursor.getString(1),
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getString(4),
-                            cursor.getString(5)
+                            imagenes
                     );
                     listaPersonas.add(persona);
                 } while (cursor.moveToNext());
@@ -90,13 +99,15 @@ public class PersonaOperations {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {
                 do {
+                    long idPersona = Integer.parseInt(cursor.getString(0));
+                    ArrayList<byte[]> imagenes = getImagenes(idPersona);
                     Persona persona = new Persona(
-                            Integer.parseInt(cursor.getString(0)),
+                            idPersona,
                             cursor.getString(1),
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getString(4),
-                            cursor.getString(5)
+                            imagenes
                     );
                     listaPersonas.add(persona);
                 } while (cursor.moveToNext());
@@ -115,13 +126,15 @@ public class PersonaOperations {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {
                 do {
+                    long idPersona = Integer.parseInt(cursor.getString(0));
+                    ArrayList<byte[]> imagenes = getImagenes(idPersona);
                     persona = new Persona(
-                            Integer.parseInt(cursor.getString(0)),
+                            idPersona,
                             cursor.getString(1),
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getString(4),
-                            cursor.getString(5)
+                            imagenes
                     );
                 } while (cursor.moveToNext());
             }
@@ -138,8 +151,41 @@ public class PersonaOperations {
         cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_CATEGORIA,persona.getCategoria());
         cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_FECHACUMPLEANOS,persona.getFecha_cumpleanos());
         cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS,persona.getComentarios());
-        cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_IMAGENES,persona.getImagenes());
         db.update(DataBaseSchema.PersonaTable.TABLE_NAME, cv, "ROWID=" + id, null);
         Log.d("UPDATE", "UPDATED!");
     }
+
+    public long addPersonaImagen(byte[] imagen, long idPersona) {
+        long newRowId = 0;
+        try {
+            ContentValues values = new ContentValues();
+            values.put(DataBaseSchema.PersonaImagenTable.COLUMN_NAME_IDPERSONA, idPersona);
+            values.put(DataBaseSchema.PersonaImagenTable.COLUMN_NAME_IMAGEN, imagen);
+
+            newRowId = db.insert(DataBaseSchema.PersonaImagenTable.TABLE_NAME, null, values);
+
+        } catch (SQLException e) {
+            Log.e("SQLADD", e.toString());
+        }
+        return newRowId;
+    }
+
+    public ArrayList<byte[]> getImagenes(long idPersona) {
+        ArrayList<byte[]> imagenes = new ArrayList<byte[]>();
+        long id = 0;
+        String query = "Select * FROM " + DataBaseSchema.PersonaImagenTable.TABLE_NAME + " WHERE " + DataBaseSchema.PersonaImagenTable.COLUMN_NAME_IDPERSONA + "=" + idPersona;
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    imagenes.add(cursor.getBlob(2));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (SQLiteException e){
+            Log.e(DEBUG_TAG, "ErrorAllList: " + e.toString());
+        }
+        return imagenes;
+    }
+
 }

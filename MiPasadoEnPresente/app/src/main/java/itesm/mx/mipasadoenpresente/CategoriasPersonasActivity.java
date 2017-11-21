@@ -27,8 +27,6 @@ public class CategoriasPersonasActivity extends AppCompatActivity implements Vie
         // Despliega el botón de Back en action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Log.e(DEBUG_TAG, "ERROR: Missing Images byte array");
-
         btnTodo = (Button) findViewById(R.id.btn_todo);
         btnHermanos = (Button) findViewById(R.id.btn_hermanos);
         btnTios = (Button) findViewById(R.id.btn_tios);

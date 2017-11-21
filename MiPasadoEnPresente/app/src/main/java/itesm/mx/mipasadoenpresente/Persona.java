@@ -13,9 +13,9 @@ public class Persona {
     private String categoria;
     private String fecha_cumpleanos;
     private String comentarios;
-    private String imagenes;
+    private ArrayList<byte[]> imagenes;
 
-    public Persona(String nombre, String categoria, String fecha_cumpleanos, String comentarios, String imagenes) {
+    public Persona(String nombre, String categoria, String fecha_cumpleanos, String comentarios, ArrayList<byte[]> imagenes) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.fecha_cumpleanos = fecha_cumpleanos;
@@ -23,7 +23,7 @@ public class Persona {
         this.imagenes = imagenes;
     }
 
-    public Persona(long id, String nombre, String categoria, String fecha_cumpleanos, String comentarios, String imagenes) {
+    public Persona(long id, String nombre, String categoria, String fecha_cumpleanos, String comentarios, ArrayList<byte[]> imagenes) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
@@ -72,11 +72,11 @@ public class Persona {
         this.comentarios = comentarios;
     }
 
-    public String getImagenes() {
+    public ArrayList<byte[]> getImagenes() {
         return imagenes;
     }
 
-    public void setImagenes(String imagenes) {
+    public void setImagenes(ArrayList<byte[]> imagenes) {
         this.imagenes = imagenes;
     }
 

@@ -15,7 +15,12 @@ public final class DataBaseSchema {
         public static final String COLUMN_NAME_CATEGORIA = "Categoria";
         public static final String COLUMN_NAME_FECHACUMPLEANOS = "FechaCumpleanos";
         public static final String COLUMN_NAME_COMENTARIOS = "Comentarios";
-        public static final String COLUMN_NAME_IMAGENES = "Imagenes";
+    }
+
+    public static class PersonaImagenTable implements BaseColumns {
+        public static final String TABLE_NAME = "PersonaImagen";
+        public static final String COLUMN_NAME_IDPERSONA = "IdPersona";
+        public static final String COLUMN_NAME_IMAGEN = "Imagen";
     }
 
     public static class EventoTable implements BaseColumns {

@@ -2,6 +2,7 @@ package itesm.mx.mipasadoenpresente;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,9 +41,8 @@ public class PersonaAdapter extends ArrayAdapter<Persona> {
 
         Persona persona = getItem(position);
         tvName.setText(persona.getNombre());
-        imagenes_persona = (ArrayList<byte[]>) new Gson().fromJson(persona.getImagenes(),new TypeToken<List<byte[]>>(){}.getType());
-
-        if(imagenes_persona.size() >= 0){
+        imagenes_persona = persona.getImagenes();
+        if(imagenes_persona.size() > 0){
             byte[] imagen = imagenes_persona.get(0);
             ivImagePersona.setImageBitmap(BitmapFactory.decodeByteArray(imagen, 0, imagen.length));
         }
