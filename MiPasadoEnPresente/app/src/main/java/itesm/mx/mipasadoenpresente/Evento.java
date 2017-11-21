@@ -15,10 +15,10 @@ public class Evento {
     private String fecha;
     private String descripcion;
     private String comentarios;
-    private ArrayList<String> personas_asociadas;
+    private String personas_asociadas;
     private ArrayList<byte[]> imagenes;
 
-    public Evento(long id, String nombre, String categoria, String lugar, String fecha, String descripcion, String comentarios, ArrayList<String> personas_asociadas, ArrayList<byte[]> imagenes) {
+    public Evento(long id, String nombre, String categoria, String lugar, String fecha, String descripcion, String comentarios, String personas_asociadas, ArrayList<byte[]> imagenes) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
@@ -30,7 +30,7 @@ public class Evento {
         this.imagenes = imagenes;
     }
 
-    public Evento(String nombre, String categoria, String lugar, String fecha, String descripcion, String comentarios, ArrayList<String> personas_asociadas, ArrayList<byte[]> imagenes) {
+    public Evento(String nombre, String categoria, String lugar, String fecha, String descripcion, String comentarios, String personas_asociadas, ArrayList<byte[]> imagenes) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.lugar = lugar;
@@ -97,11 +97,11 @@ public class Evento {
         this.comentarios = comentarios;
     }
 
-    public ArrayList<String> getPersonas_asociadas() {
+    public String getPersonas_asociadas() {
         return personas_asociadas;
     }
 
-    public void setPersonas_asociadas(ArrayList<String> personas_asociadas) {
+    public void setPersonas_asociadas(String personas_asociadas) {
         this.personas_asociadas = personas_asociadas;
     }
 

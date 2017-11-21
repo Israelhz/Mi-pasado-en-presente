@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:weightSum="1"
+        tools:context="itesm.mx.mipasadoenpresente.EditPersonaActivity">
+
+        <ImageView
+            android:id="@+id/iv_imagenes_evento"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:layout_weight="8.20"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <Button
+            android:id="@+id/btn_agregar_imagen_evento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_dark"
+            android:text="Agregar imagen"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tv_nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Nombre"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.04"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/tvCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Categoria"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:id="@+id/spinner_relacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05" />
+
+        <TextView
+            android:id="@+id/tvFechaEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fecha del Evento"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_fecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tvLugar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lugar"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_lugar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/tvComentarioEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comentarios"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_comentarios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/tvDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Descripcion"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_descripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/tvPersonasAsociadas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comentarios"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_personas_asociadas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+
+        <Button
+            android:id="@+id/btn_guardar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@android:color/holo_green_light"
+            android:text="Guardar"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+</ScrollView>

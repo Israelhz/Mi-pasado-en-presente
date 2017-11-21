@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="20dp"
+        android:layout_weight="0.34"
+        android:background="@android:color/holo_blue_dark"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:id="@+id/image_evento"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="0.06"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/text_nombre_evento"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="0.04"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="Nombre"
+            android:textAlignment="center"
+            android:textColor="@android:color/background_light"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_nombre_lugar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="0.04"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="Lugar"
+            android:textAlignment="center"
+            android:textColor="@android:color/background_light"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

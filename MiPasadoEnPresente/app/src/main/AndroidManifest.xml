@@ -25,6 +25,8 @@
         <activity android:name=".CategoriasEventosActivity" />
         <activity android:name=".PersonasListActivity" />
         <activity android:name=".EditPersonaActivity" />
+        <activity android:name=".EventosListActivity" />
+        <activity android:name=".EditEventoActivity" />
         <activity android:name=".dificultadActivity"></activity>
     </application>
 
