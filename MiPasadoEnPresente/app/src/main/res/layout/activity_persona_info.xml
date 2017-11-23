@@ -120,9 +120,11 @@ android:layout_height="wrap_content">
     <TextView
         android:id="@+id/text_comentario"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:layout_weight="1.03"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textAlignment="center"
         android:textColor="?attr/colorControlNormal"
         android:textSize="15sp"
         android:textStyle="bold" />
