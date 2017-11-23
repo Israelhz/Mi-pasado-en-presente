@@ -161,7 +161,8 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                 String fecha = et_fecha.getText().toString();
                 String comentarios = et_comentarios.getText().toString();
                 String relacion = spinner.getSelectedItem().toString();
-                Persona new_persona = new Persona(nombre, relacion, fecha, comentarios, list_imagenes_persona);
+                byte[] byteDummy = new byte[5];
+                Persona new_persona = new Persona(nombre, relacion, fecha, comentarios, list_imagenes_persona, byteDummy);
                 if(existe){
                     operations.updatePersona(id_persona, new_persona);
                 }else{
