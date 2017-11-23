@@ -120,7 +120,7 @@
             android:id="@+id/tvPersonasAsociadas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Comentarios"
+            android:text="Personas Asociadas"
             android:textSize="18sp" />
 
         <EditText

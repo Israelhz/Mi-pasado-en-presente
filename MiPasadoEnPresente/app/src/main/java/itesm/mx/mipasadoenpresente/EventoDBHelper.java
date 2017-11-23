@@ -22,17 +22,17 @@ public class EventoDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        String CREATE_EVENTO_TABLE= "CREATE TABLE"+
+        String CREATE_EVENTO_TABLE= "CREATE TABLE "+
                 DataBaseSchema.EventoTable.TABLE_NAME+
                 "("+
-                DataBaseSchema.EventoTable._ID+"INTEGER PRIMARY KEY,"+
-                DataBaseSchema.EventoTable.COLUMN_NAME_NOMBRE +"TEXT,"+
-                DataBaseSchema.EventoTable.COLUMN_NAME_CATEGORIA+"TEXT,"+
-                DataBaseSchema.EventoTable.COLUMN_NAME_LUGAR+"TEXT,"+
-                DataBaseSchema.EventoTable.COLUMN_NAME_FECHA+"TEXT,"+
-                DataBaseSchema.EventoTable.COLUMN_NAME_DESCRIPCION+"TEXT,"+
-                DataBaseSchema.EventoTable.COLUMN_NAME_COMENTARIOS+"TEXT,"+
-                DataBaseSchema.EventoTable.COLUMN_NAME_PERSONASASOCIADAS+"TEXT,"+
+                DataBaseSchema.EventoTable._ID+" INTEGER PRIMARY KEY,"+
+                DataBaseSchema.EventoTable.COLUMN_NAME_NOMBRE +" TEXT,"+
+                DataBaseSchema.EventoTable.COLUMN_NAME_CATEGORIA+" TEXT,"+
+                DataBaseSchema.EventoTable.COLUMN_NAME_LUGAR+" TEXT,"+
+                DataBaseSchema.EventoTable.COLUMN_NAME_FECHA+" TEXT,"+
+                DataBaseSchema.EventoTable.COLUMN_NAME_DESCRIPCION+" TEXT,"+
+                DataBaseSchema.EventoTable.COLUMN_NAME_COMENTARIOS+" TEXT,"+
+                DataBaseSchema.EventoTable.COLUMN_NAME_PERSONASASOCIADAS+" TEXT"+
                 ")";
 
         Log.i("Eventohelper onCreate", CREATE_EVENTO_TABLE);

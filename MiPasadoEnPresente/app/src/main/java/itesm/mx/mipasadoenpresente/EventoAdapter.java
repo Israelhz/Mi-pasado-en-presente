@@ -37,17 +37,16 @@ public class EventoAdapter extends ArrayAdapter<Evento> {
         }
 
         TextView tvNombre= (TextView) convertView.findViewById(R.id.text_nombre_evento);
-        TextView tvLugar = (TextView) convertView.findViewById(R.id.text_nombre_lugar);
+        //TextView tvLugar = (TextView) convertView.findViewById(R.id.text_nombre_lugar);
         ImageView ivImageEvento = (ImageView) convertView.findViewById(R.id.image_evento);
 
 
         Evento evento = getItem(position);
         tvNombre.setText(evento.getNombre());
-        tvLugar.setText(evento.getLugar());
+        //tvLugar.setText(evento.getLugar());
 
         imagenes_evento = evento.getImagenes();
-
-        if(imagenes_evento.size() >= 0){
+        if(imagenes_evento.size() > 0){
             byte[] imagen = imagenes_evento.get(0);
             ivImageEvento.setImageBitmap(BitmapFactory.decodeByteArray(imagen, 0, imagen.length));
         }

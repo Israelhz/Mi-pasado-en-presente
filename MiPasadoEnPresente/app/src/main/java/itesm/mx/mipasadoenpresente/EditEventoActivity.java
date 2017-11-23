@@ -143,7 +143,7 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         spinner = (Spinner) findViewById(R.id.spinner_relacion);
         list_imagenes_evento = new ArrayList<byte[]>();
         btn_guardar = (Button) findViewById(R.id.btn_guardar);
-        et_comentarios= (EditText) findViewById(R.id.et_comentario);
+        et_comentarios= (EditText) findViewById(R.id.et_comentarios);
         et_descripcion = (EditText) findViewById(R.id.et_descripcion);
         et_personasAsociadas = (EditText) findViewById(R.id.et_personas_asociadas);
     }
@@ -167,9 +167,10 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                 String nombre = et_nombre.getText().toString();
                 String fecha = et_fecha.getText().toString();
                 String lugar = et_lugar.getText().toString();
-                String comentarios = et_comentarios.getText().toString();
+
                 String descripcion = et_descripcion.getText().toString();
                 String categoria = spinner.getSelectedItem().toString();
+                String comentarios = et_comentarios.getText().toString();
                 String personasAsociadas = et_personasAsociadas.getText().toString();
 
                 Evento new_evento = new Evento(nombre, categoria, lugar, fecha, descripcion, comentarios, personasAsociadas, list_imagenes_evento);
