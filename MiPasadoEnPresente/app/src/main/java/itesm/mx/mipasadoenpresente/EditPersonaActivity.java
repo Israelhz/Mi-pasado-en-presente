@@ -171,6 +171,7 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
 
                 Toast.makeText(this, "Se han guardado los datos de la persona",
                         Toast.LENGTH_LONG).show();
+                finish();
                 break;
             case R.id.btn_grabar:
                 Intent intent_audio = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);

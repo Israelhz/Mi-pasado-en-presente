@@ -1,6 +1,7 @@
 package itesm.mx.mipasadoenpresente;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.view.GestureDetectorCompat;
@@ -20,12 +21,11 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
 
     private ImageView iv_imagenes;
     private Button btn_audio;
+    private Button btn_editPersona;
     private TextView tv_nombre;
     private TextView tv_fecha;
     private TextView tv_comentarios;
     private TextView tv_relacion;
-//    byte[] byteArray;
-//    Bitmap bitmap;
 
     ArrayList<byte[]> list_imagenes_persona = new ArrayList<byte[]>();
 
@@ -43,9 +43,6 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_persona_info);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); // Oculta teclado al iniciar activity
 
-//        Intent intent = new Intent(getApplicationContext(), EditPersonaActivity.class);
-//        intent.putExtra("ID", personasList.get(position).getId());
-//        startActivity(intent);
         operations = new PersonaOperations(this);
         operations.open();
 
@@ -81,12 +78,14 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
         });;
 
         btn_audio.setOnClickListener(this);
+        btn_editPersona.setOnClickListener(this);
     }
 
     public void setViews(){
+        btn_audio = (Button) findViewById(R.id.btn_audio);
+        btn_editPersona = (Button) findViewById(R.id.btn_editar);
         iv_imagenes = (ImageView) findViewById(R.id.iv_imagenes_persona);
         tv_relacion = (TextView) findViewById(R.id.text_relacion);
-        btn_audio = (Button) findViewById(R.id.btn_audio);
         tv_nombre = (TextView) findViewById(R.id.text_nombre);
         tv_fecha = (TextView) findViewById(R.id.text_fecha);
         tv_comentarios = (TextView) findViewById(R.id.text_comentario);
@@ -105,6 +104,11 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
 
                 Toast.makeText(this, "Reproduciendo Audio",
                         Toast.LENGTH_LONG).show();
+                break;
+            case R.id.btn_editar:
+                Intent intent = new Intent(getApplicationContext(), EditPersonaActivity.class);
+                intent.putExtra("ID", actual_persona.getId());
+                startActivity(intent);
                 break;
             default:
                 break;
