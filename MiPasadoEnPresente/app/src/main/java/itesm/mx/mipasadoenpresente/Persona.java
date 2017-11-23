@@ -16,23 +16,23 @@ public class Persona {
     private ArrayList<byte[]> imagenes;
     private byte[] audio;
 
-    public Persona(String nombre, String categoria, String fecha_cumpleanos, String comentarios, ArrayList<byte[]> imagenes, byte[] audio) {
+    public Persona(String nombre, String categoria, String fecha_cumpleanos, String comentarios, ArrayList<byte[]> imagenes) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.fecha_cumpleanos = fecha_cumpleanos;
         this.comentarios = comentarios;
         this.imagenes = imagenes;
-        this.audio = audio;
+        this.audio = null;
     }
 
-    public Persona(long id, String nombre, String categoria, String fecha_cumpleanos, String comentarios, ArrayList<byte[]> imagenes, byte[] audio) {
+    public Persona(long id, String nombre, String categoria, String fecha_cumpleanos, String comentarios, ArrayList<byte[]> imagenes) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
         this.fecha_cumpleanos = fecha_cumpleanos;
         this.comentarios = comentarios;
         this.imagenes = imagenes;
-        this.audio = audio;
+        this.audio = null;
     }
 
     public long getId() {

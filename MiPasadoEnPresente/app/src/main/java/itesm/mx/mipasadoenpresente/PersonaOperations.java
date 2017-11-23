@@ -79,8 +79,8 @@ public class PersonaOperations {
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getString(4),
-                            imagenes,
-                            cursor.getBlob(5)
+                            imagenes
+//                            cursor.getBlob(5)
                     );
                     listaPersonas.add(persona);
                 } while (cursor.moveToNext());
@@ -109,8 +109,8 @@ public class PersonaOperations {
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getString(4),
-                            imagenes,
-                            cursor.getBlob(5)
+                            imagenes
+//                            cursor.getBlob(5)
                     );
                     listaPersonas.add(persona);
                 } while (cursor.moveToNext());
@@ -137,8 +137,8 @@ public class PersonaOperations {
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getString(4),
-                            imagenes,
-                            cursor.getBlob(5)
+                            imagenes
+//                            cursor.getBlob(5)
                     );
                 } while (cursor.moveToNext());
             }
