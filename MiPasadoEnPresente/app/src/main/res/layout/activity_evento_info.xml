@@ -15,7 +15,7 @@
         tools:context="itesm.mx.mipasadoenpresente.PersonaInfoActivity">
 
         <ImageView
-            android:id="@+id/iv_imagenes_persona"
+            android:id="@+id/iv_imagenes_evento"
             android:layout_width="match_parent"
             android:layout_height="190dp"
             android:layout_weight="8.20"

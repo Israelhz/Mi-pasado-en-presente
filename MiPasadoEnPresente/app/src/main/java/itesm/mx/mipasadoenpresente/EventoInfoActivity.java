@@ -62,9 +62,9 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
                 id_evento= data.getLong("ID");
                 actual_evento= operations.getEvento(id_evento);
                 list_imagenes_evento = actual_evento.getImagenes();
+                setImagenEvento(list_imagenes_evento.size()-1);
                 tv_nombre.setText(actual_evento.getNombre());
                 tv_categoria.setText(actual_evento.getCategoria());
-                setImagenEvento(list_imagenes_evento.size()-1);
                 tv_fecha.setText(actual_evento.getFecha());
                 tv_lugar.setText(actual_evento.getLugar());
                 tv_descripcion.setText(actual_evento.getDescripcion());
@@ -83,7 +83,7 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
             }
         });;
 
-        btn_audio.setOnClickListener(this);
+       // btn_audio.setOnClickListener(this);
         btn_editEvento.setOnClickListener(this);
     }
 
@@ -115,7 +115,7 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
                         Toast.LENGTH_LONG).show();
                 break;
             case R.id.btn_editar:
-                Intent intent = new Intent(getApplicationContext(), EditPersonaActivity.class);
+                Intent intent = new Intent(getApplicationContext(), EditEventoActivity.class);
                 intent.putExtra("ID", actual_evento.getId());
                 startActivity(intent);
                 break;
