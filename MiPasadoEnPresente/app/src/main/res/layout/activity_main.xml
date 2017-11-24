@@ -40,7 +40,7 @@
         tools:layout_editor_absoluteY="186dp" />
 
     <Button
-        android:id="@+id/Juego"
+        android:id="@+id/btn_juego"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_weight="0.2"
