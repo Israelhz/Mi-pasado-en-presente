@@ -32,6 +32,8 @@
         </activity>
         <activity android:name=".dificultadActivity"></activity>
         <activity android:name=".PersonaInfoActivity"></activity>
+        <activity android:name=".dificultadActivity" />
+        <activity android:name=".juegoActivity" />
     </application>
 
 </manifest>
