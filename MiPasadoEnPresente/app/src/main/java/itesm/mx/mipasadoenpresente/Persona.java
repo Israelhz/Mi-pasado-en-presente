@@ -14,6 +14,7 @@ public class Persona {
     private String fecha_cumpleanos;
     private String comentarios;
     private ArrayList<byte[]> imagenes;
+    private byte[] audio;
 
     public Persona(String nombre, String categoria, String fecha_cumpleanos, String comentarios, ArrayList<byte[]> imagenes) {
         this.nombre = nombre;
@@ -21,6 +22,7 @@ public class Persona {
         this.fecha_cumpleanos = fecha_cumpleanos;
         this.comentarios = comentarios;
         this.imagenes = imagenes;
+        this.audio = null;
     }
 
     public Persona(long id, String nombre, String categoria, String fecha_cumpleanos, String comentarios, ArrayList<byte[]> imagenes) {
@@ -30,6 +32,7 @@ public class Persona {
         this.fecha_cumpleanos = fecha_cumpleanos;
         this.comentarios = comentarios;
         this.imagenes = imagenes;
+        this.audio = null;
     }
 
     public long getId() {
@@ -80,5 +83,12 @@ public class Persona {
         this.imagenes = imagenes;
     }
 
+    public byte[] getAudio() {
+        return audio;
+    }
+
+    public void setAudio(byte[] audio) {
+        this.audio = audio;
+    }
 
 }

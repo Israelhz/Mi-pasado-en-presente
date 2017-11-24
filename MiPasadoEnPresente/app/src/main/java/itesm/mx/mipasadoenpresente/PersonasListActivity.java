@@ -60,7 +60,7 @@ public class PersonasListActivity extends AppCompatActivity implements View.OnCl
         listViewPersonas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), EditPersonaActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PersonaInfoActivity.class);
                 intent.putExtra("ID", personasList.get(position).getId());
                 startActivity(intent);
             }

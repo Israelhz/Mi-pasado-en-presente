@@ -44,6 +44,7 @@ public class PersonaOperations {
             values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_CATEGORIA, persona.getCategoria());
             values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_FECHACUMPLEANOS, persona.getFecha_cumpleanos());
             values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS, persona.getComentarios());
+            values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_AUDIO, persona.getAudio());
 
             newRowId = db.insert(DataBaseSchema.PersonaTable.TABLE_NAME, null, values);
 
@@ -79,6 +80,7 @@ public class PersonaOperations {
                             cursor.getString(3),
                             cursor.getString(4),
                             imagenes
+//                            cursor.getBlob(5)
                     );
                     listaPersonas.add(persona);
                 } while (cursor.moveToNext());
@@ -108,6 +110,7 @@ public class PersonaOperations {
                             cursor.getString(3),
                             cursor.getString(4),
                             imagenes
+//                            cursor.getBlob(5)
                     );
                     listaPersonas.add(persona);
                 } while (cursor.moveToNext());
@@ -135,6 +138,7 @@ public class PersonaOperations {
                             cursor.getString(3),
                             cursor.getString(4),
                             imagenes
+//                            cursor.getBlob(5)
                     );
                 } while (cursor.moveToNext());
             }
@@ -151,6 +155,7 @@ public class PersonaOperations {
         cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_CATEGORIA,persona.getCategoria());
         cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_FECHACUMPLEANOS,persona.getFecha_cumpleanos());
         cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS,persona.getComentarios());
+        cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_AUDIO,persona.getAudio());
         db.update(DataBaseSchema.PersonaTable.TABLE_NAME, cv, "ROWID=" + id, null);
         Log.d("UPDATE", "UPDATED!");
     }
@@ -168,6 +173,16 @@ public class PersonaOperations {
             Log.e("SQLADD", e.toString());
         }
         return newRowId;
+    }
+
+    public void addPersonaAudio(byte[] audio, long idPersona) {
+        try {
+            ContentValues values = new ContentValues();
+            values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_AUDIO, audio);
+            db.update(DataBaseSchema.PersonaTable.TABLE_NAME, values, "ROWID=" + idPersona, null);
+        } catch (SQLException e) {
+            Log.e("SQLUPDATE", e.toString());
+        }
     }
 
     public ArrayList<byte[]> getImagenes(long idPersona) {

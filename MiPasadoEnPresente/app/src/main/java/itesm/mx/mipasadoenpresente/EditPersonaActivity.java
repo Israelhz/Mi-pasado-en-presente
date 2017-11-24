@@ -161,6 +161,7 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                 String fecha = et_fecha.getText().toString();
                 String comentarios = et_comentarios.getText().toString();
                 String relacion = spinner.getSelectedItem().toString();
+
                 Persona new_persona = new Persona(nombre, relacion, fecha, comentarios, list_imagenes_persona);
                 if(existe){
                     operations.updatePersona(id_persona, new_persona);
@@ -170,6 +171,7 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
 
                 Toast.makeText(this, "Se han guardado los datos de la persona",
                         Toast.LENGTH_LONG).show();
+                finish();
                 break;
             case R.id.btn_grabar:
                 Intent intent_audio = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
