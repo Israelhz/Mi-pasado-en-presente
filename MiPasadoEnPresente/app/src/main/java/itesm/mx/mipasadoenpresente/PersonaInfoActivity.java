@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,7 +18,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
 import java.util.ArrayList;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public class PersonaInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -100,15 +107,23 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_audio:
-
-                Toast.makeText(this, "Reproduciendo Audio",
-                        Toast.LENGTH_LONG).show();
-                break;
             case R.id.btn_editar:
                 Intent intent = new Intent(getApplicationContext(), EditPersonaActivity.class);
                 intent.putExtra("ID", actual_persona.getId());
                 startActivity(intent);
+                break;
+            case R.id.btn_audio:
+                if(actual_persona.getAudio() == null || actual_persona.getAudio() == ""){
+                    Toast.makeText(this, "No hay un sonido asociado", Toast.LENGTH_LONG).show();
+                }else{
+                    try {
+                        Toast.makeText(this, "Reproduciendo audio",
+                                LENGTH_LONG).show();
+                        play(actual_persona.getAudio());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             default:
                 break;
@@ -121,6 +136,16 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
             iv_imagenes.setImageBitmap(BitmapFactory.decodeByteArray(imagen, 0, imagen.length));
 
         }
+
+    }
+
+    public void play(String audio_path) throws IOException {
+        Uri myUri = Uri.parse(audio_path); // initialize Uri here
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setDataSource(getApplicationContext(), myUri);
+        mediaPlayer.prepare();
+        mediaPlayer.start();
 
     }
 

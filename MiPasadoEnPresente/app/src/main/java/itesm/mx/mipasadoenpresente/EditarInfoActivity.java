@@ -47,6 +47,7 @@ public class EditarInfoActivity extends AppCompatActivity implements View.OnClic
     int indice = 0;
     GestureDetectorCompat mDetector;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
