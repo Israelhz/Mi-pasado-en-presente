@@ -1,11 +1,23 @@
 package itesm.mx.mipasadoenpresente;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,27 +41,29 @@ import com.google.gson.reflect.TypeToken;
 import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.Manifest.permission.RECORD_AUDIO;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.os.Environment.getExternalStorageDirectory;
+import static android.widget.Toast.LENGTH_LONG;
+
 public class EditPersonaActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final int SELECT_AUDIO = 0;
-    private static final int AGREGAR_IMAGEN = 1;
+    private static final int SELECT_AUDIO = 0, AGREGAR_IMAGEN = 1, MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
+    private static final String RECORD_TAG = "Record";
     private String[] array_relacion;
     private ImageView iv_imagenes;
-    private Button btn_agregar;
-    private Button btn_guardar;
-    private Button btn_grabar;
-    private EditText et_nombre;
-    private EditText et_fecha;
-    private EditText et_comentarios;
+    private Button btn_agregar, btn_guardar, btn_grabar,btn_play;
+    private EditText et_nombre, et_fecha, et_comentarios;
     private Spinner spinner;
     byte[] byteArray;
     Bitmap bitmap;
-
+    MediaRecorder recorder;
     ArrayList<byte[]> list_imagenes_persona = new ArrayList<byte[]>();
 
     int indice = 0;
@@ -59,6 +73,18 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
     Persona actual_persona = null;
     private long id_persona;
     private boolean existe = false;
+
+    String audio_path = "";
+
+    private boolean recording = false;
+
+    public static final int RequestPermissionCode = 1;
+    MediaPlayer mediaPlayer ;
+    String AudioSavePathInDevice = null;
+    MediaRecorder mediaRecorder ;
+    File audiofile = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +136,9 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                 }
                 et_fecha.setText(actual_persona.getFecha_cumpleanos());
                 et_comentarios.setText(actual_persona.getComentarios());
+                audio_path = actual_persona.getAudio();
+
+                Log.i("audio", " = " + actual_persona.getAudio());
                 existe = true;
             }
         }
@@ -124,10 +153,22 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
             }
         });;
 
-
+        checa_permisos();
         btn_guardar.setOnClickListener(this);
         btn_agregar.setOnClickListener(this);
         btn_grabar.setOnClickListener(this);
+        btn_play.setOnClickListener(this);
+    }
+
+    private boolean checa_permisos() {
+        Activity activity = this;
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED)
+            return true;
+        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE);
+        return false;
+
     }
 
     public void setViews(){
@@ -139,6 +180,7 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
         spinner = (Spinner) findViewById(R.id.spinner_relacion);
         btn_guardar = (Button) findViewById(R.id.btn_guardar);
         btn_grabar = (Button) findViewById(R.id.btn_grabar);
+        btn_play = (Button) findViewById(R.id.btn_play);
     }
 
     @Override
@@ -162,7 +204,7 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                 String comentarios = et_comentarios.getText().toString();
                 String relacion = spinner.getSelectedItem().toString();
 
-                Persona new_persona = new Persona(nombre, relacion, fecha, comentarios, list_imagenes_persona);
+                Persona new_persona = new Persona(nombre, relacion, fecha, comentarios, list_imagenes_persona, audio_path);
                 if(existe){
                     operations.updatePersona(id_persona, new_persona);
                 }else{
@@ -170,12 +212,34 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                 }
 
                 Toast.makeText(this, "Se han guardado los datos de la persona",
-                        Toast.LENGTH_LONG).show();
+                        LENGTH_LONG).show();
                 finish();
                 break;
             case R.id.btn_grabar:
-                Intent intent_audio = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
-                startActivityForResult(intent_audio, SELECT_AUDIO);
+                try {
+                    if(recording){
+                        stopRecording();
+                    }else {
+                        Toast.makeText(this, "Grabando sonido, pulse Detener para parar la grabación",
+                                LENGTH_LONG).show();
+                        startRecording();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.btn_play:
+                if(audio_path == ""){
+                    Toast.makeText(this, "No hay un sonido asociado", Toast.LENGTH_LONG).show();
+                }else{
+                    try {
+                        Toast.makeText(this, "Reproduciendo audio",
+                                LENGTH_LONG).show();
+                        play();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
         }
     }
@@ -187,6 +251,73 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
 
         }
 
+    }
+
+    public boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(),
+                WRITE_EXTERNAL_STORAGE);
+        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(),
+                RECORD_AUDIO);
+        return result == PackageManager.PERMISSION_GRANTED &&
+                result1 == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public void startRecording() throws IOException {
+        btn_grabar.setText("Detener");
+        recording = true;
+        File dir = Environment.getExternalStorageDirectory();
+        try {
+            audiofile = File.createTempFile("sound", ".3gp", dir);
+        } catch (IOException e) {
+            Log.e(RECORD_TAG, "external storage access error" + e.toString());
+            return;
+        }
+        //Creating MediaRecorder and specifying audio source, output format, encoder & output format
+        recorder = new MediaRecorder();
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        recorder.setOutputFile(audiofile.getAbsolutePath());
+        recorder.prepare();
+        recorder.start();
+    }
+
+    public void stopRecording() {
+        btn_grabar.setText("Grabar");
+        recording = false;
+        //stopping recorder
+        recorder.stop();
+        recorder.release();
+        //after stopping the recorder, create the sound file and add it to media library.
+        addRecordingToMediaLibrary();
+    }
+
+    public void play() throws IOException {
+        Uri myUri = Uri.parse(audio_path); // initialize Uri here
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setDataSource(getApplicationContext(), myUri);
+        mediaPlayer.prepare();
+        mediaPlayer.start();
+
+    }
+
+    protected void addRecordingToMediaLibrary() {
+        ContentValues values = new ContentValues(4);
+        long current = System.currentTimeMillis();
+        values.put(MediaStore.Audio.Media.TITLE, "audio" + audiofile.getName());
+        values.put(MediaStore.Audio.Media.DATE_ADDED, (int) (current / 1000));
+        values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/3gpp");
+        values.put(MediaStore.Audio.Media.DATA, audiofile.getAbsolutePath());
+
+        ContentResolver contentResolver = getContentResolver();
+        Uri base = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Uri newUri = contentResolver.insert(base, values);
+
+        audio_path = newUri.toString();
+
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, newUri));
+        Toast.makeText(this, "Se ha grabado el sonido", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -207,9 +338,6 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    break;
-                case SELECT_AUDIO:
-                    Log.i("AUDIO","RECORDED");
                     break;
             }
 

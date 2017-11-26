@@ -14,25 +14,25 @@ public class Persona {
     private String fecha_cumpleanos;
     private String comentarios;
     private ArrayList<byte[]> imagenes;
-    private byte[] audio;
+    private String audio;
 
-    public Persona(String nombre, String categoria, String fecha_cumpleanos, String comentarios, ArrayList<byte[]> imagenes) {
+    public Persona(String nombre, String categoria, String fecha_cumpleanos, String comentarios, ArrayList<byte[]> imagenes, String audio) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.fecha_cumpleanos = fecha_cumpleanos;
         this.comentarios = comentarios;
         this.imagenes = imagenes;
-        this.audio = null;
+        this.audio = audio;
     }
 
-    public Persona(long id, String nombre, String categoria, String fecha_cumpleanos, String comentarios, ArrayList<byte[]> imagenes) {
+    public Persona(long id, String nombre, String categoria, String fecha_cumpleanos, String comentarios, ArrayList<byte[]> imagenes, String audio) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
         this.fecha_cumpleanos = fecha_cumpleanos;
         this.comentarios = comentarios;
         this.imagenes = imagenes;
-        this.audio = null;
+        this.audio = audio;
     }
 
     public long getId() {
@@ -83,11 +83,11 @@ public class Persona {
         this.imagenes = imagenes;
     }
 
-    public byte[] getAudio() {
+    public String getAudio() {
         return audio;
     }
 
-    public void setAudio(byte[] audio) {
+    public void setAudio(String audio) {
         this.audio = audio;
     }
 
