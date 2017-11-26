@@ -30,7 +30,8 @@ public class PersonaDBHelper extends SQLiteOpenHelper {
                 DataBaseSchema.PersonaTable.COLUMN_NAME_NOMBRE + " TEXT," +
                 DataBaseSchema.PersonaTable.COLUMN_NAME_CATEGORIA + " TEXT," +
                 DataBaseSchema.PersonaTable.COLUMN_NAME_FECHACUMPLEANOS + " TEXT," +
-                DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS + " TEXT" +
+                DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS + " TEXT, " +
+                DataBaseSchema.PersonaTable.COLUMN_NAME_AUDIO + " TEXT" +
                 ")";
 
         Log.i(DEBUG_TAG, CREATE_PERSONA_TABLE);

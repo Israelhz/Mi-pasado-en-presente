@@ -43,7 +43,7 @@ public class PersonaAdapter extends ArrayAdapter<Persona> {
         tvName.setText(persona.getNombre());
         imagenes_persona = persona.getImagenes();
         if(imagenes_persona.size() > 0){
-            byte[] imagen = imagenes_persona.get(0);
+            byte[] imagen = imagenes_persona.get(imagenes_persona.size()-1);
             ivImagePersona.setImageBitmap(BitmapFactory.decodeByteArray(imagen, 0, imagen.length));
         }
 

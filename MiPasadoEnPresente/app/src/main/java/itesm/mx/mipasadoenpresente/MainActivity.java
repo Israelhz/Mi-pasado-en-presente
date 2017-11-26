@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btn_informacion;
     Button btn_personas;
     Button btn_eventos;
+    Button btn_juegos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,10 +22,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_informacion = (Button) findViewById(R.id.btn_info);
         btn_personas = (Button) findViewById(R.id.btn_personas);
         btn_eventos = (Button) findViewById(R.id.btn_eventos);
+        btn_juegos = (Button) findViewById(R.id.btn_juego);
 
         btn_informacion.setOnClickListener(this);
         btn_personas.setOnClickListener(this);
         btn_eventos.setOnClickListener(this);
+        btn_juegos.setOnClickListener(this);
 
     }
 
@@ -42,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_eventos:
                 Intent eventos_activity = new Intent(getApplicationContext(), CategoriasEventosActivity.class);
                 startActivity(eventos_activity);
+                break;
+            case R.id.btn_juego:
+                Intent juegos_activity = new Intent(getApplicationContext(), dificultadActivity.class);
+                startActivity(juegos_activity);
                 break;
         }
 

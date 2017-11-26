@@ -44,6 +44,7 @@ public class PersonaOperations {
             values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_CATEGORIA, persona.getCategoria());
             values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_FECHACUMPLEANOS, persona.getFecha_cumpleanos());
             values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS, persona.getComentarios());
+            values.put(DataBaseSchema.PersonaTable.COLUMN_NAME_AUDIO, persona.getAudio());
 
             newRowId = db.insert(DataBaseSchema.PersonaTable.TABLE_NAME, null, values);
 
@@ -78,7 +79,8 @@ public class PersonaOperations {
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getString(4),
-                            imagenes
+                            imagenes,
+                            cursor.getString(5)
                     );
                     listaPersonas.add(persona);
                 } while (cursor.moveToNext());
@@ -107,8 +109,10 @@ public class PersonaOperations {
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getString(4),
-                            imagenes
+                            imagenes,
+                            cursor.getString(5)
                     );
+
                     listaPersonas.add(persona);
                 } while (cursor.moveToNext());
             }
@@ -134,7 +138,8 @@ public class PersonaOperations {
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getString(4),
-                            imagenes
+                            imagenes,
+                            cursor.getString(5)
                     );
                 } while (cursor.moveToNext());
             }
@@ -151,6 +156,12 @@ public class PersonaOperations {
         cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_CATEGORIA,persona.getCategoria());
         cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_FECHACUMPLEANOS,persona.getFecha_cumpleanos());
         cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS,persona.getComentarios());
+        cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_AUDIO,persona.getAudio());
+
+        for(byte[] imagen : persona.getImagenes()){
+            addPersonaImagen(imagen, id);
+            Log.i("IMAGEN", " AGREGADA");
+        }
         db.update(DataBaseSchema.PersonaTable.TABLE_NAME, cv, "ROWID=" + id, null);
         Log.d("UPDATE", "UPDATED!");
     }
@@ -169,6 +180,25 @@ public class PersonaOperations {
         }
         return newRowId;
     }
+
+    public Boolean existsPersonaImagen(byte[] imagen, long idPersona) {
+
+        String query = "Select * FROM " + DataBaseSchema.PersonaImagenTable.TABLE_NAME + " WHERE " + DataBaseSchema.PersonaImagenTable.COLUMN_NAME_IDPERSONA + "=" + idPersona;
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    if(imagen == cursor.getBlob(2))
+                        return true;
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (SQLiteException e){
+            Log.e(DEBUG_TAG, "ErrorAllList: " + e.toString());
+        }
+        return false;
+    }
+
 
     public ArrayList<byte[]> getImagenes(long idPersona) {
         ArrayList<byte[]> imagenes = new ArrayList<byte[]>();

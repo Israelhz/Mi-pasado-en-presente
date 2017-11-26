@@ -15,14 +15,14 @@
         tools:context="itesm.mx.mipasadoenpresente.EditPersonaActivity">
 
         <ImageView
-            android:id="@+id/iv_imagenes_persona"
+            android:id="@+id/iv_imagenes_evento"
             android:layout_width="match_parent"
             android:layout_height="190dp"
             android:layout_weight="8.20"
             app:srcCompat="@mipmap/ic_launcher" />
 
         <Button
-            android:id="@+id/btn_agregar_imagen_persona"
+            android:id="@+id/btn_agregar_imagen_evento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_dark"
@@ -72,10 +72,10 @@
             android:inputType="textPersonName" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tvCategoria"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Relación"
+            android:text="Categoria"
             android:textSize="18sp" />
 
         <Spinner
@@ -85,10 +85,10 @@
             android:layout_weight="0.05" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/tvFechaEvento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Fecha de cumpleaños"
+            android:text="Fecha del Evento"
             android:textSize="18sp" />
 
         <EditText
@@ -100,7 +100,21 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/tvLugar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lugar"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_lugar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/tvComentarioEvento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Comentarios"
@@ -112,6 +126,35 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/tvDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Descripcion"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_descripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/tvPersonasAsociadas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Personas Asociadas"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_personas_asociadas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
 
         <Button
             android:id="@+id/btn_guardar"
