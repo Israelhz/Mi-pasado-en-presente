@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/container">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,6 +14,14 @@
         android:paddingBottom="20dp"
         android:weightSum="1"
         tools:context="itesm.mx.mipasadoenpresente.PersonaInfoActivity">
+
+        <ImageView
+            android:id="@+id/expanded_image"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:contentDescription="CONTENTDESCRIPTION"
+            android:visibility="gone"
+            app:srcCompat="@mipmap/ic_launcher" />
 
         <ImageView
             android:id="@+id/iv_imagenes_persona"
