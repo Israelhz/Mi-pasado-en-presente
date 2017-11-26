@@ -27,6 +27,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.widget.Toast.LENGTH_LONG;
@@ -49,6 +51,9 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
     Persona actual_persona = null;
     private long id_persona;
     private boolean existe = false;
+
+    PhotoViewAttacher pAttacher;
+
 
     String audio_path = "";
 
@@ -144,6 +149,8 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
             iv_imagenes.setVisibility(View.GONE);
             btn_zoom.setText("Reducir Imagen");
             zoomed = true;
+            pAttacher = new PhotoViewAttacher(iv_expanded_image);
+            pAttacher.update();
         } else {
             iv_expanded_image.setVisibility(View.GONE);
             iv_imagenes.setVisibility(View.VISIBLE);
