@@ -34,7 +34,7 @@ public class PersonasListActivity extends AppCompatActivity implements View.OnCl
 
         personaOps = new PersonaOperations(this);
         personaOps.open();
-
+//        personaOps.deletePersonas();
         setListViewPersonas();
         btn_agregar.setOnClickListener(this);
     }
@@ -60,7 +60,8 @@ public class PersonasListActivity extends AppCompatActivity implements View.OnCl
         listViewPersonas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), PersonaInfoActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PersonaInfoActivity.class);//To View mode
+//                Intent intent = new Intent(getApplicationContext(), EditPersonaActivity.class);//Edit mode
                 intent.putExtra("ID", personasList.get(position).getId());
                 startActivity(intent);
             }
