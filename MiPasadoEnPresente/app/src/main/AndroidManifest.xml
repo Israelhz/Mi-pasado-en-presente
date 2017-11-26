@@ -23,14 +23,11 @@
         <activity android:name=".CategoriasPersonasActivity" />
         <activity android:name=".CategoriasEventosActivity" />
         <activity android:name=".PersonasListActivity" />
-        <activity android:name=".EditPersonaActivity" >
-        <uses-permission android:name="android.permission.RECORD_AUDIO" />
-        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-        </activity>
+        <activity android:name=".EditPersonaActivity" />
+        <activity android:name=".EventosListActivity" />
+        <activity android:name=".EditEventoActivity" />
         <activity android:name=".dificultadActivity"></activity>
         <activity android:name=".PersonaInfoActivity"></activity>
-        <activity android:name=".dificultadActivity" />
         <activity android:name=".juegoActivity" />
     </application>
 
