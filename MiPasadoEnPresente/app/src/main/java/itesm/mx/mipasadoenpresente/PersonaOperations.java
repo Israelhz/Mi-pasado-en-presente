@@ -58,7 +58,11 @@ public class PersonaOperations {
         return newRowId;
     }
 
-    public void deletePersonas() { db.execSQL("delete from " + DataBaseSchema.PersonaTable.TABLE_NAME); }
+    public void deletePersonas() {
+//        db.execSQL("delete from " + DataBaseSchema.PersonaTable.TABLE_NAME);
+        db.execSQL("drop table " + DataBaseSchema.PersonaTable.TABLE_NAME);
+        db.execSQL("drop database Persona");
+    }
 
     public ArrayList<Persona> getPersonasByCategory(String categoria) {
 

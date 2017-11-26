@@ -1,160 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="fill_parent"
-android:layout_height="wrap_content">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="20dp"
-    android:orientation="vertical"
-    android:paddingBottom="20dp"
-    android:weightSum="1"
-    tools:context="itesm.mx.mipasadoenpresente.PersonaInfoActivity">
-
-    <ImageView
-        android:id="@+id/iv_imagenes_persona"
-        android:layout_width="match_parent"
-        android:layout_height="190dp"
-        android:layout_weight="8.20"
-        app:srcCompat="@mipmap/ic_launcher" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="8.20" />
-
-    <TextView
-        android:id="@+id/tv_nombre"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Nombre"
-        android:textSize="18sp" />
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:weightSum="1"
+        tools:context="itesm.mx.mipasadoenpresente.PersonaInfoActivity">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="8.20" />
+        <ImageView
+            android:id="@+id/iv_imagenes_persona"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:layout_weight="8.20"
+            app:srcCompat="@mipmap/ic_launcher" />
 
-    <TextView
-        android:id="@+id/text_nombre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.04"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textColor="?attr/colorControlNormal"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        <Button
+            android:id="@+id/btn_agregar_imagen_persona"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_dark"
+            android:text="Ampliar Imagen"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp"
+            android:layout_weight="0.32" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="8.20" />
+        <Button
+            android:id="@+id/btn_play"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="8.20"
+            android:background="@android:color/holo_green_light"
+            android:text="Reproducir audio"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Relación"
-        android:textSize="18sp" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_weight="0.83" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="8.20" />
+        <TextView
+            android:id="@+id/tv_nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Nombre"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/text_relacion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="?attr/colorControlNormal"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/et_nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.04"
+            android:ems="10"
+            android:inputType="textPersonName" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="8.20" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Relación"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Fecha de cumpleaños"
-        android:textSize="18sp" />
+        <Spinner
+            android:id="@+id/spinner_relacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="8.20" />
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fecha de cumpleaños"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/text_fecha"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:textColor="?attr/colorControlNormal"
-        android:textSize="22sp" />
+        <TextView
+            android:id="@+id/et_fecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="24sp" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="8.20" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comentarios"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Comentarios"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/et_comentarios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="8.20" />
+        <Button
+            android:id="@+id/btn_guardar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@android:color/holo_green_light"
+            android:text="Editar"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/text_comentario"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_weight="1.03"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textAlignment="viewStart"
-        android:textColor="?attr/colorControlNormal"
-        android:textSize="15sp"
-        android:textStyle="bold" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="8.20" />
-
-    <Button
-        android:id="@+id/btn_audio"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="20dp"
-        android:layout_weight="0.55"
-        android:background="@android:color/holo_green_light"
-        android:text="Reproducir Audio"
-        android:textColor="@android:color/background_light"
-        android:textSize="24sp" />
-
-    <Button
-        android:id="@+id/btn_editar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="20dp"
-        android:layout_weight="0.82"
-        android:background="@android:color/holo_green_light"
-        android:text="Editar Persona"
-        android:textColor="@android:color/background_light"
-        android:textSize="24sp" />
-
-</LinearLayout>
+    </LinearLayout>
 </ScrollView>
