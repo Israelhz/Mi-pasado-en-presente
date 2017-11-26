@@ -32,7 +32,8 @@ public class EventoDBHelper extends SQLiteOpenHelper {
                 DataBaseSchema.EventoTable.COLUMN_NAME_FECHA+" TEXT,"+
                 DataBaseSchema.EventoTable.COLUMN_NAME_DESCRIPCION+" TEXT,"+
                 DataBaseSchema.EventoTable.COLUMN_NAME_COMENTARIOS+" TEXT,"+
-                DataBaseSchema.EventoTable.COLUMN_NAME_PERSONASASOCIADAS+" TEXT"+
+                DataBaseSchema.EventoTable.COLUMN_NAME_PERSONASASOCIADAS+" TEXT,"+
+                DataBaseSchema.EventoTable.COLUMN_NAME_AUDIO + " TEXT" +
                 ")";
 
         Log.i("Eventohelper onCreate", CREATE_EVENTO_TABLE);

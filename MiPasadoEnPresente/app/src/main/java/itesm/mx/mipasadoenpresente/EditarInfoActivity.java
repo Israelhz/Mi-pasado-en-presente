@@ -114,6 +114,7 @@ public class EditarInfoActivity extends AppCompatActivity implements View.OnClic
                 editor.commit();
                 Toast.makeText(this, "Se han guardado los datos",
                         Toast.LENGTH_LONG).show();
+                finish();
                 break;
             case R.id.btn_agregar_imagen:
                 Intent intent = new Intent();
