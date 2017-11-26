@@ -48,8 +48,8 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
     private static final String RECORD_TAG = "Record";
     private String[] array_relacion;
     private ImageView iv_imagenes;
-    private Button btn_agregar, btn_guardar,btn_play;
-    private TextView et_nombre, et_fecha, et_comentarios;
+    private Button btn_agregar, btn_editar,btn_play;
+    private TextView et_nombre, et_fecha, et_comentarios, tv_categoria;
     private Spinner spinner;
     byte[] byteArray;
     Bitmap bitmap;
@@ -89,24 +89,6 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
 
         setViews();
 
-        array_relacion = new String[]{"Hermano", "Tio", "Sobrino", "Hijo", "Amigo", "Vecino"};
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, array_relacion);
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
-            }
-
-        });
-
         Bundle data = getIntent().getExtras();
 
         if (data != null) {
@@ -117,13 +99,7 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
 
                 setImagenPersona(list_imagenes_persona.size()-1);
                 et_nombre.setText(actual_persona.getNombre());
-                for(int i= 0; i < spinner.getAdapter().getCount(); i++)
-                {
-                    if(spinner.getAdapter().getItem(i).toString().contains(actual_persona.getCategoria()));
-                    {
-                        spinner.setSelection(i);
-                    }
-                }
+                tv_categoria.setText(actual_persona.getCategoria());
                 et_fecha.setText(actual_persona.getFecha_cumpleanos());
                 et_comentarios.setText(actual_persona.getComentarios());
                 audio_path = actual_persona.getAudio();
@@ -144,7 +120,7 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
         });;
 
         checa_permisos();
-        btn_guardar.setOnClickListener(this);
+        btn_editar.setOnClickListener(this);
         btn_agregar.setOnClickListener(this);
         btn_play.setOnClickListener(this);
     }
@@ -166,8 +142,8 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
         et_nombre = (TextView) findViewById(R.id.et_nombre);
         et_fecha = (TextView) findViewById(R.id.et_fecha);
         et_comentarios = (TextView) findViewById(R.id.et_comentarios);
-        spinner = (Spinner) findViewById(R.id.spinner_relacion);
-        btn_guardar = (Button) findViewById(R.id.btn_guardar);
+        tv_categoria = (TextView) findViewById(R.id.tv_categoria);
+        btn_editar = (Button) findViewById(R.id.btn_guardar);
         btn_play = (Button) findViewById(R.id.btn_play);
     }
 
@@ -186,7 +162,7 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Escoger imagen"), AGREGAR_IMAGEN);
                 break;
-            case R.id.btn_guardar:
+            case R.id.btn_editar:
                 if (existe) {
                     Intent intent_edit = new Intent(getApplicationContext(), EditPersonaActivity.class);//Edit mode
                     intent_edit.putExtra("ID", actual_persona.getId());
