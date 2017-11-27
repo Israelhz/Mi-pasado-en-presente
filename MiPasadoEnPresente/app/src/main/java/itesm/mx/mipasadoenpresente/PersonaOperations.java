@@ -127,6 +127,42 @@ public class PersonaOperations {
         return listaPersonas;
     }
 
+    public ArrayList<Persona> getPersonasBySearch(String name) {
+
+        ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
+
+        String query = "Select * FROM " + DataBaseSchema.PersonaTable.TABLE_NAME +
+                " WHERE " + DataBaseSchema.PersonaTable.COLUMN_NAME_NOMBRE +
+                "  LIKE \'%" + name + "%\'";
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    long idPersona = Integer.parseInt(cursor.getString(0));
+                    ArrayList<byte[]> imagenes = getImagenes(idPersona);
+                    Persona persona = new Persona(
+                            idPersona,
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            imagenes,
+                            cursor.getString(5)
+                    );
+
+                    listaPersonas.add(persona);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (SQLiteException e){
+            Log.e(DEBUG_TAG, "ErrorAllList: " + e.toString());
+        }
+//        Log.e("SQLSEARCH", query);
+//        Log.e("SQLSEARCH", " " + listaPersonas.get(0).getNombre());
+
+        return listaPersonas;
+    }
+
     public Persona getPersona(long id) {
         Persona persona = null;
         String query = "Select * FROM " + DataBaseSchema.PersonaTable.TABLE_NAME + " WHERE ROWID=" + id ;
