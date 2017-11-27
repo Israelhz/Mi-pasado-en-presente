@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class CategoriasPersonasActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -18,6 +20,8 @@ public class CategoriasPersonasActivity extends AppCompatActivity implements Vie
     private Button btnHijos;
     private Button btnAmigos;
     private Button btnVecinos;
+    private ImageButton btnSearch;
+    private TextView tvSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,8 @@ public class CategoriasPersonasActivity extends AppCompatActivity implements Vie
         btnHijos = (Button) findViewById(R.id.btn_hijos);
         btnAmigos = (Button) findViewById(R.id.btn_amigos);
         btnVecinos = (Button) findViewById(R.id.btn_vecinos);
+        btnSearch = (ImageButton) findViewById(R.id.imageButton_search);
+        tvSearch = (TextView) findViewById(R.id.editText_search_persona);
 
         btnTodo.setOnClickListener(this);
         btnHermanos.setOnClickListener(this);
@@ -42,6 +48,7 @@ public class CategoriasPersonasActivity extends AppCompatActivity implements Vie
         btnHijos.setOnClickListener(this);
         btnAmigos.setOnClickListener(this);
         btnVecinos.setOnClickListener(this);
+        btnSearch.setOnClickListener(this);
 
     }
 
@@ -76,6 +83,9 @@ public class CategoriasPersonasActivity extends AppCompatActivity implements Vie
             case R.id.btn_vecinos:
                 getByVecinos();
                 break;
+            case R.id.imageButton_search:
+                getBySearch();
+                break;
             default:
                 break;
         }
@@ -109,10 +119,15 @@ public class CategoriasPersonasActivity extends AppCompatActivity implements Vie
         startAct("Vecino");
         Log.d(DEBUG_TAG, "getByVecinos()");
     }
+    private void getBySearch() {
+        startAct("Search");
+        Log.d(DEBUG_TAG, "getBySearch()");
+    }
 
     private void startAct(String category) {
         Intent intent = new Intent(getApplicationContext(), PersonasListActivity.class);
         intent.putExtra("Category", category);
+        intent.putExtra("Search", tvSearch.getText().toString());
         startActivity(intent);
     }
 }
