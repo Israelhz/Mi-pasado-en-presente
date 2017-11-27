@@ -88,8 +88,8 @@ public class EditarInfoActivity extends AppCompatActivity implements View.OnClic
 
     public void setInfo(){
         prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
-        String name = prefs.getString("nombre", "");//"No name defined" is the default value.
-        String fecha = prefs.getString("fecha", ""); //0 is the default value.
+        String name = prefs.getString("nombre", "");
+        String fecha = prefs.getString("fecha", "");
         String comentario = prefs.getString("comentarios", "");
         et_nombre.setText(name);
         et_fecha.setText(fecha);
