@@ -53,8 +53,10 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
     private String[] array_categoria;
     private static final int AGREGAR_IMAGEN = 1;
     private ImageView iv_imagenes;
-    private Button btn_agregar, btn_guardar, btn_grabar, btn_play;
+
+    private Button btn_agregar, btn_guardar, btn_grabar, btn_play, btn_borrar;
     private EditText et_nombre, et_fecha, et_lugar, et_comentarios, et_descripcion, et_personasAsociadas;
+
     private Spinner spinner;
     byte[] byteArray;
     Bitmap bitmap;
@@ -150,6 +152,9 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         checa_permisos();
         btn_guardar.setOnClickListener(this);
         btn_agregar.setOnClickListener(this);
+
+        btn_borrar.setOnClickListener(this);
+
         btn_grabar.setOnClickListener(this);
         btn_play.setOnClickListener(this);
     }
@@ -178,6 +183,9 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         et_comentarios= (EditText) findViewById(R.id.et_comentarios);
         et_descripcion = (EditText) findViewById(R.id.et_descripcion);
         et_personasAsociadas = (EditText) findViewById(R.id.et_personas_asociadas);
+
+        btn_borrar = (Button) findViewById(R.id.btn_borrar);
+
         btn_grabar = (Button) findViewById(R.id.btn_grabar);
         btn_play = (Button) findViewById(R.id.btn_play);
     }
@@ -275,6 +283,15 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                 Toast.makeText(this, "Se han guardado los datos del evento",
                         Toast.LENGTH_LONG).show();
                 break;
+
+            case R.id.btn_borrar:
+                String nombre2 = et_nombre.getText().toString();
+                operations.deleteEvento(nombre2);
+                Toast.makeText(this, "Se han borrado los datos del evento",
+                        Toast.LENGTH_LONG).show();
+                Intent intent2 = new Intent(getApplicationContext(), CategoriasEventosActivity.class);
+                startActivity(intent2);
+
             case R.id.btn_grabar:
                 try {
                     if(recording){
