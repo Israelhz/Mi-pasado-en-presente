@@ -163,6 +163,27 @@ public class PersonaOperations {
         return listaPersonas;
     }
 
+    public boolean deleteEvento(String PersonaName){
+        boolean result=false;
+
+        String query="SELECT * FROM "+DataBaseSchema.PersonaTable.TABLE_NAME+
+                " WHERE " + DataBaseSchema.EventoTable.COLUMN_NAME_NOMBRE +
+                " = \"" + PersonaName + "\"";
+
+        try{
+            Cursor cursor = db.rawQuery(query, null);
+            if(cursor.moveToFirst()){
+                int id = Integer.parseInt(cursor.getString(0));
+                db.delete(DataBaseSchema.PersonaTable.TABLE_NAME,DataBaseSchema.PersonaTable._ID + "= ?", new String[]{String.valueOf(id)});
+                result = true;
+            }
+            cursor.close();
+        } catch(SQLiteException e){
+            Log.e("SQLDELETE",e.toString());
+        }
+        return result;
+    }
+
     public Persona getPersona(long id) {
         Persona persona = null;
         String query = "Select * FROM " + DataBaseSchema.PersonaTable.TABLE_NAME + " WHERE ROWID=" + id ;
@@ -198,9 +219,10 @@ public class PersonaOperations {
         cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS,persona.getComentarios());
         cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_AUDIO,persona.getAudio());
 
+        ArrayList<byte[]> current_images = getImagenes(persona.getId());
         for(byte[] imagen : persona.getImagenes()){
-            addPersonaImagen(imagen, id);
-            Log.i("IMAGEN", " AGREGADA");
+            if(!current_images.contains(imagen))
+                addPersonaImagen(imagen, id);
         }
         db.update(DataBaseSchema.PersonaTable.TABLE_NAME, cv, "ROWID=" + id, null);
         Log.d("UPDATE", "UPDATED!");

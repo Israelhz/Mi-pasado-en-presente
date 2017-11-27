@@ -48,8 +48,11 @@ public class EventosListActivity extends AppCompatActivity implements View.OnCli
         Bundle data = getIntent().getExtras();
 
         if (data != null) {
-                    EventosList = EventoOps.getEventosByCategory(String.valueOf(data.get("Category")));
-
+            if (data.get("Category").equals("Search")) {
+                EventosList = EventoOps.getEventosBySearch(String.valueOf(data.get("Search")));
+            }else{
+                EventosList = EventoOps.getEventosByCategory(String.valueOf(data.get("Category")));
+            }
         }
         EventoAdapter eventosAdapter = new EventoAdapter(this, EventosList);
         listViewEventos.setAdapter(eventosAdapter);

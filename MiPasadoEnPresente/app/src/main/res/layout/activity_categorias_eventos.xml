@@ -8,6 +8,30 @@
     android:orientation="vertical"
     android:layout_weight="1">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="0.02"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/editText_search_evento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Nombre de la persona"
+            android:inputType="textPersonName"
+            android:layout_weight="0.82" />
+
+        <ImageButton
+            android:id="@+id/imageButton_search"
+            android:layout_width="62dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:srcCompat="@android:drawable/ic_search_category_default" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"

@@ -291,7 +291,7 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                         Toast.LENGTH_LONG).show();
                 Intent intent2 = new Intent(getApplicationContext(), CategoriasEventosActivity.class);
                 startActivity(intent2);
-
+                break;
             case R.id.btn_grabar:
                 try {
                     if(recording){

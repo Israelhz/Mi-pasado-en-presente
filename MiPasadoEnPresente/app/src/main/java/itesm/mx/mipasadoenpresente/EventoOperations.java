@@ -59,6 +59,43 @@ public class EventoOperations {
         }
         return newRowId;
     }
+    public ArrayList<Evento> getEventosBySearch(String name) {
+
+        ArrayList<Evento> listaEventos = new ArrayList<Evento>();
+
+        String query = "Select * FROM " + DataBaseSchema.EventoTable.TABLE_NAME +
+                " WHERE " + DataBaseSchema.EventoTable.COLUMN_NAME_NOMBRE +
+                "  LIKE \'%" + name + "%\'";
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    long idEvento = Integer.parseInt(cursor.getString(0));
+                    ArrayList<byte[]> imagenes = getImagenes(idEvento);
+                    Evento evento = new  Evento(Integer.parseInt(cursor.getString(0)),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            cursor.getString(5),
+                            cursor.getString(6),
+                            cursor.getString(7),
+                            imagenes,
+                            cursor.getString(8)
+                    );
+
+                    listaEventos.add(evento);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (SQLiteException e){
+            Log.e(DEBUG_TAG, "ErrorAllList: " + e.toString());
+        }
+//        Log.e("SQLSEARCH", query);
+//        Log.e("SQLSEARCH", " " + listaPersonas.get(0).getNombre());
+
+        return listaEventos;
+    }
 
     public boolean deleteEvento(String EventoName){
         boolean result=false;
@@ -190,6 +227,12 @@ public class EventoOperations {
         cv.put(DataBaseSchema.EventoTable.COLUMN_NAME_COMENTARIOS,evento.getComentarios());
         cv.put(DataBaseSchema.EventoTable.COLUMN_NAME_PERSONASASOCIADAS,evento.getPersonas_asociadas());
         cv.put(DataBaseSchema.EventoTable.COLUMN_NAME_AUDIO,evento.getAudio());
+
+        ArrayList<byte[]> current_images = getImagenes(evento.getId());
+        for(byte[] imagen : evento.getImagenes()){
+            if(!current_images.contains(imagen))
+                addEventoImagen(imagen, id);
+        }
         db.update(DataBaseSchema.EventoTable.TABLE_NAME, cv, "ROWID=" + id, null);
         Log.d("UPDATE", "UPDATED!");
     }

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class CategoriasEventosActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -14,6 +16,8 @@ public class CategoriasEventosActivity extends AppCompatActivity implements View
 
     private Button btnPersonales;
     private Button btnEpoca;
+    private ImageButton btnSearch;
+    private TextView tvSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +29,12 @@ public class CategoriasEventosActivity extends AppCompatActivity implements View
         Log.e(DEBUG_TAG, "ERROR: Missing Images byte array");
         btnPersonales= (Button) findViewById(R.id.btn_personales);
         btnEpoca = (Button) findViewById(R.id.btn_epoca);
+        btnSearch = (ImageButton) findViewById(R.id.imageButton_search);
+        tvSearch = (TextView) findViewById(R.id.editText_search_evento);
 
         btnPersonales.setOnClickListener(this);
         btnEpoca.setOnClickListener(this);
+        btnSearch.setOnClickListener(this);
     }
 
     @Override
@@ -46,7 +53,8 @@ public class CategoriasEventosActivity extends AppCompatActivity implements View
             case R.id.btn_epoca:
                 getByEpoca();
                 break;
-            default:
+            case R.id.imageButton_search:
+                getBySearch();
                 break;
         }
     }
@@ -60,9 +68,15 @@ public class CategoriasEventosActivity extends AppCompatActivity implements View
         Log.d(DEBUG_TAG, "getByEpoca()");
     }
 
+    private void getBySearch() {
+        startAct("Search");
+        Log.d(DEBUG_TAG, "getBySearch()");
+    }
+
     private void startAct(String category) {
         Intent intent = new Intent(getApplicationContext(), EventosListActivity.class);
         intent.putExtra("Category", category);
+        intent.putExtra("Search", tvSearch.getText().toString());
         startActivity(intent);
     }
 }
