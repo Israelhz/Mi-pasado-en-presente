@@ -105,6 +105,29 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <CheckBox
+                    android:id="@+id/check_personas"
+                    android:layout_width="150dp"
+                    android:layout_height="57dp"
+                    android:layout_weight="0.51"
+                    android:text="Personas"
+                    android:textSize="24sp" />
+
+                <CheckBox
+                    android:id="@+id/check_eventos"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:text="Eventos"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
             <Button
                 android:id="@+id/btn_comenzar"
                 android:layout_width="match_parent"
