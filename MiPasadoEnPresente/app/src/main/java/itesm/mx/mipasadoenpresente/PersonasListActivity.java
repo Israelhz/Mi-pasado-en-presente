@@ -54,7 +54,8 @@ public class PersonasListActivity extends AppCompatActivity implements View.OnCl
                 personasList = personaOps.getAllPersonas();
             if (data.get("Category").equals("Search")) {
                 personasList = personaOps.getPersonasBySearch(String.valueOf(data.get("Search")));
-            } else {
+            }
+            if (!data.get("Category").equals("Todos") && !data.get("Category").equals("Search")){
                 personasList = personaOps.getPersonasByCategory(String.valueOf(data.get("Category")));
             }
         }
