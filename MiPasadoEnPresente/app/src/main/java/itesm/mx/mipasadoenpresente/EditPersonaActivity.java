@@ -201,21 +201,27 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                 startActivityForResult(Intent.createChooser(intent, "Escoger imagen"), AGREGAR_IMAGEN);
                 break;
             case R.id.btn_guardar:
-                String nombre = et_nombre.getText().toString();
-                String fecha = et_fecha.getText().toString();
-                String comentarios = et_comentarios.getText().toString();
-                String relacion = spinner.getSelectedItem().toString();
-
-                Persona new_persona = new Persona(nombre, relacion, fecha, comentarios, list_imagenes_persona, audio_path);
-                if(existe){
-                    operations.updatePersona(id_persona, new_persona);
+                if(et_nombre.getText().toString().equals("") || list_imagenes_persona.size() == 0){
+                    Toast.makeText(this, "El nombre y  la imagen no pueden estar vacíos",
+                            LENGTH_LONG).show();
                 }else{
-                    operations.addPersona(new_persona);
+                    String nombre = et_nombre.getText().toString();
+                    String fecha = et_fecha.getText().toString();
+                    String comentarios = et_comentarios.getText().toString();
+                    String relacion = spinner.getSelectedItem().toString();
+
+                    Persona new_persona = new Persona(nombre, relacion, fecha, comentarios, list_imagenes_persona, audio_path);
+                    if(existe){
+                        operations.updatePersona(id_persona, new_persona);
+                    }else{
+                        operations.addPersona(new_persona);
+                    }
+
+                    Toast.makeText(this, "Se han guardado los datos de la persona",
+                            LENGTH_LONG).show();
+                    finish();
                 }
 
-                Toast.makeText(this, "Se han guardado los datos de la persona",
-                        LENGTH_LONG).show();
-                finish();
                 break;
             case R.id.btn_grabar:
                 try {
