@@ -33,7 +33,8 @@
         <activity android:name=".PersonaInfoActivity" />
         <activity android:name=".juegoActivity" />
         <activity android:name=".ConfigurarJuegoActivity" />
-        <activity android:name=".HistorialActivity"></activity>
+        <activity android:name=".HistorialActivity" />
+        <activity android:name=".AgregarCategoriaActivity"></activity>
     </application>
 
 </manifest>

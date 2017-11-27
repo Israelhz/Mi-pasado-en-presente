@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,15 +20,20 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public class EventoInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView iv_imagenes;
     private Button btn_zoom;
     private Button btn_editEvento;
+    private Button btn_audio;
     private TextView tv_nombre;
     private TextView tv_fecha;
     private TextView tv_lugar;
@@ -38,6 +46,7 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
 
     PhotoViewAttacher pAttacher;
 
+    String audio_path = "";
     private boolean zoomed = false;
 
     int indice = 0;
@@ -78,6 +87,7 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
                 tv_comentarios.setText(actual_evento.getComentarios());
                 tv_personasAsociadas.setText(actual_evento.getPersonas_asociadas());
                 existe = true;
+                audio_path = actual_evento.getAudio();
             }
         }
 
@@ -97,11 +107,29 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
-       // btn_audio.setOnClickListener(this);
+        btn_audio.setOnClickListener(this);
         btn_editEvento.setOnClickListener(this);
         btn_zoom.setOnClickListener(this);
         iv_expanded_image_event.setOnClickListener(this);
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        actual_evento= operations.getEvento(id_evento);
+        list_imagenes_evento = actual_evento.getImagenes();
+        setImagenEvento(list_imagenes_evento.size()-1);
+        tv_nombre.setText(actual_evento.getNombre());
+        tv_categoria.setText(actual_evento.getCategoria());
+        tv_fecha.setText(actual_evento.getFecha());
+        tv_lugar.setText(actual_evento.getLugar());
+        tv_descripcion.setText(actual_evento.getDescripcion());
+        tv_comentarios.setText(actual_evento.getComentarios());
+        tv_personasAsociadas.setText(actual_evento.getPersonas_asociadas());
+        existe = true;
+        audio_path = actual_evento.getAudio();
     }
 
     private void zoom() {
@@ -119,7 +147,15 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
             zoomed = false;
         }
     }
+    public void play() throws IOException {
+        Uri myUri = Uri.parse(audio_path); // initialize Uri here
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setDataSource(getApplicationContext(), myUri);
+        mediaPlayer.prepare();
+        mediaPlayer.start();
 
+    }
     public void setViews(){
         iv_imagenes = (ImageView) findViewById(R.id.iv_imagenes_evento);
         btn_editEvento = (Button) findViewById(R.id.btn_editar);
@@ -133,6 +169,7 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
         tv_personasAsociadas = (TextView) findViewById(R.id.text_personas_relacionadas);
         tv_categoria = (TextView) findViewById(R.id.text_categoria);
         btn_zoom = (Button) findViewById(R.id.btn_ampliar_evento_imagen);
+        btn_audio = (Button) findViewById(R.id.btn_audio);
     }
 
     @Override
@@ -148,9 +185,17 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
                 zoom();
                 break;
             case R.id.btn_audio:
-
-                Toast.makeText(this, "Reproduciendo Audio",
-                        Toast.LENGTH_LONG).show();
+                if(audio_path == ""){
+                    Toast.makeText(this, "No hay un sonido asociado", Toast.LENGTH_LONG).show();
+                }else{
+                    try {
+                        Toast.makeText(this, "Reproduciendo audio",
+                                LENGTH_LONG).show();
+                        play();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case R.id.btn_editar:
                 Intent intent = new Intent(getApplicationContext(), EditEventoActivity.class);

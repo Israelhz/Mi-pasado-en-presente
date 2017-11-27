@@ -124,11 +124,13 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                 et_nombre.setText(actual_evento.getNombre());
                 for(int i= 0; i < spinner.getAdapter().getCount(); i++)
                 {
-                    if(spinner.getAdapter().getItem(i).toString().contains(actual_evento.getCategoria()));
+                    if(spinner.getItemAtPosition(i).toString().equalsIgnoreCase(actual_evento.getCategoria()));
                     {
                         spinner.setSelection(i);
+                        break;
                     }
                 }
+
                 et_fecha.setText(actual_evento.getFecha());
                 et_lugar.setText(actual_evento.getLugar());
                 et_descripcion.setText(actual_evento.getDescripcion());

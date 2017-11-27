@@ -70,7 +70,7 @@ public class PersonaOperations {
 
         String query = "Select * FROM " + DataBaseSchema.PersonaTable.TABLE_NAME +
                 " WHERE " + DataBaseSchema.PersonaTable.COLUMN_NAME_CATEGORIA +
-                " = \"" + categoria + "\"";
+                " = \"" + categoria + "\"" + " ORDER BY " + DataBaseSchema.PersonaTable.COLUMN_NAME_NOMBRE + " ASC";
         try {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {
@@ -100,7 +100,7 @@ public class PersonaOperations {
 
         ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
 
-        String query = "Select * FROM " + DataBaseSchema.PersonaTable.TABLE_NAME;
+        String query = "Select * FROM " + DataBaseSchema.PersonaTable.TABLE_NAME + " ORDER BY " + DataBaseSchema.PersonaTable.COLUMN_NAME_NOMBRE + " ASC";
         try {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {
@@ -133,7 +133,7 @@ public class PersonaOperations {
 
         String query = "Select * FROM " + DataBaseSchema.PersonaTable.TABLE_NAME +
                 " WHERE " + DataBaseSchema.PersonaTable.COLUMN_NAME_NOMBRE +
-                "  LIKE \'%" + name + "%\'";
+                "  LIKE \'%" + name + "%\'" + " ORDER BY " + DataBaseSchema.PersonaTable.COLUMN_NAME_NOMBRE + " ASC";
         try {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {
