@@ -141,5 +141,15 @@
             android:textColor="@android:color/background_light"
             android:textSize="24sp" />
 
+        <Button
+            android:id="@+id/btn_borrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@android:color/holo_red_light"
+            android:text="Borrar evento"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp" />
+
     </LinearLayout>
 </ScrollView>
