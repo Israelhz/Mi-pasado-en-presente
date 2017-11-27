@@ -19,10 +19,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 public class EventoInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView iv_imagenes;
-    private Button btn_audio;
+    private Button btn_zoom;
     private Button btn_editEvento;
     private TextView tv_nombre;
     private TextView tv_fecha;
@@ -31,7 +33,12 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
     private TextView tv_descripcion;
     private TextView tv_personasAsociadas;
     private TextView tv_categoria;
+    private ImageView iv_expanded_image_event;
     ArrayList<byte[]> list_imagenes_evento = new ArrayList<byte[]>();
+
+    PhotoViewAttacher pAttacher;
+
+    private boolean zoomed = false;
 
     int indice = 0;
     GestureDetectorCompat mDetector;
@@ -83,8 +90,34 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
             }
         });;
 
+        iv_expanded_image_event.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                mDetector.onTouchEvent(event);
+                return true;
+            }
+        });
+
        // btn_audio.setOnClickListener(this);
         btn_editEvento.setOnClickListener(this);
+        btn_zoom.setOnClickListener(this);
+        iv_expanded_image_event.setOnClickListener(this);
+
+    }
+
+    private void zoom() {
+        if (!zoomed) {
+            iv_expanded_image_event.setVisibility(View.VISIBLE);
+            iv_imagenes.setVisibility(View.GONE);
+            btn_zoom.setText("Reducir Imagen");
+            zoomed = true;
+            pAttacher = new PhotoViewAttacher(iv_expanded_image_event);
+            pAttacher.update();
+        } else {
+            iv_expanded_image_event.setVisibility(View.GONE);
+            iv_imagenes.setVisibility(View.VISIBLE);
+            btn_zoom.setText("Ampliar Imagen");
+            zoomed = false;
+        }
     }
 
     public void setViews(){
@@ -93,11 +126,13 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
         tv_nombre = (TextView) findViewById(R.id.text_nombre);
         tv_fecha = (TextView) findViewById(R.id.text_fecha);
         tv_lugar = (TextView) findViewById(R.id.text_lugar);
+        iv_expanded_image_event = (ImageView) findViewById(R.id.expanded_image);
         list_imagenes_evento = new ArrayList<byte[]>();
         tv_comentarios= (TextView) findViewById(R.id.text_comentario);
         tv_descripcion = (TextView) findViewById(R.id.text_descripcion);
         tv_personasAsociadas = (TextView) findViewById(R.id.text_personas_relacionadas);
         tv_categoria = (TextView) findViewById(R.id.text_categoria);
+        btn_zoom = (Button) findViewById(R.id.btn_ampliar_evento_imagen);
     }
 
     @Override
@@ -109,6 +144,9 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.btn_ampliar_evento_imagen:
+                zoom();
+                break;
             case R.id.btn_audio:
 
                 Toast.makeText(this, "Reproduciendo Audio",
@@ -119,6 +157,9 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
                 intent.putExtra("ID", actual_evento.getId());
                 startActivity(intent);
                 break;
+            case R.id.expanded_image:
+                zoom();
+                break;
             default:
                 break;
         }
@@ -128,7 +169,7 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
         if(index >= 0){
             byte[] imagen = list_imagenes_evento.get(index);
             iv_imagenes.setImageBitmap(BitmapFactory.decodeByteArray(imagen, 0, imagen.length));
-
+            iv_expanded_image_event.setImageBitmap(BitmapFactory.decodeByteArray(imagen, 0, imagen.length));
         }
 
     }

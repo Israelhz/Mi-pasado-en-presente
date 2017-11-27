@@ -15,11 +15,34 @@
         tools:context="itesm.mx.mipasadoenpresente.PersonaInfoActivity">
 
         <ImageView
+            android:id="@+id/expanded_image"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:contentDescription="CONTENTDESCRIPTION"
+            android:visibility="gone"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <ImageView
             android:id="@+id/iv_imagenes_evento"
             android:layout_width="match_parent"
             android:layout_height="190dp"
             android:layout_weight="8.20"
             app:srcCompat="@mipmap/ic_launcher" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_weight="8.20" />
+
+        <Button
+            android:id="@+id/btn_ampliar_evento_imagen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_dark"
+            android:text="Ampliar Imagen"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp"
+            android:layout_weight="0.32" />
 
         <Space
             android:layout_width="match_parent"
