@@ -41,6 +41,7 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
     private ImageView iv_imagenes;
     private Button btn_agregar;
     private Button btn_guardar;
+    private Button btn_borrar;
     private EditText et_nombre;
     private EditText et_fecha;
     private EditText et_lugar;
@@ -132,6 +133,7 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
 
         btn_guardar.setOnClickListener(this);
         btn_agregar.setOnClickListener(this);
+        btn_borrar.setOnClickListener(this);
     }
 
     public void setViews(){
@@ -146,6 +148,7 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         et_comentarios= (EditText) findViewById(R.id.et_comentarios);
         et_descripcion = (EditText) findViewById(R.id.et_descripcion);
         et_personasAsociadas = (EditText) findViewById(R.id.et_personas_asociadas);
+        btn_borrar = (Button) findViewById(R.id.btn_borrar);
     }
 
     @Override
@@ -181,6 +184,14 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                 }
                 Toast.makeText(this, "Se han guardado los datos del evento",
                         Toast.LENGTH_LONG).show();
+                break;
+            case R.id.btn_borrar:
+                String nombre2 = et_nombre.getText().toString();
+                operations.deleteEvento(nombre2);
+                Toast.makeText(this, "Se han borrado los datos del evento",
+                        Toast.LENGTH_LONG).show();
+                Intent intent2 = new Intent(getApplicationContext(), CategoriasEventosActivity.class);
+                startActivity(intent2);
                 break;
         }
     }
