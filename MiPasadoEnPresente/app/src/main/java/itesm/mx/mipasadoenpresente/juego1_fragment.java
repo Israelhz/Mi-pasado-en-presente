@@ -2,8 +2,11 @@ package itesm.mx.mipasadoenpresente;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -20,6 +23,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static android.content.Context.MODE_PRIVATE;
+import static itesm.mx.mipasadoenpresente.R.raw.correct;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -29,33 +35,43 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
     final static String PREGUNTA_ACTUAL_INDEX = "Pregunta_actual_index";
     final static String DIFICULTAD_INDEX = "Dificultad_index";
     final static String CORRECTAS_TAG = "Correctas_tag";
+    final static  String PERSONAS_TAG = "Personas_tag";
+    final static  String EVENTOS_TAG = "Eventos_tag";
 
     TextView tv_preguntas;
     Button btn_opcion1, btn_opcion2, btn_opcion3, btn_opcion4;
     ImageView iv_persona;
 
     int preguntas, pregunta_actual, dificultad, respuesta, correctas;
-    long persona_id_respuesta;
+    long persona_evento_id_respuesta;
     PersonaOperations personaOperations;
     ArrayList<Persona> lista_personas;
-
+    EventoOperations eventoOperations;
+    ArrayList<Evento> lista_eventos;
     Boolean primer_intento = true;
-
     Toast toast;
-
     View view;
+
+    int sonido = 1;
+    SharedPreferences prefs;
+
+    Boolean personas, eventos;
+
+    int selected = 0;
 
     public juego1_fragment() {
         // Required empty public constructor
     }
 
-    public static juego1_fragment newInstance(int preguntas, int pregunta_actual, int dificultad, int correctas){
+    public static juego1_fragment newInstance(int preguntas, int pregunta_actual, int dificultad, int correctas, Boolean personas,Boolean eventos){
         juego1_fragment fragment = new juego1_fragment();
         Bundle bundle = new Bundle();
         bundle.putInt(PREGUNTAS_INDEX, preguntas);
         bundle.putInt(PREGUNTA_ACTUAL_INDEX, pregunta_actual);
         bundle.putInt(DIFICULTAD_INDEX, dificultad);
         bundle.putInt(CORRECTAS_TAG, correctas);
+        bundle.putBoolean(PERSONAS_TAG, personas);
+        bundle.putBoolean(EVENTOS_TAG, eventos);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -69,8 +85,16 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
             pregunta_actual = getArguments().getInt(PREGUNTA_ACTUAL_INDEX);
             dificultad = getArguments().getInt(DIFICULTAD_INDEX);
             correctas = getArguments().getInt(CORRECTAS_TAG);
+            personas = getArguments().getBoolean(PERSONAS_TAG);
+            eventos = getArguments().getBoolean(EVENTOS_TAG);
+
             personaOperations = new PersonaOperations(getContext());
             personaOperations.open();
+
+            eventoOperations = new EventoOperations(getContext());
+            eventoOperations.open();
+
+            lista_eventos = eventoOperations.getAllEventos();
             lista_personas = personaOperations.getAllPersonas();
 
             if (pregunta_actual > preguntas){
@@ -91,6 +115,10 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
                 btn_opcion4.setVisibility(View.GONE);
                 break;
         }
+
+        prefs = getActivity().getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        sonido = prefs.getInt("audio", 1);
+
 
         randomQuestion();
 
@@ -121,6 +149,25 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
 
     // Función que genera una pregunta de manera aleatoria, eligiendo 4 personas y mostrando la foto de una
     public void randomQuestion(){
+        Log.i("random question", " personas= " + personas + " eventos= " + eventos);
+        if(personas && !eventos)
+            randomQuestionPersona();
+
+        if(eventos && !personas)
+            randomQuestionEvento();
+
+        if(eventos && personas){
+            int random = randInt(1,3);
+            if(random == 1){
+                randomQuestionPersona();
+            }else{
+                randomQuestionEvento();
+            }
+        }
+    }
+
+    public void randomQuestionPersona(){
+        selected = 1;
         ArrayList<Integer> id_personas = new ArrayList<Integer>(); // Arraylist de ids de las personas de las respuestas
         int length = lista_personas.size(); // Longitud de la lista de personas
 
@@ -138,7 +185,7 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
         respuesta = id_respuesta;
 
         Persona persona_respuesta = lista_personas.get(id_personas.get(id_respuesta));
-        persona_id_respuesta = persona_respuesta.getId();
+        persona_evento_id_respuesta = persona_respuesta.getId();
 
         ArrayList<byte[]> persona_imagenes = persona_respuesta.getImagenes();
 
@@ -157,6 +204,48 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
 
         if(dificultad == 3){ // Dificultad difícil
             btn_opcion4.setText(lista_personas.get(id_personas.get(3)).getNombre());
+        }
+
+    }
+
+    public void randomQuestionEvento(){
+        selected = 2;
+        ArrayList<Integer> id_eventos = new ArrayList<Integer>(); // Arraylist de ids de las personas de las respuestas
+        int length = lista_eventos.size(); // Longitud de la lista de personas
+
+        // Escoge enteros diferentes dependiendo de la dificultad
+        for(int i=0; i<=dificultad; i++){
+            int random = randInt(0,length);
+            if(!id_eventos.contains(random)){
+                id_eventos.add(random);
+            }else {
+                i--;
+            }
+        }
+
+        int id_respuesta = randInt(0, id_eventos.size());
+        respuesta = id_respuesta;
+
+        Evento evento_respuesta = lista_eventos.get(id_eventos.get(id_respuesta));
+        persona_evento_id_respuesta = evento_respuesta.getId();
+
+        ArrayList<byte[]> evento_imagenes = evento_respuesta.getImagenes();
+
+        int random_imagen = randInt(0, evento_imagenes.size());
+        byte[] img = evento_imagenes.get(random_imagen);
+        Bitmap bmimage = BitmapFactory.decodeByteArray(img, 0, img.length);
+        iv_persona.setImageBitmap(bmimage);
+
+        // Dificultad fácil
+        btn_opcion1.setText(lista_eventos.get(id_eventos.get(0)).getNombre());
+        btn_opcion2.setText(lista_eventos.get(id_eventos.get(1)).getNombre());
+
+        if(dificultad >= 2){ // Dificultad intermedia
+            btn_opcion3.setText(lista_personas.get(id_eventos.get(2)).getNombre());
+        }
+
+        if(dificultad == 3){ // Dificultad difícil
+            btn_opcion4.setText(lista_personas.get(id_eventos.get(3)).getNombre());
         }
 
     }
@@ -196,7 +285,11 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
             showRespuestaCorrecta();
             personaOperations.close();
             final FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_container, InfoJuegoFragment.newInstance(preguntas, pregunta_actual+1, dificultad, persona_id_respuesta, correctas), "Info persona tag");
+            if(selected == 1){
+                ft.replace(R.id.fragment_container, InfoJuegoFragment.newInstance(preguntas, pregunta_actual+1, dificultad, persona_evento_id_respuesta, correctas, personas, eventos), "Info persona tag");
+            }else {
+                ft.replace(R.id.fragment_container, InfoJuegoEventoFragment.newInstance(preguntas, pregunta_actual+1, dificultad, persona_evento_id_respuesta, correctas, personas, eventos), "Info persona tag");
+            }
             ft.commit();
         }else {
             primer_intento = false;
@@ -205,7 +298,21 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
     }
 
     public void showRespuestaCorrecta(){
-        toast = Toast.makeText(getContext(),"Respuesta correcta", Toast.LENGTH_SHORT);
+        int id = R.raw.correct;
+        switch(sonido){
+            case 1:
+                id = R.raw.correct;
+                break;
+            case 2:
+                id = R.raw.tada;
+                break;
+            case 3:
+                id = R.raw.win;
+                break;
+        }
+        MediaPlayer player;
+        player = MediaPlayer.create(getActivity(), id);
+        player.start();toast = Toast.makeText(getContext(),"Respuesta correcta", Toast.LENGTH_SHORT);
         toast.show();
         hideToast();
     }
@@ -224,4 +331,6 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
             }
         }, 1000);
     }
+
+
 }

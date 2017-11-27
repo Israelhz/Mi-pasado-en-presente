@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,12 +14,15 @@ import java.util.ArrayList;
 
 public class dificultadActivity extends AppCompatActivity implements View.OnClickListener{
 
-    Button btn_facil, btn_intermedio, btn_dificil, btn_comenzar, btn_menos, btn_mas;
+    Button btn_facil, btn_intermedio, btn_dificil, btn_comenzar, btn_menos, btn_mas, btn_configurar;
     TextView tv_cantPreguntas, tv_dificultad;
     int dificultad = 1;
     int cantPreguntas = 3;
+    CheckBox check_personas, check_eventos;
 
     ArrayList<Persona> personas;
+    ArrayList<Evento> eventos;
+    EventoOperations eventoOperations;
     PersonaOperations operations;
 
     @Override
@@ -29,7 +33,11 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
         operations = new PersonaOperations(this);
         operations.open();
 
+        eventoOperations = new EventoOperations(this);
+        eventoOperations.open();
+
         personas = operations.getAllPersonas();
+        eventos = eventoOperations.getAllEventos();
 
         btn_facil = (Button) findViewById(R.id.btn_facil);
         btn_intermedio = (Button) findViewById(R.id.btn_intermedio);
@@ -39,6 +47,9 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
         btn_mas = (Button) findViewById(R.id.btn_mas);
         tv_cantPreguntas = (TextView) findViewById(R.id.tv_cantpreguntas);
         tv_dificultad = (TextView) findViewById(R.id.tv_dificultad);
+        btn_configurar = (Button) findViewById(R.id.btn_configurar);
+        check_personas = (CheckBox) findViewById(R.id.check_personas);
+        check_eventos = (CheckBox) findViewById(R.id.check_eventos);
 
         tv_cantPreguntas.setText(String.valueOf(cantPreguntas));
         btn_facil.setOnClickListener(this);
@@ -47,6 +58,7 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
         btn_comenzar.setOnClickListener(this);
         btn_menos.setOnClickListener(this);
         btn_mas.setOnClickListener(this);
+        btn_configurar.setOnClickListener(this);
     }
 
     @Override
@@ -65,13 +77,38 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
                 dificultad = 3;
                 break;
             case R.id.btn_comenzar:
-                if(personas.size() < 4){
-                    Toast.makeText(this, "Se necesitan al menos 4 personas o 4 eventos para jugar",
-                            Toast.LENGTH_LONG).show();
+                Boolean juego_personas = check_personas.isChecked();
+                Boolean juego_eventos = check_eventos.isChecked();
+                Boolean datos_validos = false;
+                String message = "";
+                if(juego_personas && !juego_eventos){
+                    message = "Se necesitan al menos 4 personas para jugar";
+                    datos_validos = personas.size() >= 4;
+                }
+
+                if(!juego_personas && juego_eventos){
+                    message = "Se necesitan al menos 4 eventos para jugar";
+                    datos_validos = eventos.size() >= 4;
+                }
+
+                if(juego_personas && juego_eventos){
+                    message = "Se necesitan al menos 4 personas y 4 eventos para jugar";
+                    datos_validos = personas.size() >= 4 && eventos.size() >= 4;
+                }
+
+                if(!juego_eventos && !juego_personas){
+                    message = "Seleccione si desea practicar personas o eventos";
+                    datos_validos = false;
+                }
+
+                if(!datos_validos){
+                    Toast.makeText(this, message,Toast.LENGTH_SHORT).show();
                 }else {
                     Intent juego_activity = new Intent(getApplicationContext(), juegoActivity.class);
                     juego_activity.putExtra("CantPreguntas", cantPreguntas);
                     juego_activity.putExtra("Dificultad", dificultad);
+                    juego_activity.putExtra("Personas", juego_personas);
+                    juego_activity.putExtra("Eventos", juego_eventos);
                     startActivity(juego_activity);
                 }
                 break;
@@ -87,6 +124,10 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
                     cantPreguntas++;
                 }
                 tv_cantPreguntas.setText(String.valueOf(cantPreguntas));
+                break;
+            case R.id.btn_configurar:
+                Intent configurar_activity = new Intent(getApplicationContext(), ConfigurarJuegoActivity.class);
+                startActivity(configurar_activity);
                 break;
         }
     }
