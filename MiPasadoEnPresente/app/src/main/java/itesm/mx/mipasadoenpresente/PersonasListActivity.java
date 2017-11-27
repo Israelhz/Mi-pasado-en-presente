@@ -34,7 +34,7 @@ public class PersonasListActivity extends AppCompatActivity implements View.OnCl
 
         personaOps = new PersonaOperations(this);
         personaOps.open();
-
+//        personaOps.deletePersonas();
         setListViewPersonas();
         btn_agregar.setOnClickListener(this);
     }
@@ -52,15 +52,20 @@ public class PersonasListActivity extends AppCompatActivity implements View.OnCl
         if (data != null) {
             if (data.get("Category").equals("Todos"))
                 personasList = personaOps.getAllPersonas();
-            else
+            if (data.get("Category").equals("Search")) {
+                personasList = personaOps.getPersonasBySearch(String.valueOf(data.get("Search")));
+            }
+            if (!data.get("Category").equals("Todos") && !data.get("Category").equals("Search")){
                 personasList = personaOps.getPersonasByCategory(String.valueOf(data.get("Category")));
+            }
         }
         PersonaAdapter personasAdapter = new PersonaAdapter(this, personasList);
         listViewPersonas.setAdapter(personasAdapter);
         listViewPersonas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), PersonaInfoActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PersonaInfoActivity.class);//To View mode
+//                Intent intent = new Intent(getApplicationContext(), EditPersonaActivity.class);//Edit mode
                 intent.putExtra("ID", personasList.get(position).getId());
                 startActivity(intent);
             }

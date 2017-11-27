@@ -17,8 +17,9 @@ public class Evento {
     private String comentarios;
     private String personas_asociadas;
     private ArrayList<byte[]> imagenes;
+    private String audio;
 
-    public Evento(long id, String nombre, String categoria, String lugar, String fecha, String descripcion, String comentarios, String personas_asociadas, ArrayList<byte[]> imagenes) {
+    public Evento(long id, String nombre, String categoria, String lugar, String fecha, String descripcion, String comentarios, String personas_asociadas, ArrayList<byte[]> imagenes, String audio) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
@@ -28,9 +29,10 @@ public class Evento {
         this.comentarios = comentarios;
         this.personas_asociadas = personas_asociadas;
         this.imagenes = imagenes;
+        this.audio = audio;
     }
 
-    public Evento(String nombre, String categoria, String lugar, String fecha, String descripcion, String comentarios, String personas_asociadas, ArrayList<byte[]> imagenes) {
+    public Evento(String nombre, String categoria, String lugar, String fecha, String descripcion, String comentarios, String personas_asociadas, ArrayList<byte[]> imagenes, String audio) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.lugar = lugar;
@@ -39,6 +41,7 @@ public class Evento {
         this.comentarios = comentarios;
         this.personas_asociadas = personas_asociadas;
         this.imagenes = imagenes;
+        this.audio = audio;
     }
 
     public long getId() {
@@ -113,5 +116,8 @@ public class Evento {
         this.imagenes = imagenes;
     }
 
+    public String getAudio(){ return audio; }
+
+    public void setAudio(String audio) { this.audio = audio; }
 
 }

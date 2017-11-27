@@ -46,6 +46,7 @@ public class EventoOperations {
             values.put(DataBaseSchema.EventoTable.COLUMN_NAME_DESCRIPCION,evento.getDescripcion());
             values.put(DataBaseSchema.EventoTable.COLUMN_NAME_COMENTARIOS,evento.getComentarios());
             values.put(DataBaseSchema.EventoTable.COLUMN_NAME_PERSONASASOCIADAS,evento.getPersonas_asociadas());
+            values.put(DataBaseSchema.EventoTable.COLUMN_NAME_AUDIO,evento.getAudio());
 
             newRowId= db.insert(DataBaseSchema.EventoTable.TABLE_NAME,null,values);
 
@@ -80,32 +81,6 @@ public class EventoOperations {
         return result;
     }
 
-    public Evento findEvento(String EventoName){
-        String query= "SELECT * FROM "+DataBaseSchema.EventoTable.TABLE_NAME+" WHERE "+
-                DataBaseSchema.EventoTable.COLUMN_NAME_NOMBRE +
-                " = \""+ EventoName+ "\"";
-        try{
-            Cursor cursor = db.rawQuery(query,null);
-            evento=null;
-            if(cursor.moveToFirst()){
-                evento = new  Evento(Integer.parseInt(cursor.getString(0)),
-                        cursor.getString(1),
-                        cursor.getString(2),
-                        cursor.getString(3),
-                        cursor.getString(4),
-                        cursor.getString(5),
-                        cursor.getString(6),
-                        null,
-                        null);
-
-            };
-            cursor.close();
-        }catch(SQLiteException e){
-            Log.e("SQLFIND",e.toString());
-        }
-        return evento;
-    }
-
     public ArrayList<Evento> getAllEventos() {
 
         ArrayList<Evento> listaEventos = new ArrayList<Evento>();
@@ -125,7 +100,8 @@ public class EventoOperations {
                             cursor.getString(5),
                             cursor.getString(6),
                             cursor.getString(7),
-                            imagenes
+                            imagenes,
+                            cursor.getString(8)
                     );
 
                     listaEventos.add(evento);
@@ -160,7 +136,8 @@ public class EventoOperations {
                             cursor.getString(5),
                             cursor.getString(6),
                             cursor.getString(7),
-                            imagenes
+                            imagenes,
+                            cursor.getString(8)
                     );
                     listaEventos.add(evento);
                 } while (cursor.moveToNext());
@@ -190,7 +167,8 @@ public class EventoOperations {
                             cursor.getString(5),
                             cursor.getString(6),
                             cursor.getString(7),
-                            imagenes
+                            imagenes,
+                            cursor.getString(8)
 
                     );
                 } while (cursor.moveToNext());
@@ -211,6 +189,7 @@ public class EventoOperations {
         cv.put(DataBaseSchema.EventoTable.COLUMN_NAME_DESCRIPCION,evento.getDescripcion());
         cv.put(DataBaseSchema.EventoTable.COLUMN_NAME_COMENTARIOS,evento.getComentarios());
         cv.put(DataBaseSchema.EventoTable.COLUMN_NAME_PERSONASASOCIADAS,evento.getPersonas_asociadas());
+        cv.put(DataBaseSchema.EventoTable.COLUMN_NAME_AUDIO,evento.getAudio());
         db.update(DataBaseSchema.EventoTable.TABLE_NAME, cv, "ROWID=" + id, null);
         Log.d("UPDATE", "UPDATED!");
     }

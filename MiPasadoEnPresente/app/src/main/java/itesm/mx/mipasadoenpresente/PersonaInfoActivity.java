@@ -1,15 +1,20 @@
 package itesm.mx.mipasadoenpresente;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,20 +27,23 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
+import static android.Manifest.permission.RECORD_AUDIO;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.widget.Toast.LENGTH_LONG;
 
 public class PersonaInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageView iv_imagenes;
-    private Button btn_audio;
-    private Button btn_editPersona;
-    private TextView tv_nombre;
-    private TextView tv_fecha;
-    private TextView tv_comentarios;
-    private TextView tv_relacion;
+    private static final int SELECT_AUDIO = 0, AGREGAR_IMAGEN = 1, MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
+
+    private ImageView iv_imagenes, iv_expanded_image;
+    private Button btn_zoom, btn_editar,btn_play;
+    private TextView et_nombre, et_fecha, et_comentarios, tv_categoria;
 
     ArrayList<byte[]> list_imagenes_persona = new ArrayList<byte[]>();
 
+    private boolean zoomed = false;
     int indice = 0;
     GestureDetectorCompat mDetector;
 
@@ -43,6 +51,11 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
     Persona actual_persona = null;
     private long id_persona;
     private boolean existe = false;
+
+    PhotoViewAttacher pAttacher;
+
+
+    String audio_path = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +78,18 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
                 id_persona = data.getLong("ID");
                 actual_persona = operations.getPersona(id_persona);
                 list_imagenes_persona = actual_persona.getImagenes();
-
                 setImagenPersona(list_imagenes_persona.size()-1);
-                tv_relacion.setText(actual_persona.getCategoria());
-                tv_nombre.setText(actual_persona.getNombre());
-                tv_fecha.setText(actual_persona.getFecha_cumpleanos());
-                tv_comentarios.setText(actual_persona.getComentarios());
+                et_nombre.setText(actual_persona.getNombre());
+                tv_categoria.setText(actual_persona.getCategoria());
+                et_fecha.setText(actual_persona.getFecha_cumpleanos());
+                et_comentarios.setText(actual_persona.getComentarios());
+                audio_path = actual_persona.getAudio();
+
+                Log.i("audio", " = " + actual_persona.getAudio());
                 existe = true;
             }
         }
+
 
         MyGestureListener myGestureListener = new MyGestureListener(getApplicationContext());
         mDetector = new GestureDetectorCompat(this, myGestureListener);
@@ -82,20 +98,43 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
                 mDetector.onTouchEvent(event);
                 return true;
             }
-        });;
+        });
 
-        btn_audio.setOnClickListener(this);
-        btn_editPersona.setOnClickListener(this);
+        iv_expanded_image.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                mDetector.onTouchEvent(event);
+                return true;
+            }
+        });
+
+        checa_permisos();
+        btn_editar.setOnClickListener(this);
+        btn_zoom.setOnClickListener(this);
+        btn_play.setOnClickListener(this);
+        iv_expanded_image.setOnClickListener(this);
+    }
+
+    private boolean checa_permisos() {
+        Activity activity = this;
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED)
+            return true;
+        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE);
+        return false;
+
     }
 
     public void setViews(){
-        btn_audio = (Button) findViewById(R.id.btn_audio);
-        btn_editPersona = (Button) findViewById(R.id.btn_editar);
         iv_imagenes = (ImageView) findViewById(R.id.iv_imagenes_persona);
-        tv_relacion = (TextView) findViewById(R.id.text_relacion);
-        tv_nombre = (TextView) findViewById(R.id.text_nombre);
-        tv_fecha = (TextView) findViewById(R.id.text_fecha);
-        tv_comentarios = (TextView) findViewById(R.id.text_comentario);
+        btn_zoom = (Button) findViewById(R.id.btn_agregar_imagen_persona);
+        et_nombre = (TextView) findViewById(R.id.et_nombre);
+        et_fecha = (TextView) findViewById(R.id.et_fecha);
+        et_comentarios = (TextView) findViewById(R.id.et_comentarios);
+        tv_categoria = (TextView) findViewById(R.id.tv_categoria);
+        btn_editar = (Button) findViewById(R.id.btn_editar);
+        btn_play = (Button) findViewById(R.id.btn_play);
+        iv_expanded_image = (ImageView) findViewById(R.id.expanded_image);
     }
 
     @Override
@@ -104,28 +143,49 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
         return true;
     }
 
+    private void zoom() {
+        if (!zoomed) {
+            iv_expanded_image.setVisibility(View.VISIBLE);
+            iv_imagenes.setVisibility(View.GONE);
+            btn_zoom.setText("Reducir Imagen");
+            zoomed = true;
+            pAttacher = new PhotoViewAttacher(iv_expanded_image);
+            pAttacher.update();
+        } else {
+            iv_expanded_image.setVisibility(View.GONE);
+            iv_imagenes.setVisibility(View.VISIBLE);
+            btn_zoom.setText("Ampliar Imagen");
+            zoomed = false;
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_editar:
-                Intent intent = new Intent(getApplicationContext(), EditPersonaActivity.class);
-                intent.putExtra("ID", actual_persona.getId());
-                startActivity(intent);
+            case R.id.btn_agregar_imagen_persona:
+                zoom();
                 break;
-            case R.id.btn_audio:
-                if(actual_persona.getAudio() == null || actual_persona.getAudio() == ""){
+            case R.id.btn_editar:
+                if (existe) {
+                    Intent intent_edit = new Intent(getApplicationContext(), EditPersonaActivity.class);//Edit mode
+                    intent_edit.putExtra("ID", actual_persona.getId());
+                    startActivity(intent_edit);
+                }
+                break;
+            case R.id.btn_play:
+                if(audio_path == ""){
                     Toast.makeText(this, "No hay un sonido asociado", Toast.LENGTH_LONG).show();
                 }else{
                     try {
                         Toast.makeText(this, "Reproduciendo audio",
                                 LENGTH_LONG).show();
-                        play(actual_persona.getAudio());
+                        play();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
                 break;
-            default:
+            case R.id.expanded_image:
+                zoom();
                 break;
         }
     }
@@ -134,12 +194,21 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
         if(index >= 0){
             byte[] imagen = list_imagenes_persona.get(index);
             iv_imagenes.setImageBitmap(BitmapFactory.decodeByteArray(imagen, 0, imagen.length));
-
+            iv_expanded_image.setImageBitmap(BitmapFactory.decodeByteArray(imagen, 0, imagen.length));
         }
 
     }
 
-    public void play(String audio_path) throws IOException {
+    public boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(),
+                WRITE_EXTERNAL_STORAGE);
+        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(),
+                RECORD_AUDIO);
+        return result == PackageManager.PERMISSION_GRANTED &&
+                result1 == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public void play() throws IOException {
         Uri myUri = Uri.parse(audio_path); // initialize Uri here
         MediaPlayer mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -198,5 +267,4 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
             return true;
         }
     }
-
 }

@@ -20,18 +20,19 @@ import org.w3c.dom.Text;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InfoJuegoFragment extends Fragment implements View.OnClickListener {
+public class InfoJuegoEventoFragment extends Fragment implements View.OnClickListener{
+
 
     final static String PREGUNTAS_INDEX = "Preguntas_index";
     final static String PREGUNTA_ACTUAL_INDEX = "Pregunta_actual_index";
     final static String DIFICULTAD_INDEX = "Dificultad_index";
     final static String CORRECTAS_TAG = "Correctas_tag";
-    final static String PERSONA_ID = "Persona_id";
+    final static String EVENTO_ID = "Evento_id";
     final static  String PERSONAS_TAG = "Personas_tag";
     final static  String EVENTOS_TAG = "Eventos_tag";
 
     ImageView iv_respuesta;
-    TextView tv_nombre, tv_relacion, tv_fecha, tv_comentarios;
+    TextView tv_nombre, tv_categoria, tv_fecha, tv_lugar, tv_descripcion, tv_comentarios, tv_personas;
     Button btn_continuar;
 
     int preguntas, pregunta_actual, dificultad, correctas;
@@ -40,21 +41,21 @@ public class InfoJuegoFragment extends Fragment implements View.OnClickListener 
 
     Boolean personas, eventos;
 
-    Persona persona;
-    PersonaOperations personaOperations;
+    Evento evento;
+    EventoOperations eventoOperations;
 
-    public InfoJuegoFragment() {
+    public InfoJuegoEventoFragment() {
         // Required empty public constructor
     }
 
-    public static InfoJuegoFragment newInstance(int preguntas, int pregunta_actual, int dificultad, long respuesta, int correctas, Boolean personas, Boolean eventos){
-        InfoJuegoFragment fragment = new InfoJuegoFragment();
+    public static InfoJuegoEventoFragment newInstance(int preguntas, int pregunta_actual, int dificultad, long respuesta, int correctas, Boolean personas, Boolean eventos){
+        InfoJuegoEventoFragment fragment = new InfoJuegoEventoFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(PREGUNTAS_INDEX, preguntas);
         bundle.putInt(PREGUNTA_ACTUAL_INDEX, pregunta_actual);
         bundle.putInt(DIFICULTAD_INDEX, dificultad);
         bundle.putInt(CORRECTAS_TAG, correctas);
-        bundle.putLong(PERSONA_ID, respuesta);
+        bundle.putLong(EVENTO_ID, respuesta);
         bundle.putBoolean(PERSONAS_TAG, personas);
         bundle.putBoolean(EVENTOS_TAG, eventos);
         fragment.setArguments(bundle);
@@ -64,14 +65,16 @@ public class InfoJuegoFragment extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_info_juego, container, false);
+        View view = inflater.inflate(R.layout.fragment_info_juego_evento, container, false);
 
-        iv_respuesta = (ImageView) view.findViewById(R.id.iv_respuesta_persona);
+        iv_respuesta = (ImageView) view.findViewById(R.id.iv_respuesta);
         tv_nombre = (TextView) view.findViewById(R.id.tv_respuesta_nombre);
-        tv_relacion = (TextView) view.findViewById(R.id.tv_respuesta_relacion);
+        tv_categoria = (TextView) view.findViewById(R.id.tv_respuesta_categoria);
         tv_fecha = (TextView) view.findViewById(R.id.tv_respuesta_fecha);
+        tv_lugar = (TextView) view.findViewById(R.id.tv_respuesta_lugar);
+        tv_descripcion = (TextView) view.findViewById(R.id.tv_respuesta_descripcion);
         tv_comentarios = (TextView) view.findViewById(R.id.tv_respuesta_comentarios);
-
+        tv_personas = (TextView) view.findViewById(R.id.tv_respuesta_personas);
         btn_continuar = (Button) view.findViewById(R.id.btn_continuar);
 
         btn_continuar.setOnClickListener(this);
@@ -87,12 +90,12 @@ public class InfoJuegoFragment extends Fragment implements View.OnClickListener 
             pregunta_actual = getArguments().getInt(PREGUNTA_ACTUAL_INDEX);
             dificultad = getArguments().getInt(DIFICULTAD_INDEX);
             correctas = getArguments().getInt(CORRECTAS_TAG);
-            respuesta = getArguments().getLong(PERSONA_ID);
+            respuesta = getArguments().getLong(EVENTO_ID);
             personas = getArguments().getBoolean(PERSONAS_TAG);
             eventos = getArguments().getBoolean(EVENTOS_TAG);
-            personaOperations = new PersonaOperations(getContext());
-            personaOperations.open();
-            persona = personaOperations.getPersona(respuesta);
+            eventoOperations = new EventoOperations(getContext());
+            eventoOperations.open();
+            evento = eventoOperations.getEvento(respuesta);
             setInfo();
         }
 
@@ -100,13 +103,16 @@ public class InfoJuegoFragment extends Fragment implements View.OnClickListener 
     }
 
     public void setInfo(){
-        tv_nombre.setText("Nombre: " + persona.getNombre());
-        tv_fecha.setText("Cumpleaños: " + persona.getFecha_cumpleanos());
-        tv_relacion.setText("Relación: " + persona.getCategoria());
-        tv_comentarios.setText("Comentarios: " + persona.getComentarios());
-        if(persona.getImagenes().size() >= 1){
-            int length = persona.getImagenes().size();
-            byte[] img = persona.getImagenes().get(length-1);
+        tv_nombre.setText("Nombre: " + evento.getNombre());
+        tv_categoria.setText("Categoría: " + evento.getCategoria());
+        tv_fecha.setText("Fecha: " + evento.getFecha());
+        tv_lugar.setText("Lugar: " + evento.getLugar());
+        tv_descripcion.setText("Descripción: "  + evento.getDescripcion());
+        tv_comentarios.setText("Comentarios: " + evento.getComentarios());
+
+        if(evento.getImagenes().size() >= 1){
+            int length = evento.getImagenes().size();
+            byte[] img = evento.getImagenes().get(length-1);
             Bitmap bmimage = BitmapFactory.decodeByteArray(img, 0, img.length);
             iv_respuesta.setImageBitmap(bmimage);
         }
@@ -117,9 +123,11 @@ public class InfoJuegoFragment extends Fragment implements View.OnClickListener 
         switch (v.getId()){
             case R.id.btn_continuar:
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Log.i("change fragment", " personas= " + personas + " eventos= " + eventos);
                 ft.replace(R.id.fragment_container, juego1_fragment.newInstance(preguntas, pregunta_actual, dificultad, correctas, personas, eventos), "Info persona tag");
                 ft.commit();
                 break;
         }
     }
+
 }
