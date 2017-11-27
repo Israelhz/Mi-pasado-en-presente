@@ -127,7 +127,7 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
 
     public void setViews(){
         iv_imagenes = (ImageView) findViewById(R.id.iv_imagenes_persona);
-        btn_zoom = (Button) findViewById(R.id.btn_agregar_imagen_persona);
+        btn_zoom = (Button) findViewById(R.id.btn_ampliar_imagen_persona);
         et_nombre = (TextView) findViewById(R.id.et_nombre);
         et_fecha = (TextView) findViewById(R.id.et_fecha);
         et_comentarios = (TextView) findViewById(R.id.et_comentarios);
@@ -161,7 +161,7 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_agregar_imagen_persona:
+            case R.id.btn_ampliar_imagen_persona:
                 zoom();
                 break;
             case R.id.btn_editar:
