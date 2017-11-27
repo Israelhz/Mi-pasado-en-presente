@@ -2,8 +2,11 @@ package itesm.mx.mipasadoenpresente;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -19,6 +22,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import static android.content.Context.MODE_PRIVATE;
+import static itesm.mx.mipasadoenpresente.R.raw.correct;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,12 +44,12 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
     long persona_id_respuesta;
     PersonaOperations personaOperations;
     ArrayList<Persona> lista_personas;
-
     Boolean primer_intento = true;
-
     Toast toast;
-
     View view;
+
+    int sonido = 1;
+    SharedPreferences prefs;
 
     public juego1_fragment() {
         // Required empty public constructor
@@ -91,6 +97,10 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
                 btn_opcion4.setVisibility(View.GONE);
                 break;
         }
+
+        prefs = getActivity().getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        sonido = prefs.getInt("audio", 1);
+
 
         randomQuestion();
 
@@ -205,7 +215,21 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
     }
 
     public void showRespuestaCorrecta(){
-        toast = Toast.makeText(getContext(),"Respuesta correcta", Toast.LENGTH_SHORT);
+        int id = R.raw.correct;
+        switch(sonido){
+            case 1:
+                id = R.raw.correct;
+                break;
+            case 2:
+                id = R.raw.tada;
+                break;
+            case 3:
+                id = R.raw.win;
+                break;
+        }
+        MediaPlayer player;
+        player = MediaPlayer.create(getActivity(), id);
+        player.start();toast = Toast.makeText(getContext(),"Respuesta correcta", Toast.LENGTH_SHORT);
         toast.show();
         hideToast();
     }
@@ -224,4 +248,6 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
             }
         }, 1000);
     }
+
+
 }

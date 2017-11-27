@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class dificultadActivity extends AppCompatActivity implements View.OnClickListener{
 
-    Button btn_facil, btn_intermedio, btn_dificil, btn_comenzar, btn_menos, btn_mas;
+    Button btn_facil, btn_intermedio, btn_dificil, btn_comenzar, btn_menos, btn_mas, btn_configurar;
     TextView tv_cantPreguntas, tv_dificultad;
     int dificultad = 1;
     int cantPreguntas = 3;
@@ -39,6 +39,7 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
         btn_mas = (Button) findViewById(R.id.btn_mas);
         tv_cantPreguntas = (TextView) findViewById(R.id.tv_cantpreguntas);
         tv_dificultad = (TextView) findViewById(R.id.tv_dificultad);
+        btn_configurar = (Button) findViewById(R.id.btn_configurar);
 
         tv_cantPreguntas.setText(String.valueOf(cantPreguntas));
         btn_facil.setOnClickListener(this);
@@ -47,6 +48,7 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
         btn_comenzar.setOnClickListener(this);
         btn_menos.setOnClickListener(this);
         btn_mas.setOnClickListener(this);
+        btn_configurar.setOnClickListener(this);
     }
 
     @Override
@@ -87,6 +89,10 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
                     cantPreguntas++;
                 }
                 tv_cantPreguntas.setText(String.valueOf(cantPreguntas));
+                break;
+            case R.id.btn_configurar:
+                Intent configurar_activity = new Intent(getApplicationContext(), ConfigurarJuegoActivity.class);
+                startActivity(configurar_activity);
                 break;
         }
     }
