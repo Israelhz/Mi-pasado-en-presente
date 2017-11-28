@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,6 +32,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +47,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static android.Manifest.permission.RECORD_AUDIO;
@@ -56,7 +59,7 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
 
     private static final int SELECT_AUDIO = 0, AGREGAR_IMAGEN = 1, MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
     private static final String RECORD_TAG = "Record";
-    private String[] array_relacion;
+    private ArrayList<String> array_relacion;
     private ImageView iv_imagenes;
     private Button btn_agregar, btn_guardar, btn_grabar,btn_play, btn_borrar;
     private EditText et_nombre, et_fecha, et_comentarios;
@@ -99,7 +102,21 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
 
         setViews();
 
-        array_relacion = new String[]{"Hermano", "Tio", "Sobrino", "Hijo", "Amigo", "Vecino"};
+        array_relacion = new ArrayList<String>();
+        array_relacion.add("Hermano");
+        array_relacion.add("Tio");
+        array_relacion.add("Sobrino");
+        array_relacion.add("Hijo");
+        array_relacion.add("Amigo");
+        array_relacion.add("Vecino");
+
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        String categorias = prefs.getString("categorias", "");
+        ArrayList<String> arr = new ArrayList<>(Arrays.asList(categorias.split(",")));
+
+        for(final String s : arr){
+            array_relacion.add(s);
+        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, array_relacion);
         spinner.setAdapter(adapter);
@@ -129,9 +146,10 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                 et_nombre.setText(actual_persona.getNombre());
                 for(int i= 0; i < spinner.getAdapter().getCount(); i++)
                 {
-                    if(spinner.getAdapter().getItem(i).toString().contains(actual_persona.getCategoria()));
+                    if(spinner.getItemAtPosition(i).toString().equalsIgnoreCase(actual_persona.getCategoria()));
                     {
                         spinner.setSelection(i);
+                        break;
                     }
                 }
                 et_fecha.setText(actual_persona.getFecha_cumpleanos());

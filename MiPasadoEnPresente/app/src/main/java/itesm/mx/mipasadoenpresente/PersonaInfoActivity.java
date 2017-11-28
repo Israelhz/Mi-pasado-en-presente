@@ -86,7 +86,6 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
                 et_comentarios.setText(actual_persona.getComentarios());
                 audio_path = actual_persona.getAudio();
 
-                Log.i("audio", " = " + actual_persona.getAudio());
                 existe = true;
             }
         }
@@ -99,6 +98,20 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
         ib_arrow_right.setOnClickListener(this);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        actual_persona = operations.getPersona(id_persona);
+        list_imagenes_persona = actual_persona.getImagenes();
+        setImagenPersona(list_imagenes_persona.size()-1);
+        et_nombre.setText(actual_persona.getNombre());
+        tv_categoria.setText(actual_persona.getCategoria());
+        et_fecha.setText(actual_persona.getFecha_cumpleanos());
+        et_comentarios.setText(actual_persona.getComentarios());
+        audio_path = actual_persona.getAudio();
+
+        existe = true;
+    }
     private boolean checa_permisos() {
         Activity activity = this;
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class dificultadActivity extends AppCompatActivity implements View.OnClickListener{
 
-    Button btn_facil, btn_intermedio, btn_dificil, btn_comenzar, btn_menos, btn_mas, btn_configurar;
+    Button btn_facil, btn_intermedio, btn_dificil, btn_comenzar, btn_menos, btn_mas, btn_configurar, btn_historial;
     TextView tv_cantPreguntas, tv_dificultad;
     int dificultad = 1;
     int cantPreguntas = 3;
@@ -50,6 +50,7 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
         btn_configurar = (Button) findViewById(R.id.btn_configurar);
         check_personas = (CheckBox) findViewById(R.id.check_personas);
         check_eventos = (CheckBox) findViewById(R.id.check_eventos);
+        btn_historial = (Button) findViewById(R.id.btn_historial);
 
         tv_cantPreguntas.setText(String.valueOf(cantPreguntas));
         btn_facil.setOnClickListener(this);
@@ -59,6 +60,7 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
         btn_menos.setOnClickListener(this);
         btn_mas.setOnClickListener(this);
         btn_configurar.setOnClickListener(this);
+        btn_historial.setOnClickListener(this);
     }
 
     @Override
@@ -128,6 +130,11 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
             case R.id.btn_configurar:
                 Intent configurar_activity = new Intent(getApplicationContext(), ConfigurarJuegoActivity.class);
                 startActivity(configurar_activity);
+                break;
+            case R.id.btn_historial:
+                Intent historial_activity = new Intent(getApplicationContext(), HistorialActivity.class);
+                startActivity(historial_activity);
+
                 break;
         }
     }
