@@ -38,7 +38,7 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
     final static  String PERSONAS_TAG = "Personas_tag";
     final static  String EVENTOS_TAG = "Eventos_tag";
 
-    TextView tv_preguntas;
+    TextView tv_preguntas, tv_pregunta;
     Button btn_opcion1, btn_opcion2, btn_opcion3, btn_opcion4;
     ImageView iv_persona;
 
@@ -100,7 +100,7 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
             if (pregunta_actual > preguntas){
                 personaOperations.close();
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, resultadoFragment.newInstance(correctas, preguntas), "Resultado tag");
+                ft.replace(R.id.fragment_container, resultadoFragment.newInstance(correctas, preguntas, dificultad), "Resultado tag");
                 ft.commit();
             }
         }
@@ -134,6 +134,7 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
         view = inflater.inflate(R.layout.fragment_juego1_fragment, container, false);
 
         tv_preguntas = (TextView) view.findViewById(R.id.tv_preguntas);
+        tv_pregunta = (TextView) view.findViewById(R.id.tv_pregunta);
         btn_opcion1 = (Button) view.findViewById(R.id.btn_opcion1);
         btn_opcion2 = (Button) view.findViewById(R.id.btn_opcion2);
         btn_opcion3 = (Button) view.findViewById(R.id.btn_opcion3);
@@ -168,6 +169,7 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
 
     public void randomQuestionPersona(){
         selected = 1;
+        tv_pregunta.setText("¿Cuál es el nombre de esta persona?");
         ArrayList<Integer> id_personas = new ArrayList<Integer>(); // Arraylist de ids de las personas de las respuestas
         int length = lista_personas.size(); // Longitud de la lista de personas
 
@@ -210,6 +212,7 @@ public class juego1_fragment extends Fragment implements View.OnClickListener{
 
     public void randomQuestionEvento(){
         selected = 2;
+        tv_pregunta.setText("¿Cuál es el nombre de este evento?");
         ArrayList<Integer> id_eventos = new ArrayList<Integer>(); // Arraylist de ids de las personas de las respuestas
         int length = lista_eventos.size(); // Longitud de la lista de personas
 

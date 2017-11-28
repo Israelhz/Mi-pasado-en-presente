@@ -31,15 +31,21 @@ public class HistorialActivity extends AppCompatActivity implements View.OnClick
         prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
         String historial = prefs.getString("historial", "[]");
 
+        TextView header = new TextView(this);
+        header.setTextSize(20);
+        header.setText("Preguntas \n correctas       Fecha          Dificultad");
+        header.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        layout_records.addView(header);
         JSONArray records = new JSONArray();
         try {
             records = new JSONArray(historial);
             for(int i = 0; i < records.length(); i++){
                 JSONObject obj = records.getJSONObject(i);
-                if(obj.has("puntuacion") && obj.has("fecha")){
+                if(obj.has("puntuacion") && obj.has("fecha") && obj.has("dificultad")){
                     TextView bt = new TextView(this);
                     bt.setTextSize(20);
-                    bt.setText(obj.get("puntuacion") + "          " + obj.get("fecha"));
+                    bt.setText(obj.get("puntuacion") + "             " + obj.get("fecha") + "        " + obj.get("dificultad"));
                     bt.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));
                     layout_records.addView(bt);

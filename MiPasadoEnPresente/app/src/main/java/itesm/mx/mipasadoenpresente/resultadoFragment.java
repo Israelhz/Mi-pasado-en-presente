@@ -32,6 +32,7 @@ public class resultadoFragment extends Fragment implements View.OnClickListener 
 
     private static final String CORRECTAS_TAG = "correctas";
     private static final String TOTAL_TAG = "total";
+    private static final String DIFICULTAD_TAG = "dificultad";
     Button btn_volver, btn_salir;
     TextView tv_resultado;
     int correctas,total;
@@ -41,12 +42,13 @@ public class resultadoFragment extends Fragment implements View.OnClickListener 
         // Required empty public constructor
     }
 
-    public static resultadoFragment newInstance(int correctas, int total){
+    public static resultadoFragment newInstance(int correctas, int total, int dificultad){
         resultadoFragment fragment = new resultadoFragment();
 
         Bundle bundle = new Bundle();
         bundle.putInt(CORRECTAS_TAG, correctas);
         bundle.putInt(TOTAL_TAG, total);
+        bundle.putInt(DIFICULTAD_TAG, dificultad);
         fragment.setArguments(bundle);
 
         return fragment;
@@ -60,16 +62,28 @@ public class resultadoFragment extends Fragment implements View.OnClickListener 
         if(getArguments() != null){
             correctas = getArguments().getInt(CORRECTAS_TAG);
             total = getArguments().getInt(TOTAL_TAG);
+            int dificultad = getArguments().getInt(DIFICULTAD_TAG);
+            tv_resultado.setText("¡Bien hecho! obtuviste " + correctas + " preguntas correctas de un total de " + total + " preguntas");
 
-            tv_resultado.setText(correctas + "/" + total);
-
+            String dificultad_str = "";
+            switch(dificultad){
+                case 1:
+                    dificultad_str = "Fácil";
+                    break;
+                case 2:
+                    dificultad_str = "Media";
+                    break;
+                case 3:
+                    dificultad_str = "Difícil";
+                    break;
+            }
             JSONObject record = new JSONObject();
             JSONArray arr = new JSONArray();
             try {
                 Calendar c = Calendar.getInstance();
                 System.out.println("Current time => " + c.getTime());
 
-                SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 String formattedDate = df.format(c.getTime());
 
                 String historial = prefs.getString("historial", "[]");
@@ -78,6 +92,7 @@ public class resultadoFragment extends Fragment implements View.OnClickListener 
 
                 record.put("puntuacion", correctas + "/" + total);
                 record.put("fecha", formattedDate);
+                record.put("dificultad", dificultad_str);
 
                 arr.put(record);
             } catch (JSONException e) {
