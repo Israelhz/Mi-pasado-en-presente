@@ -7,12 +7,14 @@ import android.graphics.BitmapFactory;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,6 +36,9 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
     private TextView tv_personasAsociadas;
     private TextView tv_categoria;
     private ImageView iv_expanded_image_event;
+    private ImageButton ib_arrow_left;
+    private ImageButton ib_arrow_right;
+
     ArrayList<byte[]> list_imagenes_evento = new ArrayList<byte[]>();
 
     PhotoViewAttacher pAttacher;
@@ -41,7 +46,6 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
     private boolean zoomed = false;
 
     int indice = 0;
-    GestureDetectorCompat mDetector;
 
     EventoOperations operations;
     Evento actual_evento = null;
@@ -81,26 +85,12 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
             }
         }
 
-        MyGestureListener myGestureListener = new MyGestureListener(getApplicationContext());
-        mDetector = new GestureDetectorCompat(this, myGestureListener);
-        iv_imagenes.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                mDetector.onTouchEvent(event);
-                return true;
-            }
-        });;
-
-        iv_expanded_image_event.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                mDetector.onTouchEvent(event);
-                return true;
-            }
-        });
-
        // btn_audio.setOnClickListener(this);
         btn_editEvento.setOnClickListener(this);
         btn_zoom.setOnClickListener(this);
         iv_expanded_image_event.setOnClickListener(this);
+        ib_arrow_left.setOnClickListener(this);
+        ib_arrow_right.setOnClickListener(this);
 
     }
 
@@ -108,6 +98,8 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
         if (!zoomed) {
             iv_expanded_image_event.setVisibility(View.VISIBLE);
             iv_imagenes.setVisibility(View.GONE);
+            ib_arrow_left.setVisibility(View.GONE);
+            ib_arrow_right.setVisibility(View.GONE);
             btn_zoom.setText("Reducir Imagen");
             zoomed = true;
             pAttacher = new PhotoViewAttacher(iv_expanded_image_event);
@@ -115,6 +107,8 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
         } else {
             iv_expanded_image_event.setVisibility(View.GONE);
             iv_imagenes.setVisibility(View.VISIBLE);
+            ib_arrow_left.setVisibility(View.VISIBLE);
+            ib_arrow_right.setVisibility(View.VISIBLE);
             btn_zoom.setText("Ampliar Imagen");
             zoomed = false;
         }
@@ -133,6 +127,9 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
         tv_personasAsociadas = (TextView) findViewById(R.id.text_personas_relacionadas);
         tv_categoria = (TextView) findViewById(R.id.text_categoria);
         btn_zoom = (Button) findViewById(R.id.btn_ampliar_evento_imagen);
+
+        ib_arrow_left = (ImageButton) findViewById(R.id.imageBtn_left);
+        ib_arrow_right = (ImageButton) findViewById(R.id.imageBtn_right);
     }
 
     @Override
@@ -157,8 +154,21 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
                 intent.putExtra("ID", actual_evento.getId());
                 startActivity(intent);
                 break;
-            case R.id.expanded_image:
-                zoom();
+            case R.id.imageBtn_left:
+                Log.d("Arrow", "Left ");
+                indice = indice - 1;
+                if (indice < 0) {
+                    indice = list_imagenes_evento.size()-1;
+                }
+                setImagenEvento(indice);
+                break;
+            case R.id.imageBtn_right:
+                Log.d("Arrow", "Right ");
+                indice = indice + 1;
+                if (indice >= list_imagenes_evento.size()) {
+                    indice = 0;
+                }
+                setImagenEvento(indice);
                 break;
             default:
                 break;
@@ -173,55 +183,4 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
         }
 
     }
-
-    public class MyGestureListener implements GestureDetector.OnGestureListener {
-        String LISTENER_TAG = "Listener: ";
-
-        public MyGestureListener(Context applicationContext) {
-        }
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public void onShowPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return false;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (e1.getX() > e2.getX()) {
-                indice = indice - 1;
-                if (indice < 0) {
-                    indice = list_imagenes_evento.size()-1;
-                }
-            }else if (e1.getX() < e2.getX()){
-                indice = indice + 1;
-                if (indice >= list_imagenes_evento.size()) {
-                    indice = 0;
-                }
-            }
-
-            setImagenEvento(indice);
-            return true;
-        }
-    }
-
 }
