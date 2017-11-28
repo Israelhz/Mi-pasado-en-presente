@@ -65,7 +65,7 @@ public class EventoOperations {
 
         String query = "Select * FROM " + DataBaseSchema.EventoTable.TABLE_NAME +
                 " WHERE " + DataBaseSchema.EventoTable.COLUMN_NAME_NOMBRE +
-                "  LIKE \'%" + name + "%\'";
+                "  LIKE \'%" + name + "%\'" + " ORDER BY " + DataBaseSchema.EventoTable.COLUMN_NAME_NOMBRE + " ASC";
         try {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {
@@ -122,7 +122,7 @@ public class EventoOperations {
 
         ArrayList<Evento> listaEventos = new ArrayList<Evento>();
 
-        String query = "Select * FROM " + DataBaseSchema.EventoTable.TABLE_NAME;
+        String query = "Select * FROM " + DataBaseSchema.EventoTable.TABLE_NAME + " ORDER BY " + DataBaseSchema.EventoTable.COLUMN_NAME_NOMBRE + " ASC";
         try {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {
@@ -157,7 +157,7 @@ public class EventoOperations {
 
         String query = "Select * FROM " + DataBaseSchema.EventoTable.TABLE_NAME +
                 " WHERE " + DataBaseSchema.EventoTable.COLUMN_NAME_CATEGORIA +
-                " = \"" + categoria + "\"";
+                " = \"" + categoria + "\"" + " ORDER BY " + DataBaseSchema.EventoTable.COLUMN_NAME_NOMBRE + " ASC";
         try {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {

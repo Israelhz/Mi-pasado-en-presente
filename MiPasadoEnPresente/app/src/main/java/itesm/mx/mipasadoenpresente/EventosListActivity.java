@@ -27,6 +27,8 @@ public class EventosListActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evento_list);
+        // Despliega el botón de Back en action bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btn_agregar = (Button) findViewById(R.id.btn_agregar);
         listViewEventos = (ListView) findViewById(R.id.list_eventos);

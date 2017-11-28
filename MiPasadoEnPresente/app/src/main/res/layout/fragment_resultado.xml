@@ -9,15 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/tv_resultado"
             android:layout_width="match_parent"
-            android:layout_height="195dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.13"
             android:text="10/10"
             android:textAlignment="center"
-            android:textSize="50sp" />
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/btn_volver"
