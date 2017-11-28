@@ -33,6 +33,10 @@ public class CategoriasPersonasActivity extends AppCompatActivity implements Vie
     private TextView tvSearch;
     private ViewGroup layout_categorias;
 
+    private String categorias;
+    private ArrayList<String> arr;
+    private ArrayList<String> initial_arr;
+    SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,28 +59,12 @@ public class CategoriasPersonasActivity extends AppCompatActivity implements Vie
         btnAgregar = (Button) findViewById(R.id.btn_agregar);
         layout_categorias = (ViewGroup) findViewById(R.id.layout_categorias);
 
-        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
-        String categorias = prefs.getString("categorias", "");
-        ArrayList<String> arr = new ArrayList<>(Arrays.asList(categorias.split(",")));
+        prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        categorias = prefs.getString("categorias", "");
+        arr = new ArrayList<>(Arrays.asList(categorias.split("/")));
+        initial_arr = new ArrayList<String>();
 
-        for(final String s : arr){
-            Button btn = new Button(this);
-            btn.setTextSize(28);
-            btn.setText(s);
-            btn.setTextColor(getResources().getColor(android.R.color.white));
-            btn.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            lp.setMargins(0,0,0,30);
-            btn.setLayoutParams(lp);
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startAct(s);
-                }
-            });
-            layout_categorias.addView(btn);
-        }
+        update_categorias();
 
         btnTodo.setOnClickListener(this);
         btnHermanos.setOnClickListener(this);
@@ -88,6 +76,39 @@ public class CategoriasPersonasActivity extends AppCompatActivity implements Vie
         btnSearch.setOnClickListener(this);
         btnOtros.setOnClickListener(this);
         btnAgregar.setOnClickListener(this);
+    }
+
+    public void update_categorias(){
+        categorias = prefs.getString("categorias", "");
+        arr = new ArrayList<>(Arrays.asList(categorias.split("/")));
+
+        for(final String s : arr){
+            if(s != "" && !initial_arr.contains(s)){
+                Button btn = new Button(this);
+                btn.setTextSize(28);
+                btn.setText(s);
+                btn.setTextColor(getResources().getColor(android.R.color.white));
+                btn.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(0,0,0,30);
+                btn.setLayoutParams(lp);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startAct(s);
+                    }
+                });
+                layout_categorias.addView(btn);
+                initial_arr.add(s);
+            }
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        update_categorias();
     }
 
     @Override

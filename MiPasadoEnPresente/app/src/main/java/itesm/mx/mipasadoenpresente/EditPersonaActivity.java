@@ -112,7 +112,7 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
 
         SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
         String categorias = prefs.getString("categorias", "");
-        ArrayList<String> arr = new ArrayList<>(Arrays.asList(categorias.split(",")));
+        ArrayList<String> arr = new ArrayList<>(Arrays.asList(categorias.split("/")));
 
         for(final String s : arr){
             array_relacion.add(s);

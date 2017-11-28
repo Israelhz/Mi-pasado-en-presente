@@ -18,7 +18,7 @@ public class AgregarCategoriaActivity extends AppCompatActivity implements View.
     Button btn_agregar;
     SharedPreferences prefs;
     String categorias;
-    ArrayList<String> arr_categorias;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +30,6 @@ public class AgregarCategoriaActivity extends AppCompatActivity implements View.
         et_categoria = (EditText) findViewById(R.id.et_categoria);
 
         categorias = prefs.getString("categorias", "");
-
-        arr_categorias = new ArrayList<>(Arrays.asList(categorias.split(",")));
 
         btn_agregar.setOnClickListener(this);
     }
@@ -48,8 +46,7 @@ public class AgregarCategoriaActivity extends AppCompatActivity implements View.
             case R.id.btn_agregar:
                 if(!et_categoria.getText().toString().equals("")){
                     SharedPreferences.Editor editor = prefs.edit();
-                    arr_categorias.add(et_categoria.getText().toString());
-                    editor.putString("categorias",arr_categorias.toString());
+                    editor.putString("categorias",categorias + et_categoria.getText().toString() + "/");
                     editor.commit();
                     Toast.makeText(this, "Categoría agregada", Toast.LENGTH_LONG).show();
                     finish();
