@@ -15,11 +15,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +39,8 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
     private ImageView iv_imagenes, iv_expanded_image;
     private Button btn_zoom, btn_editar,btn_play;
     private TextView et_nombre, et_fecha, et_comentarios, tv_categoria;
+    private ImageButton ib_arrow_left;
+    private ImageButton ib_arrow_right;
 
     ArrayList<byte[]> list_imagenes_persona = new ArrayList<byte[]>();
 
@@ -90,28 +91,12 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
             }
         }
 
-
-        MyGestureListener myGestureListener = new MyGestureListener(getApplicationContext());
-        mDetector = new GestureDetectorCompat(this, myGestureListener);
-        iv_imagenes.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                mDetector.onTouchEvent(event);
-                return true;
-            }
-        });
-
-        iv_expanded_image.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                mDetector.onTouchEvent(event);
-                return true;
-            }
-        });
-
         checa_permisos();
         btn_editar.setOnClickListener(this);
         btn_zoom.setOnClickListener(this);
         btn_play.setOnClickListener(this);
-        iv_expanded_image.setOnClickListener(this);
+        ib_arrow_left.setOnClickListener(this);
+        ib_arrow_right.setOnClickListener(this);
     }
 
     private boolean checa_permisos() {
@@ -135,6 +120,9 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
         btn_editar = (Button) findViewById(R.id.btn_editar);
         btn_play = (Button) findViewById(R.id.btn_play);
         iv_expanded_image = (ImageView) findViewById(R.id.expanded_image);
+
+        ib_arrow_left = (ImageButton) findViewById(R.id.imageBtn_left);
+        ib_arrow_right = (ImageButton) findViewById(R.id.imageBtn_right);
     }
 
     @Override
@@ -147,6 +135,8 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
         if (!zoomed) {
             iv_expanded_image.setVisibility(View.VISIBLE);
             iv_imagenes.setVisibility(View.GONE);
+            ib_arrow_left.setVisibility(View.GONE);
+            ib_arrow_right.setVisibility(View.GONE);
             btn_zoom.setText("Reducir Imagen");
             zoomed = true;
             pAttacher = new PhotoViewAttacher(iv_expanded_image);
@@ -154,6 +144,8 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
         } else {
             iv_expanded_image.setVisibility(View.GONE);
             iv_imagenes.setVisibility(View.VISIBLE);
+            ib_arrow_left.setVisibility(View.VISIBLE);
+            ib_arrow_right.setVisibility(View.VISIBLE);
             btn_zoom.setText("Ampliar Imagen");
             zoomed = false;
         }
@@ -184,8 +176,23 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
                     }
                 }
                 break;
-            case R.id.expanded_image:
-                zoom();
+            case R.id.imageBtn_left:
+                Log.d("Arrow", "Left ");
+                indice = indice - 1;
+                if (indice < 0) {
+                    indice = list_imagenes_persona.size()-1;
+                }
+                setImagenPersona(indice);
+                break;
+            case R.id.imageBtn_right:
+                Log.d("Arrow", "Right ");
+                indice = indice + 1;
+                if (indice >= list_imagenes_persona.size()) {
+                    indice = 0;
+                }
+                setImagenPersona(indice);
+                break;
+            default:
                 break;
         }
     }
@@ -216,55 +223,5 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
         mediaPlayer.prepare();
         mediaPlayer.start();
 
-    }
-
-    public class MyGestureListener implements GestureDetector.OnGestureListener {
-        String LISTENER_TAG = "Listener: ";
-
-        public MyGestureListener(Context applicationContext) {
-        }
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public void onShowPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return false;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (e1.getX() > e2.getX()) {
-                indice = indice - 1;
-                if (indice < 0) {
-                    indice = list_imagenes_persona.size()-1;
-                }
-            }else if (e1.getX() < e2.getX()){
-                indice = indice + 1;
-                if (indice >= list_imagenes_persona.size()) {
-                    indice = 0;
-                }
-            }
-
-            setImagenPersona(indice);
-            return true;
-        }
     }
 }

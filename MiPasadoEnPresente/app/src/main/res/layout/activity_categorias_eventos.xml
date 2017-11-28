@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Nombre de la persona"
+            android:hint="Nombre del evento"
             android:inputType="textPersonName"
             android:layout_weight="0.82" />
 
