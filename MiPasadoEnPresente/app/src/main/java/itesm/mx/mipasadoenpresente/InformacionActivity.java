@@ -18,6 +18,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * Clase para la vista de imagenes personales
+ */
 public class InformacionActivity extends AppCompatActivity implements View.OnClickListener{
 
     Button btn_editar;
@@ -31,6 +34,10 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
     int indice = 0;
     GestureDetectorCompat mDetector;
 
+    /**
+     * Inicializa las vistas
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -58,6 +65,9 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
             btn_editar.setOnClickListener(this);
     }
 
+    /**
+     * Iniializa las vistas
+     */
     public void setViews(){
         btn_editar = (Button) findViewById(R.id.btn_editar);
         tv_nombre = (TextView) findViewById(R.id.tv_nombre);
@@ -66,6 +76,9 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
         iv_imagen = (ImageView) findViewById(R.id.iv_imagen);
     }
 
+    /**
+     * Actualiza los datos obteniendolos desde SharedPreferences
+     */
     public void setInfo(){
         SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
         String name = prefs.getString("nombre", "No se ha definido");//"No name defined" is the default value.
@@ -83,18 +96,29 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+    /**
+     * Agrega funcionalidad al botón de back'
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp(){
         finish();
         return true;
     }
 
+    /**
+     * Vuelve a actualizar textos despues de volver a la actividad
+     */
     @Override
     public void onResume(){
         setInfo();
         super.onResume();
     }
 
+    /**
+     * Maneja el clic de Editar mandandolo a una nueva actividad
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()){

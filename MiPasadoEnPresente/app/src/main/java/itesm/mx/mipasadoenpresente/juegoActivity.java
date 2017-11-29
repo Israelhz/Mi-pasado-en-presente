@@ -4,10 +4,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+/**
+ * Clase para la vista de juego
+ */
 public class juegoActivity extends AppCompatActivity {
 
     int cantPreguntas, dificultad;
     Boolean personas, eventos;
+
+    /**
+     * Inicializa vista con un fragmento de pregunta
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

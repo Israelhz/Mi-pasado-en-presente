@@ -5,10 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/**
- * Created by Jibril on 11/12/17.
- */
 
+/**
+ * Clase para crear la base de datos de Personas
+ */
 public class PersonaDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Persona.db";
@@ -20,6 +20,10 @@ public class PersonaDBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * Crea la base de datos de personas y personaimagen
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
 

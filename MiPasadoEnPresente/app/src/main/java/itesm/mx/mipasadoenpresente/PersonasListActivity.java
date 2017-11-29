@@ -12,6 +12,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+/**
+ * Clase par ala vista de lista de personas
+ */
 public class PersonasListActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String DEBUG_TAG = "PERSONAS_LIST";
@@ -21,6 +24,10 @@ public class PersonasListActivity extends AppCompatActivity implements View.OnCl
     private Button btn_agregar;
     private ListView listViewPersonas;
 
+    /**
+     * Inicializa las vistas
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,13 +46,19 @@ public class PersonasListActivity extends AppCompatActivity implements View.OnCl
         btn_agregar.setOnClickListener(this);
     }
 
+    /**
+     * Agrega funcionalidad al botón de back
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp(){
         finish();
         return true;
     }
 
-
+    /**
+     * Obtiene la lista de personas de la base de datos de acuerdo a su categoría
+     */
     private void setListViewPersonas() {
         Bundle data = getIntent().getExtras();
 
@@ -72,6 +85,9 @@ public class PersonasListActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
+    /**
+     * Vuelve a inicializar la lista de personas al volver
+     */
     @Override
     public void onResume() {
         personaOps.open();
@@ -80,6 +96,9 @@ public class PersonasListActivity extends AppCompatActivity implements View.OnCl
         Log.d(DEBUG_TAG, "onResume() has been called.");
     }
 
+    /**
+     * Cierra las operaciones al estar en pausa
+     */
     @Override
     public void onPause() {
         personaOps.close();
@@ -87,6 +106,10 @@ public class PersonasListActivity extends AppCompatActivity implements View.OnCl
         Log.d(DEBUG_TAG, "onPause() has been called.");
     }
 
+    /**
+     * Maneja el clic del botón de agregar
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch(v.getId()){

@@ -7,9 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * Created by juanc on 11/7/2017.
+ * Clase para inicializar la base de datos de eventos
  */
-
 public class EventoDBHelper extends SQLiteOpenHelper {
 
 
@@ -20,6 +19,10 @@ public class EventoDBHelper extends SQLiteOpenHelper {
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
 
+    /**
+     * Crea la base de datos de eventos y eventoImagen
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db){
         String CREATE_EVENTO_TABLE= "CREATE TABLE "+

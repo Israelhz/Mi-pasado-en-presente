@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+/**
+ * Clase para manejar la vista de seleccionar dificultad del juego
+ */
 public class dificultadActivity extends AppCompatActivity implements View.OnClickListener{
 
     Button btn_facil, btn_intermedio, btn_dificil, btn_comenzar, btn_menos, btn_mas, btn_configurar, btn_historial;
@@ -25,6 +28,11 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
     EventoOperations eventoOperations;
     PersonaOperations operations;
 
+    /**
+     * onCreate
+     * Inicializa los elementos de la pantalla
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +71,10 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
         btn_historial.setOnClickListener(this);
     }
 
+    /**
+     * Maneja los clics en la pantalla
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch(v.getId()){
@@ -78,7 +90,7 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
                 tv_dificultad.setText("Dificultad: Difícil");
                 dificultad = 3;
                 break;
-            case R.id.btn_comenzar:
+            case R.id.btn_comenzar: // Verifica que existan al menos 4 personas o 4 eventos para jugar
                 Boolean juego_personas = check_personas.isChecked();
                 Boolean juego_eventos = check_eventos.isChecked();
                 Boolean datos_validos = false;
@@ -114,24 +126,24 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
                     startActivity(juego_activity);
                 }
                 break;
-            case R.id.btn_menos:
+            case R.id.btn_menos: // Reduce la cantidad de preguntas
                 if(cantPreguntas > 1 && cantPreguntas < 15){
                     cantPreguntas--;
                 }
                 tv_cantPreguntas.setText(String.valueOf(cantPreguntas));
                 break;
-            case R.id.btn_mas:
+            case R.id.btn_mas: // Aumenta la cantidad de preguntas
 
                 if(cantPreguntas < 15){
                     cantPreguntas++;
                 }
                 tv_cantPreguntas.setText(String.valueOf(cantPreguntas));
                 break;
-            case R.id.btn_configurar:
+            case R.id.btn_configurar: // Inicializa actividad de configurar
                 Intent configurar_activity = new Intent(getApplicationContext(), ConfigurarJuegoActivity.class);
                 startActivity(configurar_activity);
                 break;
-            case R.id.btn_historial:
+            case R.id.btn_historial: // Inicializa actividad de historial
                 Intent historial_activity = new Intent(getApplicationContext(), HistorialActivity.class);
                 startActivity(historial_activity);
 

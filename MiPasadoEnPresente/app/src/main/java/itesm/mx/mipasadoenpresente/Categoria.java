@@ -1,7 +1,7 @@
 package itesm.mx.mipasadoenpresente;
 
 /**
- * Created by israel on 05/11/2017.
+ * C
  */
 
 public class Categoria {

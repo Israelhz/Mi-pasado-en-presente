@@ -13,9 +13,8 @@ import android.util.Log;
 import java.util.ArrayList;
 
 /**
- * Created by Jibril on 11/12/17.
+ * Clase para realizar operaciones sobre la base de datos de personas
  */
-
 public class PersonaOperations {
 
     private SQLiteDatabase db;
@@ -36,6 +35,7 @@ public class PersonaOperations {
 
     public void close() { db.close(); }
 
+    /** Añade una nueva persona a la base de datos **/
     public long addPersona(Persona persona) {
         long newRowId = 0;
         try {
@@ -58,12 +58,20 @@ public class PersonaOperations {
         return newRowId;
     }
 
+    /**
+     * Elimina base de datos de personas
+     */
     public void deletePersonas() {
 //        db.execSQL("delete from " + DataBaseSchema.PersonaTable.TABLE_NAME);
         db.execSQL("drop table " + DataBaseSchema.PersonaTable.TABLE_NAME);
         db.execSQL("drop database Persona");
     }
 
+    /**
+     * Obtiene a las personas de una categoria dada
+     * @param categoria
+     * @return
+     */
     public ArrayList<Persona> getPersonasByCategory(String categoria) {
 
         ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
@@ -96,6 +104,10 @@ public class PersonaOperations {
         return listaPersonas;
     }
 
+    /**
+     * Obtiene todas las personas de la base de datos
+     * @return
+     */
     public ArrayList<Persona> getAllPersonas() {
 
         ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
@@ -127,6 +139,11 @@ public class PersonaOperations {
         return listaPersonas;
     }
 
+    /**
+     * Obtiene a las personas que su nombre incluya el nombre que se pasa como parámetro
+     * @param name
+     * @return
+     */
     public ArrayList<Persona> getPersonasBySearch(String name) {
 
         ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
@@ -163,6 +180,11 @@ public class PersonaOperations {
         return listaPersonas;
     }
 
+    /**
+     * Elimina una persona por su nombre
+     * @param PersonaName
+     * @return
+     */
     public boolean deleteEvento(String PersonaName){
         boolean result=false;
 
@@ -184,6 +206,11 @@ public class PersonaOperations {
         return result;
     }
 
+    /**
+     * Obtiene una persona por medio de su id
+     * @param id
+     * @return
+     */
     public Persona getPersona(long id) {
         Persona persona = null;
         String query = "Select * FROM " + DataBaseSchema.PersonaTable.TABLE_NAME + " WHERE ROWID=" + id ;
@@ -211,6 +238,11 @@ public class PersonaOperations {
         return persona;
     }
 
+    /**
+     * Actualiza los datos de una persona incluyendo sus imagenes
+     * @param id
+     * @param persona
+     */
     public void updatePersona(long id, Persona persona){
         ContentValues cv = new ContentValues();
         cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_NOMBRE,persona.getNombre());
@@ -228,6 +260,12 @@ public class PersonaOperations {
         Log.d("UPDATE", "UPDATED!");
     }
 
+    /**
+     * Añade una nueva imagen a la persona
+     * @param imagen
+     * @param idPersona
+     * @return
+     */
     public long addPersonaImagen(byte[] imagen, long idPersona) {
         long newRowId = 0;
         try {
@@ -243,6 +281,12 @@ public class PersonaOperations {
         return newRowId;
     }
 
+    /**
+     * Verifica si la imagen ya existe
+     * @param imagen
+     * @param idPersona
+     * @return
+     */
     public Boolean existsPersonaImagen(byte[] imagen, long idPersona) {
 
         String query = "Select * FROM " + DataBaseSchema.PersonaImagenTable.TABLE_NAME + " WHERE " + DataBaseSchema.PersonaImagenTable.COLUMN_NAME_IDPERSONA + "=" + idPersona;
@@ -261,7 +305,11 @@ public class PersonaOperations {
         return false;
     }
 
-
+    /**
+     * Obtiene todas las imagenes de una persona
+     * @param idPersona
+     * @return
+     */
     public ArrayList<byte[]> getImagenes(long idPersona) {
         ArrayList<byte[]> imagenes = new ArrayList<byte[]>();
         long id = 0;

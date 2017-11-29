@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/**
+ * Clase para manejar la vista de seleccionar categoria de eventos
+ */
 public class CategoriasEventosActivity extends AppCompatActivity implements View.OnClickListener {
 
 
@@ -20,6 +23,11 @@ public class CategoriasEventosActivity extends AppCompatActivity implements View
     private ImageButton btnSearch;
     private TextView tvSearch;
 
+    /**
+     * OnCreate
+     * Inicializa los elementos de la pantalla
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,42 +47,67 @@ public class CategoriasEventosActivity extends AppCompatActivity implements View
         btnSearch.setOnClickListener(this);
     }
 
+    /**
+     * Añade funcionalidad al botón de regreso
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp(){
         finish();
         return true;
     }
 
+    /**
+     * Maneja los clics en la pantalla
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId())
         {
             case R.id.btn_personales:
-                getByPersonales();
+                getByPersonales(); // Obtiene los eventos personales
                 break;
             case R.id.btn_epoca:
-                getByEpoca();
+                getByEpoca(); // Obtiene los eventos de la epoca
                 break;
             case R.id.imageButton_search:
-                getBySearch();
+                getBySearch(); // Obtiene los eventos que contenga la busqueda
                 break;
         }
     }
 
+    /**
+     * getByPersonales
+     * Obtiene los eventos personales
+     */
     private void getByPersonales() {
         startAct("Personales");
         Log.d(DEBUG_TAG, "getByPersonales()");
     }
+
+    /**
+     * getByEpoca
+     * Obtiene los eventos de la época
+     */
     private void getByEpoca() {
         startAct("Epoca");
         Log.d(DEBUG_TAG, "getByEpoca()");
     }
 
+    /**
+     * getBySearch
+     * Obtiene los eventos según a busqueda
+     */
     private void getBySearch() {
         startAct("Search");
         Log.d(DEBUG_TAG, "getBySearch()");
     }
 
+    /**
+     * startAct
+     * Inicializa actividad de lista de eventos con la categoria correspondiente
+     */
     private void startAct(String category) {
         Intent intent = new Intent(getApplicationContext(), EventosListActivity.class);
         intent.putExtra("Category", category);

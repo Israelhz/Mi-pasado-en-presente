@@ -11,9 +11,8 @@ import android.util.Log;
 import java.util.ArrayList;
 
 /**
- * Created by israel on 07/11/2017.
+ * Clase para manejar la base de datos de imagenes personales
  */
-
 public class ImagenPersonalOperations {
 
     private SQLiteDatabase db;

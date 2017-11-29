@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+/**
+ * Clase para manejar la vista de configurar el juego
+ */
 public class ConfigurarJuegoActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView tv_audio;
@@ -18,6 +21,11 @@ public class ConfigurarJuegoActivity extends AppCompatActivity implements View.O
     int audio = 1;
     SharedPreferences prefs;
 
+    /**
+     * onCreate
+     * Inicializa los elementos de la pantalla
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +48,16 @@ public class ConfigurarJuegoActivity extends AppCompatActivity implements View.O
         btn_regresar.setOnClickListener(this);
     }
 
+    /**
+     * Actualiza el texto de sonido actual
+     */
     public void updateAudioLabel(){
         tv_audio.setText("Sonido actual: " + audio);
     }
 
+    /**
+     * Actualiza las preferencias del usuario con el nuevo sonido
+     */
     public void updatePreferences(){
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("audio",audio);
@@ -52,6 +66,9 @@ public class ConfigurarJuegoActivity extends AppCompatActivity implements View.O
                 Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Reproduce el sonido seleccionado
+     */
     public void playAudio(){
         int id = R.raw.correct;
         switch(audio){
@@ -69,6 +86,11 @@ public class ConfigurarJuegoActivity extends AppCompatActivity implements View.O
         player = MediaPlayer.create(this, id);
         player.start();
     }
+
+    /**
+     * Maneja los clics en la pantalla
+     * @param v la vista a la que se dio clic
+     */
     @Override
     public void onClick(View v) {
         switch(v.getId()){

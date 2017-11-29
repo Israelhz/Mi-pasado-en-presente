@@ -26,6 +26,9 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 import static android.widget.Toast.LENGTH_LONG;
 
+/**
+ * Clase para manejar la vista de información de evento
+ */
 public class EventoInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView iv_imagenes;
@@ -57,6 +60,10 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
     private long id_evento;
     private boolean existe = false;
 
+    /**
+     * Inicializa los elementos de la pantalla
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +107,9 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    /**
+     * Al volver a la actividad vuelve a actualizar el evento
+     */
     @Override
     public void onResume(){
         super.onResume();
@@ -118,6 +128,9 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
         audio_path = actual_evento.getAudio();
     }
 
+    /**
+     * Función para dar zoom a la imagen
+     */
     private void zoom() {
         if (!zoomed) {
             iv_expanded_image_event.setVisibility(View.VISIBLE);
@@ -137,6 +150,11 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
             zoomed = false;
         }
     }
+
+    /**
+     * Reproduce el audio
+     * @throws IOException
+     */
     public void play() throws IOException {
         Uri myUri = Uri.parse(audio_path); // initialize Uri here
         MediaPlayer mediaPlayer = new MediaPlayer();
@@ -146,6 +164,10 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
         mediaPlayer.start();
 
     }
+
+    /**
+     * Inicializa elementos de la pantalla
+     */
     public void setViews(){
         iv_imagenes = (ImageView) findViewById(R.id.iv_imagenes_evento);
         btn_editEvento = (Button) findViewById(R.id.btn_editar);
@@ -164,12 +186,20 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
         btn_audio = (Button) findViewById(R.id.btn_audio);
     }
 
+    /** Agrega funcionalidad al botón de Back
+     *
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp(){
         finish();
         return true;
     }
 
+    /**
+     * Maneja los clics en la pantalla
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -215,6 +245,10 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+    /**
+     * Cambia la imagen actual
+     * @param index
+     */
     public void setImagenEvento(int index){
         if(index >= 0){
             byte[] imagen = list_imagenes_evento.get(index);

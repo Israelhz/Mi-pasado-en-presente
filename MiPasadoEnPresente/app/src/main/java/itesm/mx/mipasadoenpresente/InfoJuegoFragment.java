@@ -18,7 +18,7 @@ import org.w3c.dom.Text;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragmento para mostrar la información de la persona después de contestar una pregunta
  */
 public class InfoJuegoFragment extends Fragment implements View.OnClickListener {
 
@@ -47,6 +47,17 @@ public class InfoJuegoFragment extends Fragment implements View.OnClickListener 
         // Required empty public constructor
     }
 
+    /**
+     * Devuelve una nueva instancia mandando los elementos de los parametros
+     * @param preguntas
+     * @param pregunta_actual
+     * @param dificultad
+     * @param respuesta
+     * @param correctas
+     * @param personas
+     * @param eventos
+     * @return
+     */
     public static InfoJuegoFragment newInstance(int preguntas, int pregunta_actual, int dificultad, long respuesta, int correctas, Boolean personas, Boolean eventos){
         InfoJuegoFragment fragment = new InfoJuegoFragment();
         Bundle bundle = new Bundle();
@@ -61,6 +72,13 @@ public class InfoJuegoFragment extends Fragment implements View.OnClickListener 
         return fragment;
     }
 
+    /**
+     * Inicializa elementos de la pantalla
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,6 +96,9 @@ public class InfoJuegoFragment extends Fragment implements View.OnClickListener 
         return view;
     }
 
+    /**
+     * Inicializa los parametros
+     */
     @Override
     public void onStart(){
         super.onStart();
@@ -99,6 +120,9 @@ public class InfoJuegoFragment extends Fragment implements View.OnClickListener 
 
     }
 
+    /**
+     * Actualiza los valores de los textos
+     */
     public void setInfo(){
         tv_nombre.setText("Nombre: " + persona.getNombre());
         tv_fecha.setText("Cumpleaños: " + persona.getFecha_cumpleanos());

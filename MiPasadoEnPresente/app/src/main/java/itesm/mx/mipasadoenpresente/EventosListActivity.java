@@ -12,9 +12,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 /**
- * Created by juanc on 11/13/2017.
+ * Clase para manejar la lista de eventos
  */
-
 public class EventosListActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EventoOperations EventoOps;
@@ -23,6 +22,10 @@ public class EventosListActivity extends AppCompatActivity implements View.OnCli
     private ListView listViewEventos;
     private static final String DEBUG_TAG = "EVENTOS_LIST";
 
+    /**
+     * Inicializa los elementos de la pantalla
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +43,19 @@ public class EventosListActivity extends AppCompatActivity implements View.OnCli
         btn_agregar.setOnClickListener(this);
     }
 
+    /**
+     * Agrega funcionalidad al botón de back
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp(){
         finish();
         return true;
     }
 
+    /**
+     * Obtiene información del intent y despliega la lista de eventos correspondiente
+     */
     private void setListViewEventos() {
         Bundle data = getIntent().getExtras();
 
@@ -68,6 +78,10 @@ public class EventosListActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
+    /**
+     * Actualiza lista de eventos al volver a la actividad
+     *
+     */
     @Override
     public void onResume() {
         EventoOps.open();
@@ -76,6 +90,9 @@ public class EventosListActivity extends AppCompatActivity implements View.OnCli
         Log.d(DEBUG_TAG, "onResume() has been called.");
     }
 
+    /**
+     * Cierra las operaciones mientras este en pausa
+     */
     @Override
     public void onPause() {
         EventoOps.close();
@@ -83,6 +100,10 @@ public class EventosListActivity extends AppCompatActivity implements View.OnCli
         Log.d(DEBUG_TAG, "onPause() has been called.");
     }
 
+    /**
+     * Maneja el evento de clic en agregar evento
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch(v.getId()){

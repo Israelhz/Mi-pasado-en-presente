@@ -1,9 +1,9 @@
 package itesm.mx.mipasadoenpresente;
 
-/**
- * Created by israel on 05/11/2017.
- */
 
+/**
+ * Clase para manejar las imagenes del usuario
+ */
 public class ImagenPersonal {
     private long id;
     private byte[] imagen;

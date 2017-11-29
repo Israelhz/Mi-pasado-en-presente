@@ -6,6 +6,9 @@ import java.util.ArrayList;
  * Created by israel on 05/11/2017.
  */
 
+/**
+ * Clase para usar los eventos
+ */
 public class Evento {
 
     private long id;

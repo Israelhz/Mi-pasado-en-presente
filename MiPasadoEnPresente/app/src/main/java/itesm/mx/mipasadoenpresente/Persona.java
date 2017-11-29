@@ -3,9 +3,8 @@ package itesm.mx.mipasadoenpresente;
 import java.util.ArrayList;
 
 /**
- * Created by israel on 05/11/2017.
+ * Clase para manejar a las personas
  */
-
 public class Persona {
 
     private long id;

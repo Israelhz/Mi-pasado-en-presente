@@ -44,9 +44,8 @@ import java.util.List;
 import static android.widget.Toast.LENGTH_LONG;
 
 /**
- * Created by juanc on 11/20/2017.
+ * Clase para manejar la vista de editar evento
  */
-
 public class EditEventoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String RECORD_TAG = "RECORDING";
@@ -81,6 +80,10 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
     File audiofile = null;
 
 
+    /**
+     * Inicializa los elementos de la pantalla
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,6 +164,10 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         btn_play.setOnClickListener(this);
     }
 
+    /**
+     * Verifica que tenga permisos para leer, escribir y grabar audio
+     * @return true si tiene los permisos
+     */
     private boolean checa_permisos() {
         Activity activity = this;
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
@@ -173,6 +180,9 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
     }
 
 
+    /**
+     * Inicializa elementos de la pantalla
+     */
     public void setViews(){
         iv_imagenes = (ImageView) findViewById(R.id.iv_imagenes_evento);
         btn_agregar = (Button) findViewById(R.id.btn_agregar_imagen_evento);
@@ -192,6 +202,7 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         btn_play = (Button) findViewById(R.id.btn_play);
     }
 
+    /** Inicia grabación de audio **/
     public void startRecording() throws IOException {
         btn_grabar.setText("Detener");
         recording = true;
@@ -212,6 +223,9 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         recorder.start();
     }
 
+    /**
+     * Detiene grabación de audio
+     */
     public void stopRecording() {
         btn_grabar.setText("Grabar");
         recording = false;
@@ -222,6 +236,10 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         addRecordingToMediaLibrary();
     }
 
+    /**
+     * Reproduce audio
+     * @throws IOException
+     */
     public void play() throws IOException {
         Uri myUri = Uri.parse(audio_path); // initialize Uri here
         MediaPlayer mediaPlayer = new MediaPlayer();
@@ -232,6 +250,9 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    /**
+     * Añade audio al dispositivo
+     */
     protected void addRecordingToMediaLibrary() {
         ContentValues values = new ContentValues(4);
         long current = System.currentTimeMillis();
@@ -250,13 +271,20 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         Toast.makeText(this, "Se ha grabado el sonido", Toast.LENGTH_LONG).show();
     }
 
-
+    /**
+     * Añade funcionalidad al botón de Back
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp(){
         finish();
         return true;
     }
 
+    /**
+     * Maneja los clics en la pantalla
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -338,6 +366,12 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    /**
+     * Maneja el evento de agregar imagen para obtener el archivo
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -362,6 +396,9 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+    /**
+     * Gesture listener personalizado para onFling en imagenes
+     */
     public class MyGestureListener implements GestureDetector.OnGestureListener {
         String LISTENER_TAG = "Listener: ";
 

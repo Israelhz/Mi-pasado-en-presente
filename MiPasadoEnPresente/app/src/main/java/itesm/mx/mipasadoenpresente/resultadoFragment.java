@@ -26,7 +26,7 @@ import static itesm.mx.mipasadoenpresente.R.id.et_nombre;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragmento usado para desplegar el resultado del juego
  */
 public class resultadoFragment extends Fragment implements View.OnClickListener {
 
@@ -42,6 +42,13 @@ public class resultadoFragment extends Fragment implements View.OnClickListener 
         // Required empty public constructor
     }
 
+    /**
+     * Crea una nueva instancia y manda los parametros dados
+     * @param correctas
+     * @param total
+     * @param dificultad
+     * @return
+     */
     public static resultadoFragment newInstance(int correctas, int total, int dificultad){
         resultadoFragment fragment = new resultadoFragment();
 
@@ -54,6 +61,9 @@ public class resultadoFragment extends Fragment implements View.OnClickListener 
         return fragment;
     }
 
+    /**
+     * Obtiene los parametros de respuestas y los despliega en pantalla, además los guarda en SharedPreferences
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onStart(){
@@ -107,6 +117,13 @@ public class resultadoFragment extends Fragment implements View.OnClickListener 
 
     }
 
+    /**
+     * Inicializa las vistas en pantalla
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

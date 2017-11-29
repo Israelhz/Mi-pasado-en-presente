@@ -12,13 +12,21 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Clase para la vista de agregar categoria
+ */
 public class AgregarCategoriaActivity extends AppCompatActivity implements View.OnClickListener{
 
-    EditText et_categoria;
-    Button btn_agregar;
-    SharedPreferences prefs;
-    String categorias;
+    EditText et_categoria; // Cuadro de texto para el nombre de categoria
+    Button btn_agregar; // Botón para agregar categorias
+    SharedPreferences prefs; // Para obtener las SharedPreferences
+    String categorias; // Para obtener las categorias actuales
 
+    /**
+     * OnCreate
+     * Inicializa los elementos de la pantalla y obtiene las categorias actuales
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +42,20 @@ public class AgregarCategoriaActivity extends AppCompatActivity implements View.
         btn_agregar.setOnClickListener(this);
     }
 
+    /**
+     * Añade funcionalidad al botón de Back en la barra de la app
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp(){
         finish();
         return true;
     }
 
+    /**
+     * Maneja el evento de click para el botón de agregar categoría
+     * @param v la vista a la que se dio clic
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()){
