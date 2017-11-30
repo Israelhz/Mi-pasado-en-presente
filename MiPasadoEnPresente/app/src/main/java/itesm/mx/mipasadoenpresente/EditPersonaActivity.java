@@ -265,7 +265,7 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
             case R.id.btn_play:
-                if(audio_path == ""){
+                if(audio_path.equals("")){
                     Toast.makeText(this, "No hay un sonido asociado", Toast.LENGTH_LONG).show();
                 }else{
                     try {

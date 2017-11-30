@@ -323,7 +323,7 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                 }
                 break;
             case R.id.btn_play:
-                if(audio_path == ""){
+                if(audio_path.equals("")){
                     Toast.makeText(this, "No hay un sonido asociado", Toast.LENGTH_LONG).show();
                 }else{
                     try {

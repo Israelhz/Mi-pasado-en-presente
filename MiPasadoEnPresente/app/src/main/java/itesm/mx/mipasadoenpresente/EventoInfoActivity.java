@@ -207,7 +207,7 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
                 zoom();
                 break;
             case R.id.btn_audio:
-                if(audio_path == ""){
+                if(audio_path.equals("")){
                     Toast.makeText(this, "No hay un sonido asociado", Toast.LENGTH_LONG).show();
                 }else{
                     try {
