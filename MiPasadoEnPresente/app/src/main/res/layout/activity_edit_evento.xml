@@ -78,11 +78,13 @@
             android:text="Categoria"
             android:textSize="18sp" />
 
-        <Spinner
-            android:id="@+id/spinner_relacion"
+        <TextView
+            android:id="@+id/tv_relacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.05" />
+            android:layout_weight="8.20"
+            android:text="relación"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvFechaEvento"

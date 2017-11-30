@@ -141,10 +141,12 @@ public class resultadoFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_volver:
+                getActivity().finish();
                 Intent dificultad_activity = new Intent(getContext(), dificultadActivity.class);
                 startActivity(dificultad_activity);
                 break;
             case R.id.btn_salir:
+                getActivity().finish();
                 Intent menu_intent = new Intent(getContext(), MainActivity.class);
                 startActivity(menu_intent);
                 break;

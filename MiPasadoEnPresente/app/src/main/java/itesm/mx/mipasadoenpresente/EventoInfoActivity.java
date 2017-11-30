@@ -220,6 +220,7 @@ public class EventoInfoActivity extends AppCompatActivity implements View.OnClic
                 }
                 break;
             case R.id.btn_editar:
+                finish();
                 Intent intent = new Intent(getApplicationContext(), EditEventoActivity.class);
                 intent.putExtra("ID", actual_evento.getId());
                 startActivity(intent);

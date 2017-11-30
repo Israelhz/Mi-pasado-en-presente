@@ -68,6 +68,7 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
     Bitmap bitmap;
     MediaRecorder recorder;
     ArrayList<byte[]> list_imagenes_persona = new ArrayList<byte[]>();
+    TextView tv_relacion;
 
     int indice = 0;
     GestureDetectorCompat mDetector;
@@ -87,7 +88,7 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
     MediaRecorder mediaRecorder ;
     File audiofile = null;
 
-
+    String categoria = "Todos";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,20 +145,23 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
 
                 setImagenPersona(list_imagenes_persona.size()-1);
                 et_nombre.setText(actual_persona.getNombre());
-                for(int i= 0; i < spinner.getAdapter().getCount(); i++)
-                {
-                    if(spinner.getItemAtPosition(i).toString().equalsIgnoreCase(actual_persona.getCategoria()));
-                    {
-                        spinner.setSelection(i);
-                        break;
-                    }
-                }
+                tv_relacion.setText(actual_persona.getCategoria());
                 et_fecha.setText(actual_persona.getFecha_cumpleanos());
                 et_comentarios.setText(actual_persona.getComentarios());
                 audio_path = actual_persona.getAudio();
 
                 Log.i("audio", " = " + actual_persona.getAudio());
                 existe = true;
+                spinner.setVisibility(View.GONE);
+            }else if(data.get("Categoria") != null){
+                btn_borrar.setVisibility(View.GONE);
+                if(!data.get("Categoria").equals("Todos")){
+                    spinner.setVisibility(View.GONE);
+                    tv_relacion.setText(data.getString("Categoria"));
+                    categoria = data.getString("Categoria");
+                }else{
+                    tv_relacion.setVisibility(View.GONE);
+                }
             }
         }
 
@@ -201,6 +205,7 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
         btn_grabar = (Button) findViewById(R.id.btn_grabar);
         btn_play = (Button) findViewById(R.id.btn_play);
         btn_borrar = (Button) findViewById(R.id.btn_borrar);
+        tv_relacion = (TextView) findViewById(R.id.tv_relacion);
     }
 
     @Override
@@ -226,7 +231,12 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                     String nombre = et_nombre.getText().toString();
                     String fecha = et_fecha.getText().toString();
                     String comentarios = et_comentarios.getText().toString();
-                    String relacion = spinner.getSelectedItem().toString();
+                    String relacion = "";
+                    if(categoria.equals("Todos")){
+                        relacion = spinner.getSelectedItem().toString();
+                    }else{
+                        relacion = categoria;
+                    }
 
                     Persona new_persona = new Persona(nombre, relacion, fecha, comentarios, list_imagenes_persona, audio_path);
                     if(existe){
@@ -268,12 +278,11 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
             case R.id.btn_borrar:
+                finish();
                 String nombre2 = et_nombre.getText().toString();
                 operations.deleteEvento(nombre2);
                 Toast.makeText(this, "Se han borrado los datos de la persona",
                         Toast.LENGTH_LONG).show();
-                Intent intent2 = new Intent(getApplicationContext(), CategoriasPersonasActivity.class);
-                startActivity(intent2);
                 break;
         }
     }

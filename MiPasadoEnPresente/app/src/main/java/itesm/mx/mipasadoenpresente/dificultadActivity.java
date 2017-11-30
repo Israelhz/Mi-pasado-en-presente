@@ -118,6 +118,7 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
                 if(!datos_validos){
                     Toast.makeText(this, message,Toast.LENGTH_SHORT).show();
                 }else {
+                    finish();
                     Intent juego_activity = new Intent(getApplicationContext(), juegoActivity.class);
                     juego_activity.putExtra("CantPreguntas", cantPreguntas);
                     juego_activity.putExtra("Dificultad", dificultad);

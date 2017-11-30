@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -79,6 +80,7 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
     MediaRecorder recorder;
     File audiofile = null;
 
+    TextView tv_relacion;
 
     /**
      * Inicializa los elementos de la pantalla
@@ -98,23 +100,6 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
 
         setViews();
 
-        array_categoria = new String[]{"Personales","Epoca"};
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, array_categoria);
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
-            }
-
-        });
 
         Bundle data = getIntent().getExtras();
 
@@ -125,14 +110,7 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                 list_imagenes_evento = actual_evento.getImagenes();
                 setImagenEvento(list_imagenes_evento.size()-1);
                 et_nombre.setText(actual_evento.getNombre());
-                for(int i= 0; i < spinner.getAdapter().getCount(); i++)
-                {
-                    if(spinner.getItemAtPosition(i).toString().equalsIgnoreCase(actual_evento.getCategoria()));
-                    {
-                        spinner.setSelection(i);
-                        break;
-                    }
-                }
+                tv_relacion.setText(actual_evento.getCategoria());
 
                 et_fecha.setText(actual_evento.getFecha());
                 et_lugar.setText(actual_evento.getLugar());
@@ -141,6 +119,9 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                 et_personasAsociadas.setText(actual_evento.getPersonas_asociadas());
                 audio_path = actual_evento.getAudio();
                 existe = true;
+            }else if(data.get("Categoria") != null){
+                tv_relacion.setText(data.getString("Categoria"));
+                btn_borrar.setVisibility(View.GONE);
             }
         }
 
@@ -195,7 +176,7 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         et_comentarios= (EditText) findViewById(R.id.et_comentarios);
         et_descripcion = (EditText) findViewById(R.id.et_descripcion);
         et_personasAsociadas = (EditText) findViewById(R.id.et_personas_asociadas);
-
+        tv_relacion = (TextView) findViewById(R.id.tv_relacion);
         btn_borrar = (Button) findViewById(R.id.btn_borrar);
 
         btn_grabar = (Button) findViewById(R.id.btn_grabar);
@@ -304,7 +285,7 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                     String lugar = et_lugar.getText().toString();
 
                     String descripcion = et_descripcion.getText().toString();
-                    String categoria = spinner.getSelectedItem().toString();
+                    String categoria = tv_relacion.getText().toString();
                     String comentarios = et_comentarios.getText().toString();
                     String personasAsociadas = et_personasAsociadas.getText().toString();
 
@@ -322,12 +303,11 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                 break;
 
             case R.id.btn_borrar:
+                finish();
                 String nombre2 = et_nombre.getText().toString();
                 operations.deleteEvento(nombre2);
                 Toast.makeText(this, "Se han borrado los datos del evento",
                         Toast.LENGTH_LONG).show();
-                Intent intent2 = new Intent(getApplicationContext(), CategoriasEventosActivity.class);
-                startActivity(intent2);
                 break;
             case R.id.btn_grabar:
                 try {

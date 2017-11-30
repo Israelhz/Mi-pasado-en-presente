@@ -23,7 +23,7 @@ public class PersonasListActivity extends AppCompatActivity implements View.OnCl
     private ArrayList<Persona> personasList;
     private Button btn_agregar;
     private ListView listViewPersonas;
-
+    private String categoria = "Todos";
     /**
      * Inicializa las vistas
      * @param savedInstanceState
@@ -69,6 +69,7 @@ public class PersonasListActivity extends AppCompatActivity implements View.OnCl
                 personasList = personaOps.getPersonasBySearch(String.valueOf(data.get("Search")));
             }
             if (!data.get("Category").equals("Todos") && !data.get("Category").equals("Search")){
+                categoria = data.getString("Category");
                 personasList = personaOps.getPersonasByCategory(String.valueOf(data.get("Category")));
             }
         }
@@ -115,6 +116,7 @@ public class PersonasListActivity extends AppCompatActivity implements View.OnCl
         switch(v.getId()){
             case R.id.btn_agregar:
                 Intent intent = new Intent(getApplicationContext(), EditPersonaActivity.class);
+                intent.putExtra("Categoria", categoria);
                 startActivity(intent);
                 break;
         }

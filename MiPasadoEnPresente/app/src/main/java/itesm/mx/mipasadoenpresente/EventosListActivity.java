@@ -21,7 +21,7 @@ public class EventosListActivity extends AppCompatActivity implements View.OnCli
     private Button btn_agregar;
     private ListView listViewEventos;
     private static final String DEBUG_TAG = "EVENTOS_LIST";
-
+    String categoria = "Todo";
     /**
      * Inicializa los elementos de la pantalla
      * @param savedInstanceState
@@ -64,6 +64,7 @@ public class EventosListActivity extends AppCompatActivity implements View.OnCli
                 EventosList = EventoOps.getEventosBySearch(String.valueOf(data.get("Search")));
             }else{
                 EventosList = EventoOps.getEventosByCategory(String.valueOf(data.get("Category")));
+                categoria = String.valueOf(data.get("Category"));
             }
         }
         EventoAdapter eventosAdapter = new EventoAdapter(this, EventosList);
@@ -109,6 +110,7 @@ public class EventosListActivity extends AppCompatActivity implements View.OnCli
         switch(v.getId()){
             case R.id.btn_agregar:
                 Intent intent = new Intent(getApplicationContext(), EditEventoActivity.class);
+                intent.putExtra("Categoria", categoria);
                 startActivity(intent);
                 break;
         }

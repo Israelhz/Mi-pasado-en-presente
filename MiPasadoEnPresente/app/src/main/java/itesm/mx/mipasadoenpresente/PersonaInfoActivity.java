@@ -171,6 +171,7 @@ public class PersonaInfoActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.btn_editar:
                 if (existe) {
+                    finish();
                     Intent intent_edit = new Intent(getApplicationContext(), EditPersonaActivity.class);//Edit mode
                     intent_edit.putExtra("ID", actual_persona.getId());
                     startActivity(intent_edit);

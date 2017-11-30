@@ -37,6 +37,8 @@ public class CategoriasPersonasActivity extends AppCompatActivity implements Vie
     private ArrayList<String> arr;
     private ArrayList<String> initial_arr;
     SharedPreferences prefs;
+
+    String categoria = "Todos";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,30 +165,37 @@ public class CategoriasPersonasActivity extends AppCompatActivity implements Vie
     }
     private void getByHermanos() {
         startAct("Hermano");
+        categoria="Hermano";
         Log.d(DEBUG_TAG, "getByHermanos()");
     }
     private void getByTios() {
         startAct("Tio");
+        categoria="Tio";
         Log.d(DEBUG_TAG, "getByTios()");
     }
     private void getBySobrinos() {
         startAct("Sobrino");
+        categoria="Sobrino";
         Log.d(DEBUG_TAG, "getBySobrinos()");
     }
     private void getByHijos() {
         startAct("Hijo");
+        categoria="Hijo";
         Log.d(DEBUG_TAG, "getByHijos()");
     }
     private void getByAmigos() {
         startAct("Amigo");
+        categoria="Amigo";
         Log.d(DEBUG_TAG, "getByAmigos()");
     }
     private void getByVecinos() {
         startAct("Vecino");
+        categoria="Vecino";
         Log.d(DEBUG_TAG, "getByVecinos()");
     }
     private void getBySearch() {
         startAct("Search");
+        categoria="Hermano";
         Log.d(DEBUG_TAG, "getBySearch()");
     }
 
