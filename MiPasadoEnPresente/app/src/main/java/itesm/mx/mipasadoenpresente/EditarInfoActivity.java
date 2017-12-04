@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,8 @@ public class EditarInfoActivity extends AppCompatActivity implements View.OnClic
     EditText et_comentario;
     ImageView iv_imagen;
     SharedPreferences prefs;
+    private ImageButton ib_arrow_left;
+    private ImageButton ib_arrow_right;
 
     byte[] byteArray;
     Bitmap bitmap;
@@ -69,17 +72,10 @@ public class EditarInfoActivity extends AppCompatActivity implements View.OnClic
         setViews();
         setInfo();
 
-        MyGestureListener myGestureListener = new MyGestureListener(getApplicationContext());
-        mDetector = new GestureDetectorCompat(this, myGestureListener);
-        iv_imagen.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                mDetector.onTouchEvent(event);
-                return true;
-            }
-        });;
-
         btn_guardar.setOnClickListener(this);
         btn_agregar_imagen.setOnClickListener(this);
+        ib_arrow_left.setOnClickListener(this);
+        ib_arrow_right.setOnClickListener(this);
     }
 
     public void setViews(){
@@ -89,6 +85,8 @@ public class EditarInfoActivity extends AppCompatActivity implements View.OnClic
         et_fecha = (EditText) findViewById(R.id.et_fecha);
         et_comentario = (EditText) findViewById(R.id.et_comentario);
         iv_imagen = (ImageView) findViewById(R.id.iv_imagenes);
+        ib_arrow_left = (ImageButton) findViewById(R.id.imageBtn_left);
+        ib_arrow_right = (ImageButton) findViewById(R.id.imageBtn_right);
 
     }
 
@@ -128,6 +126,24 @@ public class EditarInfoActivity extends AppCompatActivity implements View.OnClic
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Escoger imagen"), 1);
                 break;
+            case R.id.imageBtn_left:
+                if(listImagenesPersonales.size()>0){
+                    indice = indice - 1;
+                    if (indice < 0) {
+                        indice = listImagenesPersonales.size() - 1;
+                    }
+                    setImagenPersonalView(indice);
+                }
+                break;
+            case R.id.imageBtn_right:
+                if(listImagenesPersonales.size() > 0){
+                    indice = indice + 1;
+                    if (indice >= listImagenesPersonales.size()) {
+                        indice = 0;
+                    }
+                    setImagenPersonalView(indice);
+                }
+                break;
         }
     }
 
@@ -164,57 +180,6 @@ public class EditarInfoActivity extends AppCompatActivity implements View.OnClic
     public void setImagenPersonalView(int index){
         ImagenPersonal imagen = listImagenesPersonales.get(index);
         iv_imagen.setImageBitmap(BitmapFactory.decodeByteArray(imagen.getImagen(), 0, imagen.getImagen().length));
-    }
-
-
-    public class MyGestureListener implements GestureDetector.OnGestureListener {
-        String LISTENER_TAG = "Listener: ";
-
-        public MyGestureListener(Context applicationContext) {
-        }
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public void onShowPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return false;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (e1.getX() > e2.getX()) {
-                indice = indice - 1;
-                if (indice < 0) {
-                    indice = listImagenesPersonales.size()-1;
-                }
-            }else if (e1.getX() < e2.getX()){
-                indice = indice + 1;
-                if (indice >= listImagenesPersonales.size()) {
-                    indice = 0;
-                }
-            }
-
-            setImagenPersonalView(indice);
-            return true;
-        }
     }
 
 }

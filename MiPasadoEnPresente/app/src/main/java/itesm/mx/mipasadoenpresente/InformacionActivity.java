@@ -136,7 +136,7 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.imageBtn_left:
                 if(listImagenesPersonales.size()>0){
-                    indice = indice + 1;
+                    indice = indice - 1;
                     if (indice < 0) {
                         indice = listImagenesPersonales.size() - 1;
                     }

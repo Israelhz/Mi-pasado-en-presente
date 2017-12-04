@@ -34,6 +34,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -62,6 +63,8 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
 
     private Button btn_agregar, btn_guardar, btn_grabar, btn_play, btn_borrar;
     private EditText et_nombre, et_fecha, et_lugar, et_comentarios, et_descripcion, et_personasAsociadas;
+    private ImageButton ib_arrow_left;
+    private ImageButton ib_arrow_right;
 
     private Spinner spinner;
     byte[] byteArray;
@@ -132,15 +135,6 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         }
 
 
-        MyGestureListener myGestureListener = new MyGestureListener(getApplicationContext());
-        mDetector = new GestureDetectorCompat(this, myGestureListener);
-        iv_imagenes.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                mDetector.onTouchEvent(event);
-                return true;
-            }
-        });;
-
         if(!checa_permisos()){
             Toast.makeText(this, "La aplicacion puede no funcionar correctamente si no tiene los permisos adecuados", Toast.LENGTH_SHORT).show();
         }
@@ -151,6 +145,8 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
 
         btn_grabar.setOnClickListener(this);
         btn_play.setOnClickListener(this);
+        ib_arrow_left.setOnClickListener(this);
+        ib_arrow_right.setOnClickListener(this);
     }
 
     /**
@@ -189,6 +185,9 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
 
         btn_grabar = (Button) findViewById(R.id.btn_grabar);
         btn_play = (Button) findViewById(R.id.btn_play);
+
+        ib_arrow_left = (ImageButton) findViewById(R.id.imageBtn_left);
+        ib_arrow_right = (ImageButton) findViewById(R.id.imageBtn_right);
     }
 
     /** Inicia grabación de audio **/
@@ -348,6 +347,26 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                     }
                 }
                 break;
+            case R.id.imageBtn_left:
+                if(list_imagenes_evento.size()>0){
+                    indice = indice - 1;
+                    if (indice < 0) {
+                        indice = list_imagenes_evento.size() - 1;
+                    }
+                    setImagenEvento(indice);
+                }
+
+                break;
+            case R.id.imageBtn_right:
+                if(list_imagenes_evento.size() > 0){
+                    indice = indice + 1;
+                    if (indice >= list_imagenes_evento.size()) {
+                        indice = 0;
+                    }
+                    setImagenEvento(indice);
+                }
+
+                break;
         }
     }
 
@@ -389,56 +408,4 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    /**
-     * Gesture listener personalizado para onFling en imagenes
-     */
-    public class MyGestureListener implements GestureDetector.OnGestureListener {
-        String LISTENER_TAG = "Listener: ";
-
-        public MyGestureListener(Context applicationContext) {
-        }
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public void onShowPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return false;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (e1.getX() > e2.getX()) {
-                indice = indice - 1;
-                if (indice < 0) {
-                    indice = list_imagenes_evento.size()-1;
-                }
-            }else if (e1.getX() < e2.getX()){
-                indice = indice + 1;
-                if (indice >= list_imagenes_evento.size()) {
-                    indice = 0;
-                }
-            }
-
-            setImagenEvento(indice);
-            return true;
-        }
-    }
 }

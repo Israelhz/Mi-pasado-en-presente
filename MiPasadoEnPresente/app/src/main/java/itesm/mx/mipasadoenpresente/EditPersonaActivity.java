@@ -37,6 +37,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -93,6 +94,9 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
     String AudioSavePathInDevice = null;
     MediaRecorder mediaRecorder ;
     File audiofile = null;
+
+    private ImageButton ib_arrow_left;
+    private ImageButton ib_arrow_right;
 
     String categoria = "Todos";
     @Override
@@ -172,21 +176,14 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
         }
 
 
-        MyGestureListener myGestureListener = new MyGestureListener(getApplicationContext());
-        mDetector = new GestureDetectorCompat(this, myGestureListener);
-        iv_imagenes.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                mDetector.onTouchEvent(event);
-                return true;
-            }
-        });;
-
         checa_permisos();
         btn_guardar.setOnClickListener(this);
         btn_agregar.setOnClickListener(this);
         btn_grabar.setOnClickListener(this);
         btn_play.setOnClickListener(this);
         btn_borrar.setOnClickListener(this);
+        ib_arrow_left.setOnClickListener(this);
+        ib_arrow_right.setOnClickListener(this);
     }
 
     private boolean checa_permisos() {
@@ -212,6 +209,8 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
         btn_play = (Button) findViewById(R.id.btn_play);
         btn_borrar = (Button) findViewById(R.id.btn_borrar);
         tv_relacion = (TextView) findViewById(R.id.tv_relacion);
+        ib_arrow_left = (ImageButton) findViewById(R.id.imageBtn_left);
+        ib_arrow_right = (ImageButton) findViewById(R.id.imageBtn_right);
     }
 
     @Override
@@ -288,6 +287,24 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                 operations.deleteEvento(id_persona);
                 Toast.makeText(this, "Se han borrado los datos de la persona",
                         Toast.LENGTH_LONG).show();
+                break;
+            case R.id.imageBtn_left:
+                if(list_imagenes_persona.size()>0){
+                    indice = indice - 1;
+                    if (indice < 0) {
+                        indice = list_imagenes_persona.size() - 1;
+                    }
+                    setImagenPersona(indice);
+                }
+                break;
+            case R.id.imageBtn_right:
+                if(list_imagenes_persona.size() > 0){
+                    indice = indice + 1;
+                    if (indice >= list_imagenes_persona.size()) {
+                        indice = 0;
+                    }
+                    setImagenPersona(indice);
+                }
                 break;
         }
     }
@@ -399,54 +416,5 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    public class MyGestureListener implements GestureDetector.OnGestureListener {
-        String LISTENER_TAG = "Listener: ";
-
-        public MyGestureListener(Context applicationContext) {
-        }
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public void onShowPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return false;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (e1.getX() > e2.getX()) {
-                indice = indice - 1;
-                if (indice < 0) {
-                    indice = list_imagenes_persona.size()-1;
-                }
-            }else if (e1.getX() < e2.getX()){
-                indice = indice + 1;
-                if (indice >= list_imagenes_persona.size()) {
-                    indice = 0;
-                }
-            }
-
-            setImagenPersona(indice);
-            return true;
-        }
-    }
 
 }
