@@ -325,13 +325,20 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void stopRecording() {
-        btn_grabar.setText("Grabar");
-        recording = false;
-        //stopping recorder
-        recorder.stop();
-        recorder.release();
-        //after stopping the recorder, create the sound file and add it to media library.
-        addRecordingToMediaLibrary();
+
+        try {
+            btn_grabar.setText("Grabar");
+            recording = false;
+            //stopping recorder
+            recorder.stop();
+            recorder.release();
+            //after stopping the recorder, create the sound file and add it to media library.
+            addRecordingToMediaLibrary();
+        } catch (Exception e) {
+            Toast.makeText(this, "Sonido no grabado. No hay permisos de acceso. Favor de habilitar los permisos necesarios en ajustes.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
     }
 
     public void play() throws IOException {

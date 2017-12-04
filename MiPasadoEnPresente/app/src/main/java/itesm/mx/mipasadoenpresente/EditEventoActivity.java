@@ -135,7 +135,9 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
             }
         });;
 
-        checa_permisos();
+        if(!checa_permisos()){
+            Toast.makeText(this, "La aplicacion puede no funcionar correctamente si no tiene los permisos adecuados", Toast.LENGTH_SHORT).show();
+        }
         btn_guardar.setOnClickListener(this);
         btn_agregar.setOnClickListener(this);
 
@@ -208,13 +210,19 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
      * Detiene grabación de audio
      */
     public void stopRecording() {
-        btn_grabar.setText("Grabar");
-        recording = false;
-        //stopping recorder
-        recorder.stop();
-        recorder.release();
-        //after stopping the recorder, create the sound file and add it to media library.
-        addRecordingToMediaLibrary();
+        try {
+
+            btn_grabar.setText("Grabar");
+            recording = false;
+            //stopping recorder
+            recorder.stop();
+            recorder.release();
+            //after stopping the recorder, create the sound file and add it to media library.
+            addRecordingToMediaLibrary();
+        } catch (Exception e) {
+            Toast.makeText(this, "Sonido no grabado. No hay permisos de acceso. Favor de habilitar los permisos necesarios en ajustes.", Toast.LENGTH_LONG).show();
+            return;
+        }
     }
 
     /**
@@ -248,8 +256,8 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
 
         audio_path = newUri.toString();
 
-        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, newUri));
-        Toast.makeText(this, "Se ha grabado el sonido", Toast.LENGTH_LONG).show();
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, newUri));
+            Toast.makeText(this, "Se ha grabado el sonido", Toast.LENGTH_LONG).show();
     }
 
     /**
