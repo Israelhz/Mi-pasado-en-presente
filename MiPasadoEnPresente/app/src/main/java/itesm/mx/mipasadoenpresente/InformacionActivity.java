@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.icu.text.IDNA;
+import android.media.Image;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -90,6 +91,8 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
 
         if (listImagenesPersonales.size() > 0){
             setImagenPersonalView(0);
+        }else{
+            listImagenesPersonales = new ArrayList<ImagenPersonal>();
         }
 
     }
@@ -126,19 +129,25 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.imageBtn_left:
-                indice = indice + 1;
-                if (indice >= listImagenesPersonales.size()) {
-                    indice = 0;
+                if(listImagenesPersonales.size()>0){
+                    indice = indice + 1;
+                    if (indice < 0) {
+                        indice = listImagenesPersonales.size() - 1;
+                    }
+                    setImagenPersonalView(indice);
                 }
-                setImagenPersonalView(indice);
+
                 break;
 
             case R.id.imageBtn_right:
-                indice = indice + 1;
-                if (indice >= listImagenesPersonales.size()) {
-                    indice = 0;
+                if(listImagenesPersonales.size() > 0){
+                    indice = indice + 1;
+                    if (indice >= listImagenesPersonales.size()) {
+                        indice = 0;
+                    }
+                    setImagenPersonalView(indice);
                 }
-                setImagenPersonalView(indice);
+
                 break;
         }
     }

@@ -182,28 +182,21 @@ public class PersonaOperations {
 
     /**
      * Elimina una persona por su nombre
-     * @param PersonaName
+     * @param idPersona
      * @return
      */
-    public boolean deleteEvento(String PersonaName){
-        boolean result=false;
+    public void deleteEvento(long idPersona){
+        String query="DELETE FROM "+DataBaseSchema.PersonaTable.TABLE_NAME+
+                " WHERE " + DataBaseSchema.PersonaTable._ID +
+                " = \"" + idPersona + "\"";
 
-        String query="SELECT * FROM "+DataBaseSchema.PersonaTable.TABLE_NAME+
-                " WHERE " + DataBaseSchema.EventoTable.COLUMN_NAME_NOMBRE +
-                " = \"" + PersonaName + "\"";
+        db.execSQL(query);
 
-        try{
-            Cursor cursor = db.rawQuery(query, null);
-            if(cursor.moveToFirst()){
-                int id = Integer.parseInt(cursor.getString(0));
-                db.delete(DataBaseSchema.PersonaTable.TABLE_NAME,DataBaseSchema.PersonaTable._ID + "= ?", new String[]{String.valueOf(id)});
-                result = true;
-            }
-            cursor.close();
-        } catch(SQLiteException e){
-            Log.e("SQLDELETE",e.toString());
-        }
-        return result;
+        query = "DELETE FROM " + DataBaseSchema.PersonaImagenTable.TABLE_NAME +
+                " WHERE " + DataBaseSchema.PersonaImagenTable.COLUMN_NAME_IDPERSONA +
+                " = \"" + idPersona + "\"";
+
+        db.execSQL(query);
     }
 
     /**

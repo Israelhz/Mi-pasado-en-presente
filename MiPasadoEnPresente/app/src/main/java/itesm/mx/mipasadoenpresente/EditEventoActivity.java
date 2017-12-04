@@ -304,8 +304,7 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
 
             case R.id.btn_borrar:
                 finish();
-                String nombre2 = et_nombre.getText().toString();
-                operations.deleteEvento(nombre2);
+                operations.deleteEvento(id_evento);
                 Toast.makeText(this, "Se han borrado los datos del evento",
                         Toast.LENGTH_LONG).show();
                 break;

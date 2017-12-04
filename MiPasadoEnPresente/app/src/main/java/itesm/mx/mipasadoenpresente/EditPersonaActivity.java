@@ -279,8 +279,7 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.btn_borrar:
                 finish();
-                String nombre2 = et_nombre.getText().toString();
-                operations.deleteEvento(nombre2);
+                operations.deleteEvento(id_persona);
                 Toast.makeText(this, "Se han borrado los datos de la persona",
                         Toast.LENGTH_LONG).show();
                 break;

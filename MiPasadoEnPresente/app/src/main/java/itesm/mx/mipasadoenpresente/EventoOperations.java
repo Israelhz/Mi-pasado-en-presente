@@ -97,25 +97,18 @@ public class EventoOperations {
         return listaEventos;
     }
 
-    public boolean deleteEvento(String EventoName){
-        boolean result=false;
+    public void deleteEvento(long idEvento){
+        String query="DELETE FROM "+DataBaseSchema.EventoTable.TABLE_NAME+
+                " WHERE " + DataBaseSchema.EventoTable._ID +
+                " = \"" + idEvento + "\"";
 
-        String query="SELECT * FROM "+DataBaseSchema.EventoTable.TABLE_NAME+
-                " WHERE " + DataBaseSchema.EventoTable.COLUMN_NAME_NOMBRE +
-                " = \"" + EventoName + "\"";
+        db.execSQL(query);
 
-        try{
-            Cursor cursor = db.rawQuery(query, null);
-            if(cursor.moveToFirst()){
-                int id = Integer.parseInt(cursor.getString(0));
-                db.delete(DataBaseSchema.EventoTable.TABLE_NAME,DataBaseSchema.EventoTable._ID + "= ?", new String[]{String.valueOf(id)});
-                result = true;
-            }
-            cursor.close();
-        } catch(SQLiteException e){
-            Log.e("SQLDELETE",e.toString());
-        }
-        return result;
+        query = "DELETE FROM " + DataBaseSchema.EventoImagenTable.TABLE_NAME +
+                " WHERE " + DataBaseSchema.EventoImagenTable.COLUMN_NAME_IDEVENTO +
+                " = \"" + idEvento + "\"";
+
+        db.execSQL(query);
     }
 
     public ArrayList<Evento> getAllEventos() {
