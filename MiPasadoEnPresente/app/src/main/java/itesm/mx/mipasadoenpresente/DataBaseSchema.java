@@ -1,3 +1,9 @@
+/*
+*    Mi-pasado-en-presente
+*    Copyright (C) 2017
+*
+*    Full disclosure can be found at the LICENSE file in the root folder of the GitHub repository.
+*/
 package itesm.mx.mipasadoenpresente;
 
 import android.provider.BaseColumns;
