@@ -13,6 +13,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +35,9 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
     int indice = 0;
     GestureDetectorCompat mDetector;
 
+    private ImageButton ib_arrow_left;
+    private ImageButton ib_arrow_right;
+
     /**
      * Inicializa las vistas
      * @param savedInstanceState
@@ -52,17 +56,9 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
             setInfo();
 
 
-            InformacionActivity.MyGestureListener myGestureListener = new InformacionActivity.MyGestureListener(getApplicationContext());
-            mDetector = new GestureDetectorCompat(this, myGestureListener);
-            iv_imagen.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    mDetector.onTouchEvent(event);
-                    return true;
-                }
-            });;
-
-
             btn_editar.setOnClickListener(this);
+            ib_arrow_left.setOnClickListener(this);
+            ib_arrow_right.setOnClickListener(this);
     }
 
     /**
@@ -74,6 +70,8 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
         tv_fecha = (TextView) findViewById(R.id.tv_fecha);
         tv_comentario = (TextView) findViewById(R.id.tv_comentario);
         iv_imagen = (ImageView) findViewById(R.id.iv_imagen);
+        ib_arrow_left = (ImageButton) findViewById(R.id.imageBtn_left);
+        ib_arrow_right = (ImageButton) findViewById(R.id.imageBtn_right);
     }
 
     /**
@@ -126,6 +124,22 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
                 Intent editar_info_activity = new Intent(getApplicationContext(), EditarInfoActivity.class);
                 startActivity(editar_info_activity);
                 break;
+
+            case R.id.imageBtn_left:
+                indice = indice + 1;
+                if (indice >= listImagenesPersonales.size()) {
+                    indice = 0;
+                }
+                setImagenPersonalView(indice);
+                break;
+
+            case R.id.imageBtn_right:
+                indice = indice + 1;
+                if (indice >= listImagenesPersonales.size()) {
+                    indice = 0;
+                }
+                setImagenPersonalView(indice);
+                break;
         }
     }
 
@@ -134,53 +148,5 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
         iv_imagen.setImageBitmap(BitmapFactory.decodeByteArray(imagen.getImagen(), 0, imagen.getImagen().length));
     }
 
-    public class MyGestureListener implements GestureDetector.OnGestureListener {
-        String LISTENER_TAG = "Listener: ";
 
-        public MyGestureListener(Context applicationContext) {
-        }
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public void onShowPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return false;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (e1.getX() > e2.getX()) {
-                indice = indice - 1;
-                if (indice < 0) {
-                    indice = listImagenesPersonales.size()-1;
-                }
-            }else if (e1.getX() < e2.getX()){
-                indice = indice + 1;
-                if (indice >= listImagenesPersonales.size()) {
-                    indice = 0;
-                }
-            }
-
-            setImagenPersonalView(indice);
-            return true;
-        }
-    }
 }
