@@ -7,6 +7,8 @@
 package itesm.mx.mipasadoenpresente;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -67,6 +69,8 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
         check_eventos = (CheckBox) findViewById(R.id.check_eventos);
         btn_historial = (Button) findViewById(R.id.btn_historial);
 
+        btn_facil.setBackgroundColor(Color.parseColor("#FF99CC00"));
+
         tv_cantPreguntas.setText(String.valueOf(cantPreguntas));
         btn_facil.setOnClickListener(this);
         btn_intermedio.setOnClickListener(this);
@@ -99,14 +103,23 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
             case R.id.btn_facil:
                 dificultad = 1;
                 tv_dificultad.setText("Dificultad: Fácil");
+                btn_facil.setBackgroundColor(Color.parseColor("#FF99CC00"));
+                btn_intermedio.setBackgroundColor(Color.parseColor("#FF33B5E5"));
+                btn_dificil.setBackgroundColor(Color.parseColor("#FF33B5E5"));
                 break;
             case R.id.btn_intermedio:
                 tv_dificultad.setText("Dificultad: Intermedia");
                 dificultad = 2;
+                btn_intermedio.setBackgroundColor(Color.parseColor("#FF99CC00"));
+                btn_facil.setBackgroundColor(Color.parseColor("#FF33B5E5"));
+                btn_dificil.setBackgroundColor(Color.parseColor("#FF33B5E5"));
                 break;
             case R.id.btn_dificil:
                 tv_dificultad.setText("Dificultad: Difícil");
                 dificultad = 3;
+                btn_dificil.setBackgroundColor(Color.parseColor("#FF99CC00"));
+                btn_intermedio.setBackgroundColor(Color.parseColor("#FF33B5E5"));
+                btn_facil.setBackgroundColor(Color.parseColor("#FF33B5E5"));
                 break;
             case R.id.btn_comenzar: // Verifica que existan al menos 4 personas o 4 eventos para jugar
                 Boolean juego_personas = check_personas.isChecked();
