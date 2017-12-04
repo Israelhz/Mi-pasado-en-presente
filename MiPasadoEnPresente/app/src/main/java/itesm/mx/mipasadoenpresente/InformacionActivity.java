@@ -26,6 +26,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 /**
  * Clase para la vista de imagenes personales
  */
@@ -44,6 +46,10 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
 
     private ImageButton ib_arrow_left;
     private ImageButton ib_arrow_right;
+    private Button btn_zoom;
+    private ImageView iv_expanded_image;
+    private boolean zoomed = false;
+    PhotoViewAttacher pAttacher;
 
     /**
      * Inicializa las vistas
@@ -66,6 +72,7 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
             btn_editar.setOnClickListener(this);
             ib_arrow_left.setOnClickListener(this);
             ib_arrow_right.setOnClickListener(this);
+            btn_zoom.setOnClickListener(this);
     }
 
     /**
@@ -79,6 +86,8 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
         iv_imagen = (ImageView) findViewById(R.id.iv_imagen);
         ib_arrow_left = (ImageButton) findViewById(R.id.imageBtn_left);
         ib_arrow_right = (ImageButton) findViewById(R.id.imageBtn_right);
+        btn_zoom = (Button) findViewById(R.id.btn_ampliar_imagen);
+        iv_expanded_image = (ImageView) findViewById(R.id.expanded_image);
     }
 
     /**
@@ -155,12 +164,40 @@ public class InformacionActivity extends AppCompatActivity implements View.OnCli
                 }
 
                 break;
+            case R.id.btn_ampliar_imagen:
+                zoom();
+                break;
+        }
+    }
+
+    /**
+     * Función para dar zoom a la imagen
+     */
+    private void zoom() {
+        if (!zoomed) {
+            iv_expanded_image.setVisibility(View.VISIBLE);
+            iv_imagen.setVisibility(View.GONE);
+            ib_arrow_left.setVisibility(View.GONE);
+            ib_arrow_right.setVisibility(View.GONE);
+            btn_zoom.setText("Reducir Imagen");
+            zoomed = true;
+            pAttacher = new PhotoViewAttacher(iv_expanded_image);
+            pAttacher.update();
+        } else {
+            iv_expanded_image.setVisibility(View.GONE);
+            iv_imagen.setVisibility(View.VISIBLE);
+            ib_arrow_left.setVisibility(View.VISIBLE);
+            ib_arrow_right.setVisibility(View.VISIBLE);
+            btn_zoom.setText("Ampliar Imagen");
+            zoomed = false;
         }
     }
 
     public void setImagenPersonalView(int index){
         ImagenPersonal imagen = listImagenesPersonales.get(index);
         iv_imagen.setImageBitmap(BitmapFactory.decodeByteArray(imagen.getImagen(), 0, imagen.getImagen().length));
+        iv_expanded_image.setImageBitmap(BitmapFactory.decodeByteArray(imagen.getImagen(), 0, imagen.getImagen().length));
+
     }
 
 

@@ -58,7 +58,15 @@
             android:layout_marginRight="30dp"
             android:layout_weight="0.21"
             android:orientation="vertical">
-
+            <Button
+                android:id="@+id/btn_ampliar_imagen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:text="Ampliar Imagen"
+                android:textColor="@android:color/background_light"
+                android:textSize="24sp"
+                android:layout_weight="0.32" />
             <TextView
                 android:id="@+id/tag_nombre"
                 android:layout_width="match_parent"
