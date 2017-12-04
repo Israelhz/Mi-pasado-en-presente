@@ -276,11 +276,11 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                 startActivityForResult(Intent.createChooser(intent, "Escoger imagen"), AGREGAR_IMAGEN);
                 break;
             case R.id.btn_guardar:
-                if(et_nombre.getText().toString().equals("") || list_imagenes_evento.size() == 0){
+                if(et_nombre.getText().toString().trim().equals("") || list_imagenes_evento.size() == 0){
                     Toast.makeText(this, "El nombre y  la imagen no pueden estar vacíos",
                             LENGTH_LONG).show();
                 }else{
-                    String nombre = et_nombre.getText().toString();
+                    String nombre = et_nombre.getText().toString().trim();
                     String fecha = et_fecha.getText().toString();
                     String lugar = et_lugar.getText().toString();
 
