@@ -30,6 +30,7 @@ public class ConfigurarJuegoActivity extends AppCompatActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configurar_juego);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btn_opcion1 = (Button) findViewById(R.id.btn_sonido1);
         btn_opcion2 = (Button) findViewById(R.id.btn_sonido2);
@@ -46,6 +47,16 @@ public class ConfigurarJuegoActivity extends AppCompatActivity implements View.O
         btn_opcion2.setOnClickListener(this);
         btn_opcion3.setOnClickListener(this);
         btn_regresar.setOnClickListener(this);
+    }
+
+    /**
+     * Añade funcionalidad al botón de Back en la barra de la app
+     * @return
+     */
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     /**

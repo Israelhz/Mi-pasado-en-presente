@@ -37,6 +37,7 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dificultad);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         operations = new PersonaOperations(this);
         operations.open();
@@ -70,6 +71,17 @@ public class dificultadActivity extends AppCompatActivity implements View.OnClic
         btn_configurar.setOnClickListener(this);
         btn_historial.setOnClickListener(this);
     }
+
+    /**
+     * Añade funcionalidad al botón de Back en la barra de la app
+     * @return
+     */
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
+
 
     /**
      * Maneja los clics en la pantalla

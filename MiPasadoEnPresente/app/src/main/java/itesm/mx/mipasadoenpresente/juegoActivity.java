@@ -1,5 +1,6 @@
 package itesm.mx.mipasadoenpresente;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,4 +39,16 @@ public class juegoActivity extends AppCompatActivity {
             transact.commit();
         }
     }
+
+    /**
+     * Añade funcionalidad al botón de Back en la barra de la app
+     * @return
+     */
+    @Override
+    public void onBackPressed(){
+        finish();
+        Intent dificultad_activity = new Intent(getApplicationContext(), dificultadActivity.class);
+        startActivity(dificultad_activity);
+    }
+
 }

@@ -39,7 +39,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:layout_weight="0.01"
-        android:text="Selecciona la categoria"
+        android:text="Selecciona la categoría"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold" />
