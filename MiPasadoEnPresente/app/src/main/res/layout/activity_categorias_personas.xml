@@ -147,7 +147,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.05"
-        android:background="@android:color/holo_red_light"
+        android:background="@android:color/holo_green_light"
         android:text="Agregar categoría"
         android:textColor="@android:color/background_light"
         android:textSize="30sp" />
