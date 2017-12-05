@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
+import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -391,21 +393,43 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         {
             switch(requestCode){
                 case AGREGAR_IMAGEN:
+
                     Uri selectedimg = data.getData();
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        byteArray = stream.toByteArray();
-                        list_imagenes_evento.add(byteArray);
-                        setImagenEvento(list_imagenes_evento.size()-1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Log.i("SELECTEDIMAGE", "=" + selectedimg);
+
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+                    bitmap = getResizedBitmap(200,200,selectedimg.toString());
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byteArray = stream.toByteArray();
+                    list_imagenes_evento.add(byteArray);
+                    setImagenEvento(list_imagenes_evento.size()-1);
                     break;
             }
 
         }
+    }
+
+    public Bitmap getResizedBitmap(int targetW, int targetH,  String imagePath) {
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        //inJustDecodeBounds = true <-- will not load the bitmap into memory
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePath, bmOptions);
+        return(bitmap);
     }
 
 }
