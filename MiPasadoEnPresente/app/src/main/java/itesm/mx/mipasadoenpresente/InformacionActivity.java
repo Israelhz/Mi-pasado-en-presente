@@ -2,6 +2,7 @@
 *    Mi-pasado-en-presente
 *    Copyright (C) 2017
 *
+*    Using Photoview library to zoom images
 *    Full disclosure can be found at the LICENSE file in the root folder of the GitHub repository.
 */
 package itesm.mx.mipasadoenpresente;
