@@ -205,6 +205,14 @@ public class PersonaOperations {
         db.execSQL(query);
     }
 
+    public void deleteImagens(long idPersona) {
+        String query;
+        query = "DELETE FROM " + DataBaseSchema.PersonaImagenTable.TABLE_NAME +
+                " WHERE " + DataBaseSchema.PersonaImagenTable.COLUMN_NAME_IDPERSONA +
+                " = \"" + idPersona + "\"";
+
+        db.execSQL(query);
+    }
     /**
      * Obtiene una persona por medio de su id
      * @param id
@@ -250,9 +258,8 @@ public class PersonaOperations {
         cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_COMENTARIOS,persona.getComentarios());
         cv.put(DataBaseSchema.PersonaTable.COLUMN_NAME_AUDIO,persona.getAudio());
 
-        ArrayList<byte[]> current_images = getImagenes(persona.getId());
+        deleteImagens(id);//Avoids duplication of images.
         for(byte[] imagen : persona.getImagenes()){
-            if(!current_images.contains(imagen))
                 addPersonaImagen(imagen, id);
         }
         db.update(DataBaseSchema.PersonaTable.TABLE_NAME, cv, "ROWID=" + id, null);
