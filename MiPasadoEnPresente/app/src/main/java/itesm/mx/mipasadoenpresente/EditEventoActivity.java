@@ -42,6 +42,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -303,7 +306,7 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                     String categoria = tv_relacion.getText().toString();
                     String comentarios = et_comentarios.getText().toString();
                     String personasAsociadas = et_personasAsociadas.getText().toString();
-
+                    Log.d("NumOfIma", "I: " + list_imagenes_evento.size());
                     Evento new_evento = new Evento(nombre, categoria, lugar, fecha, descripcion, comentarios, personasAsociadas, list_imagenes_evento, audio_path);
                     if(existe){
                         operations.updateEvento(id_evento, new_evento);
@@ -395,15 +398,23 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                 case AGREGAR_IMAGEN:
 
                     Uri selectedimg = data.getData();
-                    Log.i("SELECTEDIMAGE", "=" + selectedimg);
-
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-                    bitmap = getResizedBitmap(200,200,selectedimg.toString());
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byteArray = stream.toByteArray();
-                    list_imagenes_evento.add(byteArray);
-                    setImagenEvento(list_imagenes_evento.size()-1);
+                    final Toast t = Toast.makeText(this, "Cargando imagen, espere un momento", Toast.LENGTH_LONG);
+                    t.show();
+                    Glide.with(this)
+                            .asBitmap()
+                            .load(selectedimg)
+                            .into(new SimpleTarget<Bitmap>(512,512) {
+                                @Override
+                                public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                                    bitmap = resource;
+                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                    byteArray = stream.toByteArray();
+                                    list_imagenes_evento.add(byteArray);
+                                    setImagenEvento(list_imagenes_evento.size()-1);
+                                    t.cancel();
+                                }
+                            });
                     break;
             }
 

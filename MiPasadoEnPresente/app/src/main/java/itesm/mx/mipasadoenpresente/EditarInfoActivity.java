@@ -29,6 +29,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -153,21 +157,27 @@ public class EditarInfoActivity extends AppCompatActivity implements View.OnClic
         if(resultCode==RESULT_OK)
         {
             Uri selectedimg = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byteArray = stream.toByteArray();
+            final Toast t = Toast.makeText(this, "Cargando imagen, espere un momento", Toast.LENGTH_LONG);
+            t.show();
+            Glide.with(this)
+                    .asBitmap()
+                    .load(selectedimg)
+                    .into(new SimpleTarget<Bitmap>(512,512) {
+                        @Override
+                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                            bitmap = resource;
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            byteArray = stream.toByteArray();
+                            ImagenPersonal imagenPersonal = new ImagenPersonal(byteArray);
+                            operations.addImagenPersonal(imagenPersonal);
 
-                ImagenPersonal imagenPersonal = new ImagenPersonal(byteArray);
-                operations.addImagenPersonal(imagenPersonal);
-
-                listImagenesPersonales.add(imagenPersonal);
-                indice = listImagenesPersonales.size()-1;
-                setImagenPersonalView(indice);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                            listImagenesPersonales.add(imagenPersonal);
+                            indice = listImagenesPersonales.size()-1;
+                            setImagenPersonalView(indice);
+                            t.cancel();
+                        }
+                    });
         }
     }
 

@@ -155,7 +155,6 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                 id_persona = data.getLong("ID");
                 actual_persona = operations.getPersona(id_persona);
                 list_imagenes_persona = actual_persona.getImagenes();
-
                 setImagenPersona(list_imagenes_persona.size()-1);
                 et_nombre.setText(actual_persona.getNombre());
                 tv_relacion.setText(actual_persona.getCategoria());
@@ -247,10 +246,13 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                     }
 
                     Persona new_persona = new Persona(nombre, relacion, fecha, comentarios, list_imagenes_persona, audio_path);
+
                     if(existe){
                         operations.updatePersona(id_persona, new_persona);
+
                     }else{
                         operations.addPersona(new_persona);
+
                     }
 
                     Toast.makeText(this, "Se han guardado los datos de la persona",
@@ -403,6 +405,8 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
             switch(requestCode){
                 case AGREGAR_IMAGEN:
                     Uri selectedimg = data.getData();
+                    final Toast t = Toast.makeText(this, "Cargando imagen, espere un momento", Toast.LENGTH_LONG);
+                    t.show();
                     Glide.with(this)
                             .asBitmap()
                             .load(selectedimg)
@@ -415,8 +419,10 @@ public class EditPersonaActivity extends AppCompatActivity implements View.OnCli
                                     byteArray = stream.toByteArray();
                                     list_imagenes_persona.add(byteArray);
                                     setImagenPersona(list_imagenes_persona.size()-1);
+                                    t.cancel();
                                 }
                             });
+
                     break;
             }
 
