@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
+import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -40,6 +42,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -391,21 +396,51 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
         {
             switch(requestCode){
                 case AGREGAR_IMAGEN:
+
                     Uri selectedimg = data.getData();
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        byteArray = stream.toByteArray();
-                        list_imagenes_evento.add(byteArray);
-                        setImagenEvento(list_imagenes_evento.size()-1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    final Toast t = Toast.makeText(this, "Cargando imagen, espere un momento", Toast.LENGTH_LONG);
+                    t.show();
+                    Glide.with(this)
+                            .asBitmap()
+                            .load(selectedimg)
+                            .into(new SimpleTarget<Bitmap>(512,512) {
+                                @Override
+                                public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                                    bitmap = resource;
+                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                    byteArray = stream.toByteArray();
+                                    list_imagenes_evento.add(byteArray);
+                                    setImagenEvento(list_imagenes_evento.size()-1);
+                                    t.cancel();
+                                }
+                            });
                     break;
             }
 
         }
+    }
+
+    public Bitmap getResizedBitmap(int targetW, int targetH,  String imagePath) {
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        //inJustDecodeBounds = true <-- will not load the bitmap into memory
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePath, bmOptions);
+        return(bitmap);
     }
 
 }

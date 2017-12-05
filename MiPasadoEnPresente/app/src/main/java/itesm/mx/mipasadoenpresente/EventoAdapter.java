@@ -53,7 +53,7 @@ public class EventoAdapter extends ArrayAdapter<Evento> {
 
         imagenes_evento = evento.getImagenes();
         if(imagenes_evento.size() > 0){
-            byte[] imagen = imagenes_evento.get(0);
+            byte[] imagen = imagenes_evento.get(imagenes_evento.size()-1);
             ivImageEvento.setImageBitmap(BitmapFactory.decodeByteArray(imagen, 0, imagen.length));
         }
 
