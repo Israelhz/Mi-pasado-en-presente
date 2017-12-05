@@ -301,7 +301,7 @@ public class EditEventoActivity extends AppCompatActivity implements View.OnClic
                     String categoria = tv_relacion.getText().toString();
                     String comentarios = et_comentarios.getText().toString();
                     String personasAsociadas = et_personasAsociadas.getText().toString();
-
+                    Log.d("NumOfIma", "I: " + list_imagenes_evento.size());
                     Evento new_evento = new Evento(nombre, categoria, lugar, fecha, descripcion, comentarios, personasAsociadas, list_imagenes_evento, audio_path);
                     if(existe){
                         operations.updateEvento(id_evento, new_evento);

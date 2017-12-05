@@ -117,6 +117,16 @@ public class EventoOperations {
         db.execSQL(query);
     }
 
+    public void deleteImages(long idEvento) {
+        String query;
+
+        query = "DELETE FROM " + DataBaseSchema.EventoImagenTable.TABLE_NAME +
+                " WHERE " + DataBaseSchema.EventoImagenTable.COLUMN_NAME_IDEVENTO +
+                " = \"" + idEvento + "\"";
+
+        db.execSQL(query);
+    }
+
     public ArrayList<Evento> getAllEventos() {
 
         ArrayList<Evento> listaEventos = new ArrayList<Evento>();
@@ -227,6 +237,7 @@ public class EventoOperations {
         cv.put(DataBaseSchema.EventoTable.COLUMN_NAME_PERSONASASOCIADAS,evento.getPersonas_asociadas());
         cv.put(DataBaseSchema.EventoTable.COLUMN_NAME_AUDIO,evento.getAudio());
 
+        deleteImages(id);
         ArrayList<byte[]> current_images = getImagenes(evento.getId());
         for(byte[] imagen : evento.getImagenes()){
             if(!current_images.contains(imagen))
