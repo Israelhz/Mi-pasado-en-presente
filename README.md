@@ -2,8 +2,8 @@
 
 ### Descripción
 
-Mi pasado en presente es una applicacion desarollada con enfoque completamente social. Es una applicacion que ejercita la memoria basado
-en juegos y recordatorios para personas con Alzheimer. El objetivo de esta aplicacion es que las personas que sufren de Alzheimer puedan
+Mi pasado en presente es una applicacion desarollada con enfoque completamente social. Es una applicación que ejercita la memoria basado
+en juegos y recordatorios para personas con Alzheimer. El objetivo de esta aplicación es que las personas que sufren de Alzheimer puedan
 practicar sus memorias constantemente y ayduarles a recordar personas y eventos.
 
 ### Versión
@@ -35,7 +35,7 @@ Fecha: 4/11/2017
 
 ### Institución
 
-Este proyecto es hecho para la clase de Applicaciones moviles para dispositivos Android.
+Este proyecto es hecho para la clase de Applicaciones móviles para dispositivos Android.
 
 Universidad: ITESM
 Campus: Campus Monterrey
