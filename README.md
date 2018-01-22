@@ -9,7 +9,7 @@ practicar sus memorias constantemente y ayduarles a recordar personas y eventos.
 ### Versión
 
 Versión: 1.0
-Fecha: 4/11/2017
+Fecha: 1/1/2018
 
 ### Desarolladores:
 
